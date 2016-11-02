@@ -1,7 +1,7 @@
 <?php
 
-$nameApp = "monApplication";
-$action = "index";
+$nameApp = "birdy";
+$action  = "index";
 
 if(key_exists("action",$_REQUEST))
 	$action = $_REQUEST['action'];

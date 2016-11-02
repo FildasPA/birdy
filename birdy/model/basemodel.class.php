@@ -21,9 +21,9 @@ abstract class basemodel
     }
     else
     {
-      $sql = "insert into ".get_class($this)." ";
-      $sql .= "(".implode(",",array_keys($this->data)).") ";
-      $sql .= "values ('".implode("','",array_values($this->data))."')";
+      $sql = "insert into " . get_class($this) . " ";
+      $sql .= "(" . implode(",",array_keys($this->data)) . ") ";
+      $sql .= "values ('" . implode("','",array_values($this->data)) ."')";
     }
 
     $connection->doExec($sql);
