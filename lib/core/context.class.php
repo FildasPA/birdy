@@ -14,24 +14,22 @@ class context
 	public static function getInstance()
 	{
 		if(self::$instance == null)
-		  self::$instance = new context();
+			self::$instance = new context();
 		return self::$instance;
 	}
 
 	private function __construct()
 	{
-
 	}
 
 	public function init($name)
 	{
-       $this->name = $name;
-
+		$this->name = $name;
 	}
 
 	public function getLayout()
 	{
-		 return $this->layout;
+		return $this->layout;
 	}
 
 	public function setLayout($layout)
@@ -46,10 +44,9 @@ class context
 
 	public function executeAction($action,$request)
 	{
-		$this->layout="layout";
+		$this->layout = "layout";
 		if(!method_exists('mainController',$action))
-		  return false;
-
+			return false;
 		return mainController::$action($request,$this);
 	}
 
