@@ -1,9 +1,6 @@
 <?php
 
-define('HOST','localhost');
-define('USER','');
-define('PASS','');
-define('DB',  '');
+include_once 'dbconnection.infos.php';
 
 class dbconnection
 {
