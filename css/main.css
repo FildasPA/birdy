@@ -1,0 +1,181 @@
+
+/*******/
+/* CSS */
+/*******/
+
+/********/
+/* Base */
+/********/
+
+body {
+	background-color: #D8D8D8;
+	font-family: 'sans-serif', 'Helvetica', 'Arial';
+}
+
+h1,h2,h3,h4 {
+	color: #3378B9;
+}
+
+table {
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+th,td {
+	vertical-align: top;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 4px 10px;
+	border-bottom: 1px solid #bbb;
+}
+
+tr.user {
+	cursor: pointer;
+	transition: background-color 0.7s;
+	-webkit-transition: background-color 0.7s;
+}
+
+tr.user:hover {
+	background-color: #fff;
+}
+
+/********/
+/* Main */
+/********/
+
+#main-container {
+	margin: 20px 150px 0;
+}
+
+#footer {
+	margin: 50px auto 30px;
+	text-align: center;
+}
+
+/********/
+/* Form */
+/********/
+
+form label {
+	display: block;
+	margin-bottom: 5px;
+	font-size: 0.9em;
+	font-weight: bold;
+	padding-left: 10px;
+}
+
+form h3 {
+	font-size: 1.3em;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	text-align: center;
+	padding-left: 5px;
+	color: #3378B9;
+}
+
+form > div {
+	margin: 0 0 10px 0;
+}
+
+form input:not(#submit-button) {
+	width: calc(100% - 18px);
+}
+
+form div#submit-element {
+	text-align: center;
+}
+
+form input#submit-button {
+	margin-top: 15px;
+	font-weight: bold;
+	cursor: pointer;
+	text-align: center;
+}
+
+form .error-message {
+	display: block;
+	margin: 5px 0;
+	color: red;
+}
+
+/********************/
+/* Inscription form */
+/********************/
+
+#form-inscription {
+	width: 310px;
+	margin: 25px auto 0px;
+	/*background-color: #FFF;*/
+	/*text-align: center;*/
+}
+
+#form-inscription input#name, #form-inscription input#firstname {
+	display: inline-block;
+}
+
+#form-inscription input#firstname {
+	width: 150px;
+	margin-right: 0;
+}
+
+#form-inscription input#name {
+	width: 120px;
+}
+
+/**************/
+/* Login form */
+/**************/
+
+#form-login {
+	width: 350px;
+	margin: 60px auto 0px;
+}
+
+/****************/
+/* User profile */
+/****************/
+
+#user-profile {
+	border: 1px solid #c0c0c0;
+	background-color: #FFF;
+}
+
+#user-profile h3 {
+	margin: 0;
+	padding: 9px;
+	font-size: 16px;
+	border-bottom: 1px solid #c0c0c0;
+	background-color: #e5e5e5;
+}
+
+#user-profile #user-info-block {
+	padding: 9px;
+}
+
+#user-profile .info-element {
+	margin-bottom: 20px;
+}
+
+#user-profile .info-label {
+	font-weight: bold;
+	margin-bottom: 7px;
+}
+
+#user-profile .info-element > div:not(.info-label) {
+	margin-left: 10px;
+}
+
+#user-profile img#user-avatar-image {
+	max-width: 150px;
+	max-height: 150px;
+	margin-left: 10px;
+}
+
+/*********************/
+/* User profile form */
+/*********************/
+
+#form-modify-profile input {
+	width: auto !important;
+}
