@@ -1,6 +1,6 @@
 <?php
 /*
- * Controler 
+ * Controler
  */
 
 class mainController
@@ -8,17 +8,13 @@ class mainController
 
 	public static function helloWorld($request,$context)
 	{
-		$context->mavariable="hello world";
+		$context->mavariable = "hello world";
 		return context::SUCCESS;
 	}
-
-
 
 	public static function index($request,$context)
 	{
-		
 		return context::SUCCESS;
 	}
-
 
 }
