@@ -62,8 +62,8 @@ function user_login_used($conn,$login)
 {
 	try {
 		$sql = "SELECT id
-		        FROM personnes
-		        WHERE login = :login";
+		        FROM jabainb.utilisateur
+		        WHERE identifiant = :login";
 		$user_exists = $conn->prepare($sql);
 		$user_exists->bindParam(':login',$user['login'],PDO::PARAM_STR,15);
 		$user_exists->execute();
@@ -85,8 +85,8 @@ function user_login_used($conn,$login)
 function insert_user($conn,$user)
 {
 	try { // Insère l'utilisateur
-		$sql = "INSERT INTO personnes (nom,prenom,avatar,login,pass)
-		        VALUES (:name,:firstname,:avatar,:login,:password)";
+		$sql = "INSERT INTO jabainb.utilisateur (identifiant,pass,nom,prenom,avatar)
+		        VALUES (:login,:password,:name,:firstname,:avatar)";
 		$insert = $conn->prepare($sql);
 		$insert->bindParam(':name',      $user['name'],      PDO::PARAM_STR,15);
 		$insert->bindParam(':firstname', $user['firstname'], PDO::PARAM_STR,15);
