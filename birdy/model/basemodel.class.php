@@ -2,34 +2,35 @@
 
 abstract class basemodel
 {
+	//---------------------------------------------------------------------------
+	// * Save
+	//---------------------------------------------------------------------------
+	public function save()
+	{
+		$connection = new dbconnection();
 
- public function save()
-  {
-    $connection = new dbconnection();
+		if($this->id) {
+			$sql  = "UPDATE " . get_class($this) ." SET ";
 
-    if($this->id)
-    {
-      $sql = "update " . get_class($this) ." set ";
+			$set = array();
+			foreach($this->data as $att => $value)
+				if($att != 'id' && $value)
+					$set[] = "$att = '" . $value . "'";
 
-      $set = array();
-      foreach($this->data as $att => $value)
-        if($att != 'id' && $value)
-          $set[] = "$att = '" . $value . "'";
+			$sql .= implode(",",$set);
+			$sql .= " WHERE id=" . $this->id;
+		} else {
+			$keys   = implode(",",array_keys($this->data));
+			$values = implode("','",array_values($this->data));
 
-      $sql .= implode(",",$set);
-      $sql .= " where id=".$this->id;
-    }
-    else
-    {
-      $sql = "insert into " . get_class($this) . " ";
-      $sql .= "(" . implode(",",array_keys($this->data)) . ") ";
-      $sql .= "values ('" . implode("','",array_values($this->data)) ."')";
-    }
+			$sql  = "INSERT INTO " . get_class($this) . " ";
+			$sql .= "(" . $keys . ") ";
+			$sql .= "VALUES ('" . $values ."')";
+		}
 
-    $connection->doExec($sql);
-    $id = $connection->getLastInsertId("jabaianb.".get_class($this));
+		$connection->doExec($sql);
+		$id = $connection->getLastInsertId("jabaianb.".get_class($this));
 
-    return $id == false ? NULL : $id;
-  }
-
+		return $id == false ? NULL : $id;
+	}
 }

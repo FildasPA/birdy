@@ -1,27 +1,86 @@
 <?php
 
+//=============================================================================
+// ▼ Table utilisateur
+// ----------------------------------------------------------------------------
+// Que veut dire le nom de cette classe?
+// Pourquoi les fonctions sont-elles statiques? Pourquoi n'instancie-t-on pas
+// la classe?
+//=============================================================================
 class utilisateurTable
 {
-  public static function getUserByLoginAndPass($login,$pass)
-  {
-    $connection = new dbconnection() ;
-    $sql = "SELECT *
-            FROM jabaianb.utilisateur
-            WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
+	//---------------------------------------------------------------------------
+	// * Get user by login & pass
+	//---------------------------------------------------------------------------
+	public static function getUserByLoginAndPass($login,$pass)
+	{
+		$connection = new dbconnection();
 
-    $res = $connection->doQuery($sql);
+		$sql = "SELECT *
+		        FROM utilisateur
+		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
 
-    if($res === false)
-      return false;
+		$res = $connection->doQuery($sql);
 
-    return $res;
-  }
+		if($res === false || empty($rest))
+			return false;
 
-  public static function getUserById($id)
-  {
-  }
+		return $res;
+	}
 
-  public static function getUsers()
-  {
-  }
+	//---------------------------------------------------------------------------
+	// * Get user id by login
+	//---------------------------------------------------------------------------
+	public static function getUserIdByLogin($login)
+	{
+		$connection = new dbconnection();
+
+		$sql = "SELECT id
+		        FROM utilisateur
+		        WHERE identifiant='" . $login . "'";
+
+		$res = $connection->doQuery($sql);
+
+		if($res === false)
+			return false;
+
+		return $res;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get user by id
+	//---------------------------------------------------------------------------
+	public static function getUserById($id)
+	{
+		$connection = new dbconnection();
+
+		$sql = "SELECT *
+		        FROM utilisateur
+		        WHERE id='" . $id . "'";
+
+		$res = $connection->doQuery($sql);
+
+		if($res === false)
+			return false;
+
+		return $res;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get users
+	//---------------------------------------------------------------------------
+	public static function getUsers()
+	{
+		$connection = new dbconnection();
+
+		$sql = "SELECT *
+		        FROM utilisateur";
+
+		$res = $connection->doQuery($sql);
+
+		if($res === false)
+			return false;
+
+		return $res;
+	}
 }

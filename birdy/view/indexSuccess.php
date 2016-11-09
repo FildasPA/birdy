@@ -1,1 +1,1 @@
-C'est l'action par défaut ! 
+Action par défaut!

@@ -132,6 +132,11 @@ form .error-message {
 	margin: 60px auto 0px;
 }
 
+#form-login #remember-form-element input, #form-login #remember-form-element label {
+	width: auto !important;
+	display: inline-block;
+}
+
 /****************/
 /* User profile */
 /****************/

@@ -1,7 +1,7 @@
 <?php
 
 $nameApp = "birdy";
-$action  = "index";
+$action  = "index";  # action par défaut
 
 if(key_exists("action",$_REQUEST))
 	$action = $_REQUEST['action'];
@@ -15,12 +15,10 @@ $context->init($nameApp);
 
 $view = $context->executeAction($action,$_REQUEST);
 
-// Traitement des erreurs de bases, reste a traiter les erreurs d'inclusion
 if($view === false) {
-	echo "Une erreur s'est produite, il est probable que l'action " . $action . " n'existe pas...";
+	echo "Erreur: l'action " . $action . " n'existe peut-être pas";
 	die;
 }
-// Inclusion du layout qui va lui meme inclure le template view
 else if($view != context::NONE) {
 	$template_view = $nameApp."/view/".$action.$view.".php";
 	include($nameApp."/layout/".$context->getLayout().".php");
