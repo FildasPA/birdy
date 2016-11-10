@@ -22,7 +22,7 @@ class utilisateurTable
 
 		$res = $connection->doQuery($sql);
 
-		if($res === false || empty($rest))
+		if($res === false || empty($res))
 			return false;
 
 		return $res;
@@ -40,8 +40,7 @@ class utilisateurTable
 		        WHERE identifiant='" . $login . "'";
 
 		$res = $connection->doQuery($sql);
-
-		if($res === false)
+		if($res === false || empty($res))
 			return false;
 
 		return $res;
@@ -60,7 +59,7 @@ class utilisateurTable
 
 		$res = $connection->doQuery($sql);
 
-		if($res === false)
+		if($res === false || empty($res))
 			return false;
 
 		return $res;
@@ -78,7 +77,7 @@ class utilisateurTable
 
 		$res = $connection->doQuery($sql);
 
-		if($res === false)
+		if($res === false || empty($res))
 			return false;
 
 		return $res;

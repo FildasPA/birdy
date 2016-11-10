@@ -91,4 +91,29 @@ class mainController
 		$context->unsetSession();
 		$context->redirect("birdy.php?action=index");
 	}
+
+	//---------------------------------------------------------------------------
+	// * Register
+	//---------------------------------------------------------------------------
+	public static function register($request,$context)
+	{
+		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$context->user = new utilisateur();
+			if($context->user->register($request,$_FILES)) {
+				// echo "Vous avez bien été enregistré<br>";
+				$context->redirect("birdy.php?action=index");
+			} else {
+				echo "Echec de l'inscription<br>";
+				$context->login     = $request['login'];
+				$context->name      = $request['name'];
+				$context->firstname = $request['firstname'];
+			}
+		}
+		else {
+			$context->login     = '';
+			$context->name      = '';
+			$context->firstname = '';
+		}
+		return context::SUCCESS;
+	}
 }

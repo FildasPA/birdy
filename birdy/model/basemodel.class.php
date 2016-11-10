@@ -9,7 +9,7 @@ abstract class basemodel
 	{
 		$connection = new dbconnection();
 
-		if($this->id) {
+		if(!empty($this->id)) {
 			$sql  = "UPDATE " . get_class($this) ." SET ";
 
 			$set = array();
@@ -29,7 +29,7 @@ abstract class basemodel
 		}
 
 		$connection->doExec($sql);
-		$id = $connection->getLastInsertId("jabaianb.".get_class($this));
+		$id = $connection->getLastInsertId(get_class($this));
 
 		return $id == false ? NULL : $id;
 	}
