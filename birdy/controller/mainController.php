@@ -116,4 +116,13 @@ class mainController
 		}
 		return context::SUCCESS;
 	}
+
+	//------------------------------------------------------------------------------
+	// * View profile
+	//------------------------------------------------------------------------------
+	public static function viewProfile($request,$context) {
+		$userInfos = utilisateurTable::getUserByLogin($request['login'])[0];
+		$context->user = new utilisateur($userInfos);
+		return context::SUCCESS;
+	}
 }
