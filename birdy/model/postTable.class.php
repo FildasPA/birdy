@@ -6,11 +6,12 @@ class postTable extends basemodel {
 
 		$connection = new dbconnection();
 
-		$sql = "SELECT * 
-				FROM jabaianb.post
-				WHERE id='" . $id . "'";
+		$sql = "SELECT *
+		        FROM jabaianb.post
+		        WHERE id='" . $id . "'";
 
 		$res = $connection->doQueryObject($sql, "post");
+
 		if($res === false || empty($res))
 			return false;
 

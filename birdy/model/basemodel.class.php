@@ -13,10 +13,10 @@ abstract class basemodel
 			$id = $tab['id'];
 		else
 			$id = null;
-
-		foreach($tab as $att => $value)
-			if($att != 'id' && $value)
-				$this->$att = $value;
+		if(gettype($tab) == "array")
+			foreach($tab as $att => $value)
+				if($att != 'id' && $value)
+					$this->$att = $value;
 	}
 
 	//---------------------------------------------------------------------------
@@ -36,7 +36,7 @@ abstract class basemodel
 		if(array_key_exists($key, $data))
 			return $this->data[$key];
 		else
-			null;
+			return null;
 	}
 
 	//---------------------------------------------------------------------------
@@ -45,6 +45,13 @@ abstract class basemodel
 	public function __set($key,$value)
 	{
 			$this->data[$key] = $value;
+	}
+
+	//------------------------------------------------------------------------------
+	// * Data
+	//------------------------------------------------------------------------------
+	public function getData() {
+		return $this->data;
 	}
 
 	//---------------------------------------------------------------------------

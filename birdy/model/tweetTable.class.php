@@ -1,11 +1,11 @@
 <?php
 
 //=============================================================================
-// ▼ Table utilisateur
+// ▼ Table tweet
 // ----------------------------------------------------------------------------
 //
 //=============================================================================
-class utilisateurTable
+class tweetTable
 {
 	//---------------------------------------------------------------------------
 	// * Get user by login & pass
@@ -18,7 +18,7 @@ class utilisateurTable
 		        FROM utilisateur
 		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
 
-		$res = $connection->doQueryObject($sql);
+		$res = $connection->doQueryObject($sql,"utilisateur");
 
 		if($res === false || empty($res))
 			return false;
@@ -37,7 +37,8 @@ class utilisateurTable
 		        FROM utilisateur
 		        WHERE identifiant='" . $login . "'";
 
-		$res = $connection->doQueryObject($sql);
+		$res = $connection->doQueryObject($sql,"utilisateur");
+
 		if($res === false || empty($res))
 			return false;
 
@@ -55,7 +56,7 @@ class utilisateurTable
 		        FROM utilisateur
 		        WHERE id='" . $id . "'";
 
-		$res = $connection->doQueryObject($sql);
+		$res = $connection->doQueryObject($sql,"utilisateur");
 
 		if($res === false || empty($res))
 			return false;
