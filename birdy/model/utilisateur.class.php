@@ -7,26 +7,6 @@
 //=============================================================================
 class utilisateur extends basemodel
 {
-	protected $id;
-	protected $data;
-
-	//---------------------------------------------------------------------------
-	// * Constructeur
-	//---------------------------------------------------------------------------
-	public function __construct()
-	{
-		$this->id    = null;
-		$this->data = array();
-	}
-
-	//---------------------------------------------------------------------------
-	// * Destructeur
-	//---------------------------------------------------------------------------
-	public function __destruct()
-	{
-		$this->data = null;
-	}
-
 	//------------------------------------------------------------------------------
 	// * Copie l'avatar sur le serveur
 	//------------------------------------------------------------------------------
@@ -60,7 +40,7 @@ class utilisateur extends basemodel
   	// Informations générales
 		$this->data['avatar'] = 'avatar_' . $this->data['identifiant'] . $image_type;
 
-		return (utilisateurTable::getUserIdByLogin($this->data['identifiant']) === false &&
+		return (utilisateurTable::getUserByLogin($this->data['identifiant']) === false &&
 		        $this->save() != false &&
 		        $this->copy_avatar($avatar_url,$this->data['avatar']));
 	}

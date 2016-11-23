@@ -3,9 +3,7 @@
 //=============================================================================
 // ▼ Table utilisateur
 // ----------------------------------------------------------------------------
-// Que veut dire le nom de cette classe?
-// Pourquoi les fonctions sont-elles statiques? Pourquoi n'instancie-t-on pas
-// la classe?
+//
 //=============================================================================
 class utilisateurTable
 {
@@ -29,13 +27,13 @@ class utilisateurTable
 	}
 
 	//---------------------------------------------------------------------------
-	// * Get user id by login
+	// * Get user by login
 	//---------------------------------------------------------------------------
-	public static function getUserIdByLogin($login)
+	public static function getUserByLogin($login)
 	{
 		$connection = new dbconnection();
 
-		$sql = "SELECT id
+		$sql = "SELECT *
 		        FROM utilisateur
 		        WHERE identifiant='" . $login . "'";
 
