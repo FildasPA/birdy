@@ -33,7 +33,10 @@ abstract class basemodel
 	//---------------------------------------------------------------------------
 	public function __get($key)
 	{
-		return $this->data[$key];
+		if(array_key_exists($key, $data))
+			return $this->data[$key];
+		else
+			null;
 	}
 
 	//---------------------------------------------------------------------------
@@ -41,7 +44,7 @@ abstract class basemodel
 	//---------------------------------------------------------------------------
 	public function __set($key,$value)
 	{
-		$this->data[$key] = $value;
+			$this->data[$key] = $value;
 	}
 
 	//---------------------------------------------------------------------------
