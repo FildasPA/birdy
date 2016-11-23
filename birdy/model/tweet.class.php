@@ -13,9 +13,9 @@ class tweet extends basemodel {
 	//------------------------------------------------------------------------------
 	// * Récupère l'objet utilisateur correspondant au rédacteur du message
 	//------------------------------------------------------------------------------
-	public function getParents() {
+	public function getParent() {
 
-		return $this->parent;
+		return utilisateurTable::getUserById($this->parent);
 	}
 
 	//------------------------------------------------------------------------------
