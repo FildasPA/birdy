@@ -1,8 +1,11 @@
 <h1>Index</h1>
+
 <?php
-	if(empty($context->getSessionAttribute('user')['nom'])) {
+
+	if(empty($context->getSessionAttribute('nom'))) {
 		echo "Bienvenue, invité!<br>";
 	}	else {
-		echo "Bienvenue " . $context->getSessionAttribute('user')['nom'] . " " . $context->getSessionAttribute('user')['prenom'] . "!<br>";
+		echo "Bienvenue " . $context->getSessionAttribute('nom') . " " . $context->getSessionAttribute('prenom') . "!<br>";
 	}
+
 ?>

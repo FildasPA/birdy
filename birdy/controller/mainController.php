@@ -19,12 +19,7 @@ class mainController
 	// * helloWorld
 	//---------------------------------------------------------------------------
 	public static function helloWorld($request,$context) {
-		echo "<pre>";
-		echo "<h3>Session</h3>";
-		var_dump($_SESSION);
-		echo "</pre>";
-		if($context->getSessionAttribute("id") == null) {
-			global $context;
+		if(empty($context->getSessionAttribute('nom'))) {
 			$context->setSessionAttribute('error-message','Erreur: vous devez être connecté!<br>');
 			$context->redirect("birdy.php?action=login");
 			// return context::ERROR;
@@ -63,15 +58,14 @@ class mainController
 
 		// Traitement du formulaire
 		if($formSent) {
-			$context->user = utilisateurTable::getUserByLoginAndPass($request['login'],$request['password']);
-
-			if($context->user === false)
+			$user = utilisateurTable::getUserByLoginAndPass($request['login'],$request['password'])[0];
+			if(empty($user) || $user === false)
 				// Définit un message d'erreur à afficher sur la page suivante ou la page actuelle
 				$context->errorMessage = "Erreur: login et/ou mot de passe erroné(s) !";
 			else {
 				// Connexion réussie: enregistre l'utilisateur en session &
 				// réinitialise le message d'erreur
-				foreach($context->user[0] as $key => $value)
+				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
 				$context->setSessionAttribute('error-message','');
 				$context->redirect("birdy.php?action=index");
@@ -90,6 +84,7 @@ class mainController
 	public static function logout($request,$context) {
 		$context->unsetSession();
 		$context->redirect("birdy.php?action=index");
+		return context::NONE;
 	}
 
 	//---------------------------------------------------------------------------
@@ -100,7 +95,6 @@ class mainController
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$context->user = new utilisateur();
 			if($context->user->register($request,$_FILES)) {
-				// echo "Vous avez bien été enregistré<br>";
 				$context->redirect("birdy.php?action=index");
 			} else {
 				echo "Echec de l'inscription<br>";
@@ -117,12 +111,11 @@ class mainController
 		return context::SUCCESS;
 	}
 
-	//------------------------------------------------------------------------------
+	//---------------------------------------------------------------------------
 	// * View profile
-	//------------------------------------------------------------------------------
+	//---------------------------------------------------------------------------
 	public static function viewProfile($request,$context) {
-		$userInfos = utilisateurTable::getUserByLogin($request['login'])[0];
-		$context->user = new utilisateur($userInfos);
+		$context->user = utilisateurTable::getUserByLogin($request['login'])[0];
 		return context::SUCCESS;
 	}
 }
