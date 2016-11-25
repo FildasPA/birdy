@@ -5,25 +5,20 @@
 // ----------------------------------------------------------------------------
 //
 //=============================================================================
-class utilisateurTable
+class utilisateurTable extends baseTable
 {
+	protected static $tableName = "utilisateur";
+
 	//---------------------------------------------------------------------------
 	// * Get user by login & pass
 	//---------------------------------------------------------------------------
 	public static function getUserByLoginAndPass($login,$pass)
 	{
-		$connection = new dbconnection();
-
 		$sql = "SELECT *
-		        FROM utilisateur
+		        FROM " . self::$tableName . "
 		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
 
-		$res = $connection->doQueryObject($sql);
-
-		if($res === false || empty($res))
-			return false;
-
-		return $res;
+		return baseTable::getObject($sql,self::$tableName);
 	}
 
 	//---------------------------------------------------------------------------
@@ -31,17 +26,11 @@ class utilisateurTable
 	//---------------------------------------------------------------------------
 	public static function getUserByLogin($login)
 	{
-		$connection = new dbconnection();
-
 		$sql = "SELECT *
-		        FROM utilisateur
+		        FROM " . self::$tableName . "
 		        WHERE identifiant='" . $login . "'";
 
-		$res = $connection->doQueryObject($sql);
-		if($res === false || empty($res))
-			return false;
-
-		return $res;
+		return baseTable::getObject($sql,self::$tableName);
 	}
 
 	//---------------------------------------------------------------------------
@@ -49,18 +38,11 @@ class utilisateurTable
 	//---------------------------------------------------------------------------
 	public static function getUserById($id)
 	{
-		$connection = new dbconnection();
-
 		$sql = "SELECT *
-		        FROM utilisateur
+		        FROM " . self::$tableName . "
 		        WHERE id='" . $id . "'";
 
-		$res = $connection->doQueryObject($sql);
-
-		if($res === false || empty($res))
-			return false;
-
-		return $res;
+		return baseTable::getObject($sql,self::$tableName);
 	}
 
 	//---------------------------------------------------------------------------
@@ -68,16 +50,9 @@ class utilisateurTable
 	//---------------------------------------------------------------------------
 	public static function getUsers()
 	{
-		$connection = new dbconnection();
-
 		$sql = "SELECT *
-		        FROM utilisateur";
+		        FROM " . self::$tableName;
 
-		$res = $connection->doQuery($sql);
-
-		if($res === false || empty($res))
-			return false;
-
-		return $res;
+		return baseTable::getObject($sql,self::$tableName);
 	}
 }

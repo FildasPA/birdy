@@ -1,21 +1,24 @@
 <?php
 
-class postTable extends basemodel {
+//=============================================================================
+// ▼ Table Post
+// ----------------------------------------------------------------------------
+//
+//=============================================================================
+class postTable extends baseTable
+{
+	public static $tableName = "post";
 
-	public static function getPostById($id) {
-
-		$connection = new dbconnection();
-
+	//---------------------------------------------------------------------------
+	// * Get post by id
+	//---------------------------------------------------------------------------
+	public static function getPostById($id)
+	{
 		$sql = "SELECT *
-		        FROM jabaianb.post
+		        FROM " . self::$tableName . "
 		        WHERE id='" . $id . "'";
 
-		$res = $connection->doQueryObject($sql, "post");
-
-		if($res === false || empty($res))
-			return false;
-
-		return $res;
+		return baseTable::getObject($sql,self::$tableName);
 	}
 }
 

@@ -1,17 +1,24 @@
 <?php
 
 //=============================================================================
-// ▼ Post
+// ▼ Base Table
 // ----------------------------------------------------------------------------
 //
 //=============================================================================
-class post extends basemodel
+abstract class baseTable
 {
 	//---------------------------------------------------------------------------
-	// * Vide pour l'instant
+	// * Execute SQL request & create appropriate object
 	//---------------------------------------------------------------------------
-	// function () {
-	// }
-}
+	public static function getObject($sql,$type)
+	{
+		$connection = new dbconnection();
 
-?>
+		$res = $connection->doQueryObject($sql,$type);
+
+		if($res === false || empty($res))
+			return false;
+
+		return $res;
+	}
+}
