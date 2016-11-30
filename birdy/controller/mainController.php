@@ -68,7 +68,7 @@ class mainController
 				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
 				$context->setSessionAttribute('error-message','');
-				$context->redirect("birdy.php?action=index");
+				$context->redirect("birdy.php?action=viewProfile&login=".$request['login']);
 			}
 		}
 		// Si le formulaire n'a pas été envoyé, réinitialise le message d'erreur
@@ -119,4 +119,12 @@ class mainController
 		$context->user = utilisateurTable::getUserByLogin($request['login'])[0];
 		return context::SUCCESS;
 	}
+
+	public static function displayUsers($request, $context) {
+
+		$context->users = utilisateurTable::getUsers();
+		// echo "<pre>";var_dump($context->users);echo "</pre>";
+		return context::SUCCESS;
+	}
+
 }

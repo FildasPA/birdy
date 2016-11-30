@@ -16,7 +16,7 @@ class utilisateurTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM jabaianb." . self::$tableName . "
-		        WHERE identifiant='" . $login . "' AND pass='" . $pass . "'";
+		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
 
 		return baseTable::getObject($sql,self::$tableName);
 	}
@@ -27,7 +27,7 @@ class utilisateurTable extends baseTable
 	public static function getUserByLogin($login)
 	{
 		$sql = "SELECT *
-		        FROM " . self::$tableName . "
+		        FROM jabaianb." . self::$tableName . "
 		        WHERE identifiant='" . $login . "'";
 
 		return baseTable::getObject($sql,self::$tableName);
@@ -39,7 +39,7 @@ class utilisateurTable extends baseTable
 	public static function getUserById($id)
 	{
 		$sql = "SELECT *
-		        FROM " . self::$tableName . "
+		        FROM jabaianb." . self::$tableName . "
 		        WHERE id='" . $id . "'";
 
 		return baseTable::getObject($sql,self::$tableName);
@@ -51,7 +51,7 @@ class utilisateurTable extends baseTable
 	public static function getUsers()
 	{
 		$sql = "SELECT *
-		        FROM " . self::$tableName;
+		        FROM jabaianb." . self::$tableName;
 
 		return baseTable::getObject($sql,self::$tableName);
 	}
