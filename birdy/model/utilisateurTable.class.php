@@ -15,8 +15,8 @@ class utilisateurTable extends baseTable
 	public static function getUserByLoginAndPass($login,$pass)
 	{
 		$sql = "SELECT *
-		        FROM " . self::$tableName . "
-		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
+		        FROM jabaianb." . self::$tableName . "
+		        WHERE identifiant='" . $login . "' AND pass='" . $pass . "'";
 
 		return baseTable::getObject($sql,self::$tableName);
 	}

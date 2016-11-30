@@ -27,6 +27,7 @@ class utilisateur extends basemodel
   //---------------------------------------------------------------------------
   public function register($request,$files)
   {
+  	var_dump($this);
 		$this->data = array('nom'         => $request['name'],
 		                    'prenom'      => $request['firstname'],
 		                    'identifiant' => $request['login'],
@@ -40,8 +41,10 @@ class utilisateur extends basemodel
   	// Informations générales
 		$this->data['avatar'] = 'avatar_' . $this->data['identifiant'] . $image_type;
 
+		var_dump($this);
+
 		return (utilisateurTable::getUserByLogin($this->data['identifiant']) === false &&
-		        $this->save() != false &&
+		        $this->save() != NULL &&
 		        $this->copy_avatar($avatar_url,$this->data['avatar']));
 	}
 }

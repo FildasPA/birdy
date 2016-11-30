@@ -15,8 +15,8 @@ class dbconnection
 		$this->link  = null;
 		$this->error = null;
 		try {
-			// $this->link = new PDO("pgsql:host=".HOST.";dbname=".DB.";user=".USER.";password=".PASS);
-			$this->link = new PDO("pgsql:host=".HOST.";dbname=".DB,USER,PASS);
+			$this->link = new PDO("pgsql:host=".HOST.";dbname=".DB.";user=".USER.";password=".PASS);
+			// $this->link = new PDO("pgsql:host=".HOST.";dbname=".DB);
 		} catch(PDOException $e) {
 			$this->error = $e->getMessage();
 		}

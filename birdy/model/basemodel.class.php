@@ -67,7 +67,7 @@ abstract class basemodel
 		$connection = new dbconnection();
 
 		if(!empty($this->id)) {
-			$sql  = "UPDATE " . get_class($this) ." SET ";
+			$sql  = "UPDATE jabaianb." . get_class($this) ." SET ";
 
 			$set = array();
 			foreach($this->data as $att => $value)
@@ -77,17 +77,21 @@ abstract class basemodel
 			$sql .= implode(",",$set);
 			$sql .= " WHERE id=" . $this->id;
 		} else {
+
+			echo "truc<br>";
 			$keys   = implode(",",array_keys($this->data));
 			$values = implode("','",array_values($this->data));
 
-			$sql  = "INSERT INTO " . get_class($this) . " ";
+			$sql  = "INSERT INTO jabaianb." . get_class($this) . " ";
 			$sql .= "(" . $keys . ") ";
 			$sql .= "VALUES ('" . $values ."')";
+
+			echo"<pre>" ;var_dump($sql); echo "</pre>";
 		}
 
 		$connection->doExec($sql);
 		$id = $connection->getLastInsertId(get_class($this));
 
-		return $id == false ? NULL : $id;
+		return $id === false ? NULL : $id;
 	}
 }

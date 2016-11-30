@@ -95,7 +95,8 @@ class mainController
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$context->user = new utilisateur();
 			if($context->user->register($request,$_FILES)) {
-				$context->redirect("birdy.php?action=index");
+				echo "C'est ok!<br>";
+				// $context->redirect("birdy.php?action=index");
 			} else {
 				echo "Echec de l'inscription<br>";
 				$context->login     = $request['login'];
