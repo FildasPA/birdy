@@ -7,7 +7,8 @@
 //=============================================================================
 class utilisateurTable extends baseTable
 {
-	protected static $tableName = "utilisateur";
+	public static $objectType = "utilisateur";
+	public static $tableName  = "jabaianb.utilisateur";
 
 	//---------------------------------------------------------------------------
 	// * Get user by login & pass
@@ -15,10 +16,10 @@ class utilisateurTable extends baseTable
 	public static function getUserByLoginAndPass($login,$pass)
 	{
 		$sql = "SELECT *
-		        FROM jabaianb." . self::$tableName . "
+		        FROM " . self::$tableName . "
 		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -27,10 +28,10 @@ class utilisateurTable extends baseTable
 	public static function getUserByLogin($login)
 	{
 		$sql = "SELECT *
-		        FROM jabaianb." . self::$tableName . "
+		        FROM " . self::$tableName . "
 		        WHERE identifiant='" . $login . "'";
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -39,10 +40,10 @@ class utilisateurTable extends baseTable
 	public static function getUserById($id)
 	{
 		$sql = "SELECT *
-		        FROM jabaianb." . self::$tableName . "
+		        FROM " . self::$tableName . "
 		        WHERE id='" . $id . "'";
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -51,8 +52,8 @@ class utilisateurTable extends baseTable
 	public static function getUsers()
 	{
 		$sql = "SELECT *
-		        FROM jabaianb." . self::$tableName;
+		        FROM " . self::$tableName;
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 }

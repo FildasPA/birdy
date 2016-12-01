@@ -7,7 +7,8 @@
 //=============================================================================
 class postTable extends baseTable
 {
-	public static $tableName = "post";
+	public static $objectType = "post";
+	public static $tableName  = "jabaianb.post";
 
 	//---------------------------------------------------------------------------
 	// * Get post by id
@@ -18,7 +19,7 @@ class postTable extends baseTable
 		        FROM " . self::$tableName . "
 		        WHERE id='" . $id . "'";
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 }
 

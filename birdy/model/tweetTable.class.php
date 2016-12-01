@@ -7,7 +7,8 @@
 //=============================================================================
 class tweetTable extends baseTable
 {
-	public static $tableName = "tweet";
+	public static $objectType = "tweet";
+	public static $tableName  = "jabaianb.tweet";
 
 	//---------------------------------------------------------------------------
 	// * Get Tweets
@@ -17,7 +18,7 @@ class tweetTable extends baseTable
 		$sql = "SELECT *
 		        FROM " . self::$tableName;
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -29,6 +30,6 @@ class tweetTable extends baseTable
 		        FROM " . self::$tableName . "
 		        WHERE emetteur='" . $login . "'";
 
-		return baseTable::getObject($sql,self::$tableName);
+		return baseTable::getObject($sql,self::$objectType);
 	}
 }

@@ -66,6 +66,7 @@ abstract class basemodel
 	{
 		$connection = new dbconnection();
 
+		// UPDATE
 		if(!empty($this->id)) {
 			$sql  = "UPDATE jabaianb." . get_class($this) ." SET ";
 
@@ -76,17 +77,16 @@ abstract class basemodel
 
 			$sql .= implode(",",$set);
 			$sql .= " WHERE id=" . $this->id;
-		} else {
+		}
 
-			echo "truc<br>";
+		// INSERT
+		else {
 			$keys   = implode(",",array_keys($this->data));
 			$values = implode("','",array_values($this->data));
 
 			$sql  = "INSERT INTO jabaianb." . get_class($this) . " ";
 			$sql .= "(" . $keys . ") ";
 			$sql .= "VALUES ('" . $values ."')";
-
-			echo"<pre>" ;var_dump($sql); echo "</pre>";
 		}
 
 		$connection->doExec($sql);
