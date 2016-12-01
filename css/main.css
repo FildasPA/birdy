@@ -40,12 +40,17 @@ tr.user:hover {
 	background-color: #fff;
 }
 
+p.error {
+	color: red;
+}
+
 /********/
 /* Main */
 /********/
 
 #main-container {
 	margin: 20px 150px 0;
+	min-width: 800px;
 }
 
 #footer {

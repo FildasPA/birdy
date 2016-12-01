@@ -22,7 +22,7 @@ class mainController
 		if(empty($context->getSessionAttribute('nom'))) {
 			$context->setSessionAttribute('error-message','Erreur: vous devez être connecté!<br>');
 			$context->redirect("birdy.php?action=login");
-			// return context::ERROR;
+			return context::NONE;
 		} else {
 			return context::SUCCESS;
 		}
@@ -95,8 +95,7 @@ class mainController
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$context->user = new utilisateur();
 			if($context->user->register($request,$_FILES)) {
-				echo "C'est ok!<br>";
-				// $context->redirect("birdy.php?action=index");
+				$context->redirect("birdy.php?action=index");
 			} else {
 				echo "Echec de l'inscription<br>";
 				$context->login     = $request['login'];
@@ -116,7 +115,12 @@ class mainController
 	// * View profile
 	//---------------------------------------------------------------------------
 	public static function viewProfile($request,$context) {
-		$context->user = utilisateurTable::getUserByLogin($request['login'])[0];
+		$context->user = utilisateurTable::getUserByLogin($request['login']);
+
+		if($context->user === false)
+			return context::ERROR;
+
+		$context->user = $context->user[0];
 		return context::SUCCESS;
 	}
 
@@ -125,10 +129,10 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function displayUsers($request, $context) {
 		$context->users = utilisateurTable::getUsers();
-		if(count($context->users) <= 0) {
-			echo "<p>Aucun utilisateur enregistré</p>";
-			return context::NONE;
-		}
+
+		if(count($context->users) <= 0)
+			return context::ERROR;
+
 		return context::SUCCESS;
 	}
 
