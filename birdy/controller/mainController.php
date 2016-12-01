@@ -120,10 +120,15 @@ class mainController
 		return context::SUCCESS;
 	}
 
+	//---------------------------------------------------------------------------
+	// * Display users
+	//---------------------------------------------------------------------------
 	public static function displayUsers($request, $context) {
-
 		$context->users = utilisateurTable::getUsers();
-		// echo "<pre>";var_dump($context->users);echo "</pre>";
+		if(count($context->users) <= 0) {
+			echo "<p>Aucun utilisateur enregistré</p>";
+			return context::NONE;
+		}
 		return context::SUCCESS;
 	}
 
