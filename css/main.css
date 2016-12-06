@@ -189,3 +189,64 @@ form .error-message {
 #form-modify-profile input {
 	width: auto !important;
 }
+
+
+/*********/
+/* Tweet */
+/*********/
+
+#tweet {
+	border: 1px solid #c0c0c0;
+	background-color: #FFF;
+}
+
+#tweet h3 {
+	display: inline-block;
+	margin: 5px;
+}
+
+#tweet h3 a {
+	color: auto !important;
+}
+
+#tweet-block {
+	margin: 0 0 15px 0;
+	padding: 9px;
+	font-size: 16px;
+	border-bottom: 1px solid #c0c0c0;
+	background-color: #e5e5e5;
+}
+
+#votes-number {
+	padding: 9px;
+	display: inline-block;
+}
+
+#post-block {
+	padding: 9px;
+}
+
+#post-text {
+	padding: 9px;
+}
+
+#post-image {
+	margin: 0px auto;
+	text-align: center;
+}
+
+#post-image img {
+	max-width: 700px;
+}
+
+#post-meta {
+	padding: 9px;
+}
+
+#post-meta #author{
+	font-weight: bold;
+}
+
+#post-meta #date {
+	font-size: 0.8em;
+}
