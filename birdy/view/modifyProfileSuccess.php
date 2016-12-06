@@ -6,7 +6,7 @@
 				<div class="info-label">Login:</div>
 				<div id="user-login">
 					<input id="login" name="login" type="text/html" value="<?php echo $context->user->identifiant; ?>">
-					<div id="error-login" class="error-message"><?php echo $error_msg['identifiant']; ?></div>
+					<div id="error-login" class="error-message"><?php echo $context->error_msg['identifiant']; ?></div>
 				</div>
 			</div>
 			<div class="info-element">

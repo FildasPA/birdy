@@ -120,6 +120,21 @@ class mainController
 		if($context->user === false)
 			return context::ERROR;
 
+		$context->isOwner = ($request['login'] == $context->getSessionAttribute('identifiant'));
+
+		$context->user = $context->user[0];
+		return context::SUCCESS;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Modify profile
+	//---------------------------------------------------------------------------
+	public static function modifyProfile($request,$context) {
+		$context->user = utilisateurTable::getUserByLogin($request['login']);
+
+		if($context->user === false)
+			return context::ERROR;
+
 		$context->user = $context->user[0];
 		return context::SUCCESS;
 	}
@@ -133,6 +148,14 @@ class mainController
 		if(count($context->users) <= 0)
 			return context::ERROR;
 
+		return context::SUCCESS;
+	}
+
+	//------------------------------------------------------------------------------
+	// * View tweet
+	//------------------------------------------------------------------------------
+	public static function viewTweet($request, $context) {
+		// $context->tweet = tweetTable::getTweet();
 		return context::SUCCESS;
 	}
 

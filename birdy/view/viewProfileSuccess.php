@@ -13,5 +13,10 @@
 			<div class="info-label">Avatar:</div>
 			<img id="user-avatar-image" src="images/<?php echo $context->user->avatar; ?>">
 		</div>
+		<div class="info-element">
+			<?php if($context->isOwner == true) { ?>
+				<a href="birdy.php?action=modifyProfile&login=Naruto42">Modifier profil</a>
+			<?php	}	?>
+		</div>
 	</div>
 </div>
