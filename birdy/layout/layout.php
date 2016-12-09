@@ -6,9 +6,9 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+	<?php include("navMenu.php"); ?>
 	<div id="main-container">
 		<?php include($template_view); ?>
-		<?php include($nameApp . "/view/links.php"); ?>
 	</div>
 </body>
 </html>

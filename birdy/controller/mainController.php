@@ -73,6 +73,22 @@ class mainController
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 	//---------------------------------------------------------------------------
+	// * Nav Menu
+	//---------------------------------------------------------------------------
+	public static function navMenu($request,$context)
+	{
+		$context->identifiant = '';
+		$context->isUserLoged = false;
+
+		if(self::isUserLoged($context)) {
+			$context->isUserLoged = true;
+			$context->identifiant = $context->getSessionAttribute('identifiant');
+		}
+
+		return context::SUCCESS;
+	}
+
+	//---------------------------------------------------------------------------
 	// * Index
 	//---------------------------------------------------------------------------
 	public static function index($request,$context)
@@ -195,7 +211,6 @@ class mainController
 			$requestLogin = $request['login'];
 		else {
 			if(self::isUserLoged($context)) {
-				echo "true!";
 				$requestLogin = $context->getSessionAttribute('identifiant');
 			}
 			else {
