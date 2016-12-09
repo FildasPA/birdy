@@ -3,10 +3,71 @@
 //=============================================================================
 // ▼ Main Controller
 // ----------------------------------------------------------------------------
-//
+// Actions.
 //=============================================================================
 class mainController
 {
+	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	// Non actions -- DEBUT
+	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+	//---------------------------------------------------------------------------
+	// * Is user loged
+	//---------------------------------------------------------------------------
+	private static function isUserLoged($context)
+	{
+		return (!empty($context->getSessionAttribute('nom')));
+	}
+
+	//---------------------------------------------------------------------------
+	// * Disconnected error
+	// Si l'utilisateur n'est pas connecté, redirige sur la page de connexion.
+	//---------------------------------------------------------------------------
+	private static function disconnectedError($context)
+	{
+		if(!self::isUserLoged($context)) {
+			$context->setSessionAttribute('error-message',
+			  'Erreur: vous devez être connecté pour effectuer cette action!<br>');
+			$context->redirect("birdy.php?action=login");
+			return true;
+		}
+
+		return false;
+	}
+
+	//------------------------------------------------------------------------------
+	// * View tweets posted by a user
+	//------------------------------------------------------------------------------
+	private static function viewTweets($context,$userId)
+	{
+		$listTweets = tweetTable::getTweetsPostedBy($context->user->getId());
+
+		$i = 0;
+		$tweets = array();
+
+		foreach($listTweets as $tweet) {
+			$tweet = $tweet->getData();
+
+			$tweets[$i] = array();
+			$tweets[$i]['nbvotes']  = $tweet['nbvotes'];
+			$tweets[$i]['emetteur'] = utilisateurTable::getUserById($tweet['emetteur'])[0];
+			$tweets[$i]['parent']   = utilisateurTable::getUserById($tweet['parent'])[0];
+			$tweets[$i]['post']     = postTable::getPostById($tweet['post'])[0];
+			$tweets[$i]['date']     = new DateTime($tweets[$i]['post']->date);
+			$tweets[$i]['date']     = $tweets[$i]['date']->format('d/m/Y');
+			$i++;
+		}
+
+		$context->tweets = $tweets;
+	}
+
+
+	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	// Non action -- FIN
+	// -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+	// Actions -- DEBUT
+	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 	//---------------------------------------------------------------------------
 	// * Index
 	//---------------------------------------------------------------------------
@@ -17,15 +78,13 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * helloWorld
+	// Nécessite d'être connecté
 	//---------------------------------------------------------------------------
 	public static function helloWorld($request,$context) {
-		if(empty($context->getSessionAttribute('nom'))) {
-			$context->setSessionAttribute('error-message','Erreur: vous devez être connecté!<br>');
-			$context->redirect("birdy.php?action=login");
+		if(self::disconnectedError($context))
 			return context::NONE;
-		} else {
+		else
 			return context::SUCCESS;
-		}
 	}
 
 	//---------------------------------------------------------------------------
@@ -35,6 +94,18 @@ class mainController
 	{
 		$context->par1 = $request['par1'];
 		$context->par2 = $request['par2'];
+		return context::SUCCESS;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Display users
+	//---------------------------------------------------------------------------
+	public static function displayUsers($request, $context) {
+		$context->users = utilisateurTable::getUsers();
+
+		if(count($context->users) <= 0)
+			return context::ERROR;
+
 		return context::SUCCESS;
 	}
 
@@ -102,8 +173,7 @@ class mainController
 				$context->name      = $request['name'];
 				$context->firstname = $request['firstname'];
 			}
-		}
-		else {
+		} else {
 			$context->login     = '';
 			$context->name      = '';
 			$context->firstname = '';
@@ -114,23 +184,51 @@ class mainController
 	//---------------------------------------------------------------------------
 	// * View profile
 	//---------------------------------------------------------------------------
-	public static function viewProfile($request,$context) {
-		$context->user = utilisateurTable::getUserByLogin($request['login']);
+	public static function viewProfile($request,$context)
+	{
+		// Login de l'utilisateur (défaut), ou erreur pas de login
+		if(!empty($request['login']))
+			$requestLogin = $request['login'];
+		else {
+			if(self::isUserLoged($context)) {
+				echo "true!";
+				$requestLogin = $context->getSessionAttribute('identifiant');
+			}
+			else {
+				$context->errorMessage = "Erreur: Veuillez indiquer un login !";
+				return context::ERROR;
+			}
+		}
 
-		if($context->user === false)
+		// Requête
+		$context->user = utilisateurTable::getUserByLogin($requestLogin);
+
+		// Impossible de trouver l'utilisateur avec l'identifiant indiqué
+		if($context->user === false) {
+			$context->errorMessage = "Erreur: Aucun utilisateur avec ce pseudo !";
 			return context::ERROR;
-
-		$context->isOwner = ($request['login'] == $context->getSessionAttribute('identifiant'));
+		}
 
 		$context->user = $context->user[0];
+		// Si c'est le compte de l'utilisateur, affiche un lien vers l'action modifier profil
+		$context->isOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
+
+		// Affiche les tweets
+		self::viewTweets($context,$context->user->getId());
+
 		return context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
 	// * Modify profile
+	// Nécessite d'être connecté
 	//---------------------------------------------------------------------------
-	public static function modifyProfile($request,$context) {
-		$context->user = utilisateurTable::getUserByLogin($request['login']);
+	public static function modifyProfile($request,$context)
+	{
+		if(self::disconnectedError($context))
+			return context::NONE;
+
+		$context->user = utilisateurTable::getUserByLogin($context->getSessionAttribute('identifiant'));
 
 		if($context->user === false)
 			return context::ERROR;
@@ -138,25 +236,4 @@ class mainController
 		$context->user = $context->user[0];
 		return context::SUCCESS;
 	}
-
-	//---------------------------------------------------------------------------
-	// * Display users
-	//---------------------------------------------------------------------------
-	public static function displayUsers($request, $context) {
-		$context->users = utilisateurTable::getUsers();
-
-		if(count($context->users) <= 0)
-			return context::ERROR;
-
-		return context::SUCCESS;
-	}
-
-	//------------------------------------------------------------------------------
-	// * View tweet
-	//------------------------------------------------------------------------------
-	public static function viewTweet($request, $context) {
-		// $context->tweet = tweetTable::getTweet();
-		return context::SUCCESS;
-	}
-
 }

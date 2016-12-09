@@ -24,11 +24,11 @@ class tweetTable extends baseTable
 	//---------------------------------------------------------------------------
 	// * Get Tweets posted by a user
 	//---------------------------------------------------------------------------
-	public static function getTweetPostedBy($login)
+	public static function getTweetsPostedBy($id)
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE emetteur='" . $login . "'";
+		        WHERE emetteur='" . $id . "'";
 
 		return baseTable::getObject($sql,self::$objectType);
 	}

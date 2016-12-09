@@ -1,1 +1,5 @@
-<p class='error'>Erreur: aucun utilisateur avec ce login.</p>
+<?php
+
+	echo "<p class=\"error\">" . $context->errorMessage . "</p>";
+
+?>

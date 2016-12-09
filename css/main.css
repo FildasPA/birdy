@@ -149,6 +149,7 @@ form .error-message {
 #user-profile {
 	border: 1px solid #c0c0c0;
 	background-color: #FFF;
+	margin: 0 200px;
 }
 
 #user-profile h3 {
@@ -198,6 +199,7 @@ form .error-message {
 #tweet {
 	border: 1px solid #c0c0c0;
 	background-color: #FFF;
+	margin: 30px 200px;
 }
 
 #tweet h3 {
@@ -227,7 +229,7 @@ form .error-message {
 }
 
 #post-text {
-	padding: 9px;
+	padding: 9px 9px 2px;
 }
 
 #post-image {
@@ -236,11 +238,11 @@ form .error-message {
 }
 
 #post-image img {
-	max-width: 700px;
+	max-width: 500px;
 }
 
 #post-meta {
-	padding: 9px;
+	padding: 2px 9px 9px;
 }
 
 #post-meta #author{
