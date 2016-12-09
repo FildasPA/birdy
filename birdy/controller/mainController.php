@@ -97,27 +97,6 @@ class mainController
 	}
 
 	//---------------------------------------------------------------------------
-	// * helloWorld
-	// Nécessite d'être connecté
-	//---------------------------------------------------------------------------
-	public static function helloWorld($request,$context) {
-		if(self::disconnectedError($context))
-			return context::NONE;
-		else
-			return context::SUCCESS;
-	}
-
-	//---------------------------------------------------------------------------
-	// * Super Test
-	//---------------------------------------------------------------------------
-	public static function superTest($request,$context)
-	{
-		$context->par1 = $request['par1'];
-		$context->par2 = $request['par2'];
-		return context::SUCCESS;
-	}
-
-	//---------------------------------------------------------------------------
 	// * Display users
 	//---------------------------------------------------------------------------
 	public static function displayUsers($request, $context) {
