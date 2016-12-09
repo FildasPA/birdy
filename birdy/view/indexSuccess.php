@@ -2,10 +2,10 @@
 
 <?php
 
-	if(empty($context->getSessionAttribute('nom'))) {
+	if(empty($context->getSessionAttribute('nom')))
 		echo "Bienvenue, invité!<br>";
-	}	else {
-		echo "Bienvenue " . $context->getSessionAttribute('nom') . " " . $context->getSessionAttribute('prenom') . "!<br>";
-	}
+
+	else
+		echo "Bienvenue " . $context->getSessionAttribute('prenom') . " !<br>";
 
 ?>
