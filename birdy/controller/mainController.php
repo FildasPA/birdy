@@ -42,6 +42,10 @@ class mainController
 	{
 		$listTweets = tweetTable::getTweetsPostedBy($context->user->getId());
 
+		if($listTweets === false) {
+			$context->tweets = false;
+			return;
+		}
 		$i = 0;
 		$tweets = array();
 

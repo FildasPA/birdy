@@ -26,7 +26,8 @@
 <!-- Liste des tweets postés -->
 
 <?php
-	foreach($context->tweets as $tweet) {
+	if($context->tweets !== false) {
+		foreach($context->tweets as $tweet) {
 ?>
 
 <div id="tweet">
@@ -54,5 +55,6 @@
 </div>
 
 <?php
+		}
 	}
 ?>
