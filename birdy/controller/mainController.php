@@ -36,9 +36,21 @@ class mainController
 	}
 
 	//------------------------------------------------------------------------------
+	// * Get tweet data
+	//------------------------------------------------------------------------------
+	private static function getTweetData($tweet) {
+		$tweet->parent     = $tweet->getParent();
+		$tweet->emetteur   = $tweet->getSender();
+		$tweet->post       = $tweet->getPost();
+		$tweet->post->date = new DateTime($tweet->post->date);
+		$tweet->post->date = $tweet->post->date->format('d/m/Y');
+		return $tweet;
+	}
+
+	//------------------------------------------------------------------------------
 	// * View tweets posted by a user
 	//------------------------------------------------------------------------------
-	private static function viewTweets($context,$userId)
+	private static function getTweetsPostedBy($context,$userId)
 	{
 		$listTweets = tweetTable::getTweetsPostedBy($context->user->getId());
 
@@ -46,21 +58,11 @@ class mainController
 			$context->tweets = false;
 			return;
 		}
-		$i = 0;
+
 		$tweets = array();
 
-		foreach($listTweets as $tweet) {
-			$tweet = $tweet->getData();
-
-			$tweets[$i] = array();
-			$tweets[$i]['nbvotes']  = $tweet['nbvotes'];
-			$tweets[$i]['emetteur'] = utilisateurTable::getUserById($tweet['emetteur'])[0];
-			$tweets[$i]['parent']   = utilisateurTable::getUserById($tweet['parent'])[0];
-			$tweets[$i]['post']     = postTable::getPostById($tweet['post'])[0];
-			$tweets[$i]['date']     = new DateTime($tweets[$i]['post']->date);
-			$tweets[$i]['date']     = $tweets[$i]['date']->format('d/m/Y');
-			$i++;
-		}
+		foreach($listTweets as $tweet)
+			array_push($tweets,self::getTweetData($tweet));
 
 		$context->tweets = $tweets;
 	}
@@ -74,6 +76,7 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * Nav Menu
+	// Si l'utilisateur est authentifié, affiche son identifiant.
 	//---------------------------------------------------------------------------
 	public static function navMenu($request,$context)
 	{
@@ -82,7 +85,7 @@ class mainController
 
 		if(self::isUserLoged($context)) {
 			$context->isUserLoged = true;
-			$context->identifiant = $context->getSessionAttribute('identifiant');
+			// $context->identifiant = $context->getSessionAttribute('identifiant');
 		}
 
 		return context::SUCCESS;
@@ -207,12 +210,16 @@ class mainController
 			return context::ERROR;
 		}
 
+		// Liste des tweets
+
+		$context->isUserLoged = self::isUserLoged($context);
+		$context->haveUserVoted = true;
 		$context->user = $context->user[0];
 		// Si c'est le compte de l'utilisateur, affiche un lien vers l'action modifier profil
 		$context->isOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
 
 		// Affiche les tweets
-		self::viewTweets($context,$context->user->getId());
+		self::getTweetsPostedBy($context,$context->user->getId());
 
 		return context::SUCCESS;
 	}

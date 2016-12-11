@@ -12,7 +12,7 @@ class utilisateur extends basemodel
 	//---------------------------------------------------------------------------
 	private function copy_avatar($url,$dest_file)
 	{
-		$dest_dir  = dirname(dirname(dirname(__FILE__))) . "/images/";
+		$dest_dir  = dirname(dirname(dirname(__FILE__))) . "/images/avatars/";
 		$dest_file = $dest_dir . $dest_file;
 		if(copy($url,$dest_file)) {
 			return true;
@@ -39,7 +39,7 @@ class utilisateur extends basemodel
 		$image_type     = substr($avatar_name,strrpos($avatar_name,"."));
 
   	// Informations générales
-		$this->data['avatar'] = 'avatar_' . $this->data['identifiant'] . $image_type;
+		$this->data['avatar'] = $this->data['identifiant'] . $image_type;
 
 		var_dump($this);
 

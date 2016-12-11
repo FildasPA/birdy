@@ -12,7 +12,7 @@ class tweet extends basemodel
 	//---------------------------------------------------------------------------
 	public function getPost()
 	{
-		return postTable::getPostById($this->post);
+		return postTable::getPostById($this->post)[0];
 	}
 
 	//---------------------------------------------------------------------------
@@ -20,7 +20,15 @@ class tweet extends basemodel
 	//---------------------------------------------------------------------------
 	public function getParent()
 	{
-		return utilisateurTable::getUserById($this->parent);
+		return utilisateurTable::getUserById($this->parent)[0];
+	}
+
+	//---------------------------------------------------------------------------
+	// * Récupère l'objet utilisateur correspondant à l'émetteur du tweet
+	//---------------------------------------------------------------------------
+	public function getSender()
+	{
+		return utilisateurTable::getUserById($this->emetteur)[0];
 	}
 
 	//---------------------------------------------------------------------------
@@ -28,7 +36,7 @@ class tweet extends basemodel
 	//---------------------------------------------------------------------------
 	public function getLikes()
 	{
-		return $this->nbVotes;
+		return $this->nbvotes;
 	}
 }
 

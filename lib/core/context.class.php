@@ -102,6 +102,8 @@ class context
 	//---------------------------------------------------------------------------
 	public function __get($prop)
 	{
+		if(!array_key_exists($prop,$this->data))
+		   return NULL;
 		return $this->data[$prop];
 	}
 
