@@ -1,26 +1,24 @@
 <div id="nav-menu">
-	<p id="name">
+	<div id="name-app">
 		<a href="birdy.php?action=index">
 			<span class="text">Birdy</span>
 			<span class="return">Index</span>
 		</a>
-	</p>
+	</div>
 	<nav id="links">
 		<span id="link-other-actions">
-			<a>Autres actions</a>
-			<div id="other-actions" style="line-height: 20px">
-				<ul style="margin: 0;">
+			<a>Autres pages</a>
+			<div id="other-actions">
+				<ul>
 					<li><a href="birdy.php?action=displayUsers">Liste des utilisateurs</a></li>
-					<li><a href="birdy.php?action=superTest&par1=mdr&par2=lol">SuperTest</a></li>
-					<li><a href="birdy.php?action=helloWorld">helloWorld</a></li>
 				</ul>
 			</div>
 		</span>
-
 		<?php
 			if($context->isUserLoged) {
 		?>
-		<a href="birdy.php?action=viewProfile" title="Voir le profil"><?php echo $context->identifiant; ?></a>
+		<a href="birdy.php?action=sendTweet">Envoyer un tweet</a>
+		<a href="birdy.php?action=viewProfile" title="Voir le profil"><?php echo $context->	getSessionAttribute('identifiant'); ?></a>
 		<a href="birdy.php?action=logout">Se déconnecter</a>
 		<?php
 			} else {
@@ -30,6 +28,5 @@
 		<?php
 			}
 		?>
-
 	</nav>
 </div>

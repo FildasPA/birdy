@@ -1,9 +1,7 @@
-<body onload="checkFormOnLoad()">
-
-<h1>Index</h1>
-
 <form id="form-inscription" name="inscription" method="POST" action="birdy.php?action=register" enctype="multipart/form-data">
-	<h3>Inscription</h3>
+
+<h3>Inscription</h3>
+	<div id="wrap">
 	<div id="login-form-element">
 		<label>Pseudo</label>
 		<input id="login" name="login" type="text/html" placeholder="Pseudo" onblur="checkLogin()" value="<?php echo $context->login; ?>">
@@ -30,6 +28,8 @@
 	<div id="submit-element">
 		<input id="submit-button" class="button" name="valider" value="Inscription" onclick="sendForm()" onkeypress="sendForm()">
 	</div>
+	</div>
 </form>
 
 <script type="text/javascript" src="js/checkInscriptionForm.js"></script>
+

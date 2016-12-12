@@ -8,13 +8,18 @@
 /********/
 
 body {
-	background-color: #D8D8D8;
-	font-family: 'sans-serif', 'Helvetica', 'Arial';
+	padding-top: 51px;
 	margin: 0;
+	background-color: #d8d8d8;
+	font-family: 'sans-serif', 'Helvetica', 'Arial';
 }
 
-h1,h2,h3,h4 {
-	color: #3378B9;
+h1,h2,h3,h4 { color: #3378b9; }
+
+h1 {
+	margin-bottom: 40px;
+	border-bottom: 1px solid #bbb;
+	font-size: 1.6em;
 }
 
 table {
@@ -23,40 +28,35 @@ table {
 }
 
 th,td {
-	vertical-align: top;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding: 4px 10px;
+	padding: 9px 10px 4px;
 	border-bottom: 1px solid #bbb;
+	vertical-align: top;
 }
 
 tr.user {
 	cursor: pointer;
-	transition: background-color 0.7s;
-	-webkit-transition: background-color 0.7s;
+	-webkit-transition: background-color .7s;
+	        transition: background-color .7s;
 }
 
 tr.user:hover {
-	background-color: #fff;
+	background-color: #e5e5e5;
 }
 
-p.error {
-	color: red;
-}
+p.error { color: red; }
 
 li {
-	list-style-type: none;
 	margin: 5px 0;
+	list-style-type: none;
 }
 
 a {
+	padding: 4px 0;
+	background: linear-gradient(#23a3ff,#23a3ff) bottom no-repeat;
+	background-size: 0 2px;
 	color: #555;
 	text-decoration: none;
-	background:linear-gradient(#23A3FF,#23A3FF) bottom no-repeat;
-	background-size: 0% 2px;
 	transition: background-size .2s;
-	padding: 4px 2px;
 
 }
 
@@ -69,14 +69,41 @@ a:hover {
 /* Main */
 /********/
 
-#main-container {
-	margin: 20px auto 0;
+#container {
 	min-width: 350px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
-#footer {
-	margin: 50px auto 30px;
+.invisible {
+	display: none;
+}
+
+#content {
+	width: 600px;
+	margin: 0 auto;
 	text-align: center;
+	background-color: #fff;
+	border: 1px solid #c0c0c0;
+}
+
+#wrap { padding: 3em; }
+
+/***********/
+/* Top bar */
+/***********/
+
+#alert-box {
+	width: 100%;
+	padding: 3px 0;
+	background-color: #f7e8bc;
+	border-bottom: 1px solid #c0c0c0;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#alert-box #close-box {
+
 }
 
 /************/
@@ -84,78 +111,75 @@ a:hover {
 /************/
 
 #nav-menu {
-	background-color: #e5e5e5;
+	position: fixed;
+	top: 0;
+	width: 100%;
 	height: 51px;
+	line-height: 51px;
+	background-color: #e5e5e5;
+	border-bottom: 1px solid #c0c0c0;
 	vertical-align: middle;
 	white-space: nowrap;
-	line-height: 51px;
-	border-bottom: 1px solid #c0c0c0;
 }
 
-#nav-menu a {
-	line-height: 1;
-}
+#nav-menu a { line-height: 1; }
 
-#nav-menu p {
-	font-size: 1.3em;
-	margin: 0;
-}
+/*********************/
+/* Name App Animation*/
+/*********************/
 
-/********/
-/* Name */
-/********/
-
-#nav-menu p#name {
+#nav-menu #name-app {
 	float: left;
 	margin-left: 30px;
+	font-size: 1.3em;
 }
 
-#nav-menu #name a {
+#nav-menu #name-app a {
 	color: #666;
 	background: none;
 }
 
-#nav-menu p#name span.text,
-#nav-menu p#name span.return,
-#nav-menu #name a::before {
-  display: inline-block;
-  top: 15px;
+#nav-menu #name-app span.text,
+#nav-menu #name-app span.return,
+#nav-menu #name-app a::before {
   position: absolute;
-	transition: all 0.3s;
+  top: 15px;
+  display: inline-block;
+	transition: all .3s;
 	transition-delay: .1s;
 }
 
-#nav-menu p#name span.text {
+#nav-menu #name-app span.text {
   left: 45px;
   opacity: 1;
   font-weight: bold;
 }
 
-#nav-menu p#name:hover span.text {
-  opacity: 0;
+#nav-menu #name-app:hover span.text {
   left: 65px;
+  opacity: 0;
 }
 
-#nav-menu p#name span.return {
-  opacity: 0;
+#nav-menu #name-app span.return {
   left: 65px;
+  opacity: 0;
 }
 
-#nav-menu p#name:hover span.return {
-  opacity: 1;
+#nav-menu #name-app:hover span.return {
   left: 45px;
+  opacity: 1;
 }
 
-#nav-menu #name a::before {
+#nav-menu #name-app a::before {
 	content: '←';
-	opacity: 0;
 	top: 14px;
 	left: -10px;
+	opacity: 0;
 }
 
-#nav-menu #name a:hover::before {
-	opacity: 1;
+#nav-menu #name-app a:hover::before {
 	left: 18px;
+	opacity: 1;
 }
 
 /*********/
@@ -168,9 +192,11 @@ a:hover {
 	margin-right: 30px;
 }
 
-#nav-menu nav#links a {
-	margin-left: 10px;
-}
+#nav-menu nav#links a { margin-left: 10px; }
+
+#nav-menu ul { margin: 0 5px; }
+
+#nav-menu #other-actions { line-height: 20px; }
 
 #nav-menu #link-other-actions #other-actions {
 	opacity: 0;
@@ -189,21 +215,8 @@ a:hover {
 	margin: 0;
 }
 
-#nav-menu #link-other-actions:hover div#other-actions {
+#nav-menu #link-other-actions:hover #other-actions {
 	opacity: 1;
-	transition-delay: 0;
-}
-
-/***********/
-/* Content */
-/***********/
-
-#content {
-	width: 600px;
-	border: 1px solid #c0c0c0;
-	background-color: #FFF;
-	margin: 0 auto;
-	text-align: center;
 }
 
 /********/
@@ -212,38 +225,29 @@ a:hover {
 
 form label {
 	display: block;
+	padding-left: 10px;
 	margin-bottom: 5px;
 	font-size: 0.9em;
 	font-weight: bold;
-	padding-left: 10px;
 }
 
 form h3 {
-	font-size: 1.3em;
-	margin-top: 15px;
-	margin-bottom: 15px;
-	text-align: center;
 	padding-left: 5px;
+	margin: 15px 0;
+	font-size: 1.3em;
 	color: #3378B9;
-}
-
-form > div {
-	margin: 0 0 10px 0;
-}
-
-form input:not(#submit-button) {
-	width: calc(100% - 18px);
-}
-
-form div#submit-element {
 	text-align: center;
 }
+
+form > div { margin-bottom: 10px; }
+form input:not(#submit-button) { width: calc(100% - 18px); }
+form div#submit-element { text-align: center; }
 
 form input#submit-button {
 	margin-top: 15px;
 	font-weight: bold;
-	cursor: pointer;
 	text-align: center;
+	cursor: pointer;
 }
 
 form .error-message {
@@ -256,34 +260,38 @@ form .error-message {
 /* Inscription form */
 /********************/
 
+#form-login,
 #form-inscription {
-	width: 310px;
+	width: 407px;
 	margin: 25px auto 0px;
-	/*background-color: #FFF;*/
-	/*text-align: center;*/
+	background-color: #fff;
+	border: 1px solid #c0c0c0;
 }
 
-#form-inscription input#name, #form-inscription input#firstname {
+#form-login h3,
+#form-inscription h3 {
+	padding: 5px;
+	margin: 0;
+	background-color: #e5e5e5;
+	border-bottom: 1px solid #c0c0c0;
+}
+
+#form-inscription input#name,
+#form-inscription input#firstname {
 	display: inline-block;
 }
+
+#form-inscription input#name { width: 120px; }
 
 #form-inscription input#firstname {
 	width: 150px;
 	margin-right: 0;
 }
 
-#form-inscription input#name {
-	width: 120px;
-}
 
 /**************/
 /* Login form */
 /**************/
-
-#form-login {
-	width: 350px;
-	margin: 60px auto 0px;
-}
 
 #form-login #remember-form-element input, #form-login #remember-form-element label {
 	width: auto !important;
@@ -297,26 +305,22 @@ form .error-message {
 #user-profile {
 	display: block;
 	width: 600px;
-	border: 1px solid #c0c0c0;
-	background-color: #FFF;
 	margin: 0 auto;
+	background-color: #fff;
+	border: 1px solid #c0c0c0;
 }
 
 #user-profile h3 {
+	padding: 9px;
 	margin: 0;
-	padding: 9px;
-	font-size: 16px;
-	border-bottom: 1px solid #c0c0c0;
 	background-color: #e5e5e5;
+	border-bottom: 1px solid #c0c0c0;
+	font-size: 16px;
 }
 
-#user-profile #user-info-block {
-	padding: 9px;
-}
+#user-profile #user-info-block { padding: 9px; }
 
-#user-profile .info-element {
-	margin-bottom: 20px;
-}
+#user-profile .info-element { margin-bottom: 20px; }
 
 #user-profile .info-label {
 	font-weight: bold;
@@ -337,68 +341,74 @@ form .error-message {
 /* User profile form */
 /*********************/
 
-#form-modify-profile input {
-	width: auto !important;
-}
+#form-modify-profile input { width: auto !important; }
 
 
 /*********/
 /* Tweet */
 /*********/
 
-#tweet {
+.tweet {
+	width: 600px;
+	margin: 30px auto;
+	background-color: #fff;
 	border: 1px solid #c0c0c0;
-	background-color: #FFF;
-	margin: 30px 200px;
 }
 
-#tweet h3 {
-	display: inline-block;
-	margin: 5px;
-}
-
-#tweet h3 a {
-	color: auto !important;
-}
-
-#tweet-block {
-	margin: 0 0 15px 0;
+.tweet .context {
 	padding: 9px;
-	font-size: 16px;
-	border-bottom: 1px solid #c0c0c0;
 	background-color: #e5e5e5;
+	border-bottom: 1px solid #c0c0c0;
+	font-weight: bold;
+	font-size: 16px;
+	color: #444;
 }
 
-#votes-number {
-	padding: 9px;
-	display: inline-block;
+.tweet .context a { color: auto !important; }
+
+.tweet .votes-number {
+	margin-top: 5px;
+	color: #777;
 }
 
-#post-block {
-	padding: 9px;
+/*********/
+/* Post */
+/*********/
+
+.tweet .post {
+	padding: 10px 17px;
+	max-width: 600px;
 }
 
-#post-text {
-	padding: 9px 9px 2px;
-}
-
-#post-image {
-	margin: 0px auto;
+.tweet .post-image {
 	text-align: center;
+	margin: 10px auto 0;
+}
+.tweet .post-image img {
+	max-width: 100%;
 }
 
-#post-image img {
-	max-width: 500px;
+.tweet .post-text {
+	margin-bottom: 10px;
+	color: #555;
 }
 
-#post-meta {
-	padding: 2px 9px 9px;
+.tweet .post-meta {
+	display: table;
+	width: 100%;
+	margin-bottom: 5px;
 }
-
-#post-meta #author{
+.tweet .post-meta .author {
+	display: table-cell;
 	font-weight: bold;
 }
-
-#post-meta #date {
+.tweet .post-meta .author a {
+	color: #444;
+}
+.tweet .post-meta .date {
+	display: table-cell;
+	margin-right: 10px;
+	text-align: right;
 	font-size: 0.8em;
+	color: #888;
 }

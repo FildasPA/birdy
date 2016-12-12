@@ -213,6 +213,7 @@ class mainController
 		// Liste des tweets
 
 		$context->isUserLoged = self::isUserLoged($context);
+		// $context->alertMessage = "Le tweet a bien été envoyé.";
 		$context->haveUserVoted = true;
 		$context->user = $context->user[0];
 		// Si c'est le compte de l'utilisateur, affiche un lien vers l'action modifier profil
