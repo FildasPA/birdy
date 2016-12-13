@@ -31,7 +31,7 @@
 <div class="tweet">
 	<?php
 		// Affiche qui a retweeté
-		if($tweet->emetteur->getId() != $tweet->parent->getId()) {
+		if($tweet->emetteur->id != $tweet->parent->id {
 	?>
 	<div class="context">
 		Retweeté par <a href=""><?php echo $tweet->emetteur->prenom . " " . $tweet->emetteur->nom; ?></a>

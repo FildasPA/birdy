@@ -52,7 +52,7 @@ class mainController
 	//------------------------------------------------------------------------------
 	private static function getTweetsPostedBy($context,$userId)
 	{
-		$listTweets = tweetTable::getTweetsPostedBy($context->user->getId());
+		$listTweets = tweetTable::getTweetsPostedBy($context->user->id;
 
 		if($listTweets === false) {
 			$context->tweets = false;
@@ -220,7 +220,7 @@ class mainController
 		$context->isOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
 
 		// Affiche les tweets
-		self::getTweetsPostedBy($context,$context->user->getId());
+		self::getTweetsPostedBy($context,$context->user->id);
 
 		return context::SUCCESS;
 	}
