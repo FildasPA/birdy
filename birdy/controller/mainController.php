@@ -28,7 +28,7 @@ class mainController
 		if(!self::isUserLoged($context)) {
 			$context->setSessionAttribute('error-message',
 			  'Erreur: vous devez être connecté pour effectuer cette action!<br>');
-			$context->redirect("birdy.php?action=login");
+			$context->redirect("birdyAjax.php?action=login");
 			return true;
 		}
 
@@ -52,7 +52,7 @@ class mainController
 	//------------------------------------------------------------------------------
 	private static function getTweetsPostedBy($context,$userId)
 	{
-		$listTweets = tweetTable::getTweetsPostedBy($context->user->id;
+		$listTweets = tweetTable::getTweetsPostedBy($context->user->id);
 
 		if($listTweets === false) {
 			$context->tweets = false;
@@ -141,7 +141,7 @@ class mainController
 				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
 				$context->setSessionAttribute('error-message','');
-				$context->redirect("birdy.php?action=viewProfile&login=".$request['login']);
+				$context->redirect("birdyAjax.php?action=viewProfile&login=".$request['login']);
 			}
 		}
 		// Si le formulaire n'a pas été envoyé, réinitialise le message d'erreur
@@ -156,7 +156,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function logout($request,$context) {
 		$context->unsetSession();
-		$context->redirect("birdy.php?action=index");
+		$context->redirect("birdyAjax.php?action=index");
 		return context::NONE;
 	}
 
@@ -168,7 +168,7 @@ class mainController
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$context->user = new utilisateur();
 			if($context->user->register($request,$_FILES)) {
-				$context->redirect("birdy.php?action=index");
+				$context->redirect("birdyAjax.php?action=index");
 			} else {
 				echo "Echec de l'inscription<br>";
 				$context->login     = $request['login'];

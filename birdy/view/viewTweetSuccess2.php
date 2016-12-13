@@ -7,7 +7,7 @@
 		<div id="post-image"><img src="images/<?php echo $context->post->image; ?>"></img></div>
 		<div id="post-text"><?php echo $context->post->text; ?></div>
 		<div id="post-meta">
-			<span id="author"><a href="birdy.php?action=viewProfile&login=<?php echo $context->tweet->parent->id; ?>"><?php echo $context->tweet->parent->nom ?><?php echo $context->tweet->parent->prenom; ?></a></span>
+			<span id="author"><a href="birdyAjax.php?action=viewProfile&login=<?php echo $context->tweet->parent->id; ?>"><?php echo $context->tweet->parent->nom ?><?php echo $context->tweet->parent->prenom; ?></a></span>
 			<span id="date"><?php echo $context->tweet->post->date; ?></span>
 		</div>
 	</div>

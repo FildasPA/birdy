@@ -1,4 +1,4 @@
-<form id="form-login" name="login" method="POST" action="birdy.php?action=login" enctype="multipart/form-data">
+<form id="form-login" name="login" method="POST" action="birdyAjax.php?action=login" enctype="multipart/form-data">
 	<h3>Se connecter</h3>
 	<div id="wrap">
 		<div id="login-form-element">

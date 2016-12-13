@@ -33,7 +33,7 @@
 	<div class="post">
 		<div class="post-meta">
 			<div class="author">
-				<a href="birdy.php?action=viewProfile&login=<?php echo $tweet->parent->identifiant; ?>">
+				<a href="birdyAjax.php?action=viewProfile&login=<?php echo $tweet->parent->identifiant; ?>">
 					<?php echo $tweet->parent->prenom . " " . $tweet->parent->nom ?>
 				</a>
 			</div>

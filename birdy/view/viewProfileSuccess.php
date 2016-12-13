@@ -16,7 +16,7 @@
 		</div>
 		<div class="info-element">
 			<?php if($context->isOwner) { ?>
-				<a href="birdy.php?action=modifyProfile&login=<?php echo $context->user->identifiant ?>">Modifier profil</a>
+				<a href="birdyAjax.php?action=modifyProfile&login=<?php echo $context->user->identifiant ?>">Modifier profil</a>
 			<?php	}	?>
 		</div>
 	</div>
@@ -31,7 +31,7 @@
 <div class="tweet">
 	<?php
 		// Affiche qui a retweeté
-		if($tweet->emetteur->id != $tweet->parent->id {
+		if($tweet->emetteur->id != $tweet->parent->id) {
 	?>
 	<div class="context">
 		Retweeté par <a href=""><?php echo $tweet->emetteur->prenom . " " . $tweet->emetteur->nom; ?></a>
@@ -42,7 +42,7 @@
 	<div class="post">
 		<div class="post-meta">
 			<div class="author">
-				<a href="birdy.php?action=viewProfile&login=<?php echo $tweet->parent->identifiant; ?>">
+				<a href="birdyAjax.php?action=viewProfile&login=<?php echo $tweet->parent->identifiant; ?>">
 					<?php echo $tweet->parent->prenom . " " . $tweet->parent->nom ?>
 				</a>
 			</div>

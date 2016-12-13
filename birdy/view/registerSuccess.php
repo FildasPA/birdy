@@ -1,4 +1,4 @@
-<form id="form-inscription" name="inscription" method="POST" action="birdy.php?action=register" enctype="multipart/form-data">
+<form id="form-inscription" name="inscription" method="POST" action="birdyAjax.php?action=register" enctype="multipart/form-data">
 
 <h3>Inscription</h3>
 	<div id="wrap">
