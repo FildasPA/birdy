@@ -7,21 +7,15 @@
 //=============================================================================
 abstract class basemodel
 {
-	protected $id;
-	protected $data;
+	protected $data = array();
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
 	//---------------------------------------------------------------------------
 	function __construct($tab = null) {
-		if(isset($tab['id']))
-			$id = $tab['id'];
-		else
-			$id = null;
-		if(gettype($tab) == "array")
-			foreach($tab as $att => $value)
-				if($att != 'id' && $value)
-					$this->$att = $value;
+		foreach($tab as $att => $value)
+			if($att != 'id' && $value)
+				$this->$att = $value;
 	}
 
 	//---------------------------------------------------------------------------
@@ -29,7 +23,6 @@ abstract class basemodel
 	//---------------------------------------------------------------------------
 	public function __destruct()
 	{
-		$this->id   = null;
 		$this->data = null;
 	}
 
@@ -57,13 +50,6 @@ abstract class basemodel
 	//---------------------------------------------------------------------------
 	public function getData() {
 		return $this->data;
-	}
-
-	//------------------------------------------------------------------------------
-	// * Get id
-	//------------------------------------------------------------------------------
-	public function getId() {
-		return $this->id;
 	}
 
 	//---------------------------------------------------------------------------
