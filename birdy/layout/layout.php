@@ -6,6 +6,8 @@
 	  <link rel="stylesheet" href="css/main.css">
 		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="js/display_hide.js"></script>
+		<script type="text/javascript" src="js/updateView.js"></script>
+		<script type="text/javascript" src="js/actions.js"></script>
 	</head>
 	<body>
 		<?php include("navMenu.php"); ?>
