@@ -20,16 +20,15 @@ class mainController
 	}
 
 	//---------------------------------------------------------------------------
-	// * Disconnected error
+	// * Unconnected error
 	// Si l'utilisateur n'est pas connecté, redirige sur la page de connexion.
 	//---------------------------------------------------------------------------
-	private static function disconnectedError($context)
+	private static function unconnectedError($context)
 	{
 		if(!self::isUserLoged($context)) {
 			$context->setSessionAttribute("error-message",
 			  ["error","Erreur: vous devez être connecté pour effectuer cette action!<br>"]);
-			// return self::login;
-			$context->redirect("birdy.php?action=login");
+			// $context->redirect("birdy.php?action=login");
 			return true;
 		}
 
@@ -68,6 +67,14 @@ class mainController
 		$context->tweets = $tweets;
 	}
 
+	//------------------------------------------------------------------------------
+	// * Update navMenu view
+	//------------------------------------------------------------------------------
+	private static function updateNavMenu()
+	{
+		echo '<script>updateView("navMenu","#nav-menu");</script>';
+	}
+
 
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	// Non action -- FIN
@@ -89,7 +96,7 @@ class mainController
 			// $context->identifiant = $context->getSessionAttribute('identifiant');
 		}
 
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
@@ -97,7 +104,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function index($request,$context)
 	{
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
@@ -107,9 +114,9 @@ class mainController
 		$context->users = utilisateurTable::getUsers();
 
 		if(count($context->users) <= 0)
-			return context::ERROR;
+			return __FUNCTION__ . context::ERROR;
 
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
@@ -142,15 +149,15 @@ class mainController
 				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
 				$context->setSessionAttribute('error-message','');
-				// echo "<script type=\"text/javascript\">updateView('index');</script>\n";
-				$context->redirect("birdy.php");
+				self::updateNavMenu();
+				return self::index($request,$context);
 			}
 		}
 		// Si le formulaire n'a pas été envoyé, réinitialise le message d'erreur
 		else {
 			$context->setSessionAttribute('error-message','');
 		}
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
@@ -158,8 +165,8 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function logout($request,$context) {
 		$context->unsetSession();
-		$context->redirect("birdy.php");
-		return context::NONE;
+		self::updateNavMenu();
+		return self::index($request,$context);
 	}
 
 	//---------------------------------------------------------------------------
@@ -170,7 +177,7 @@ class mainController
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$context->user = new utilisateur();
 			if($context->user->register($request,$_FILES)) {
-				$context->redirect("birdyAjax.php?action=index");
+				return self::index($request,$context);
 			} else {
 				echo "Echec de l'inscription<br>";
 				$context->login     = $request['login'];
@@ -182,7 +189,7 @@ class mainController
 			$context->name      = '';
 			$context->firstname = '';
 		}
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
@@ -199,7 +206,7 @@ class mainController
 			}
 			else {
 				$context->errorMessage = "Erreur: Veuillez indiquer un login !";
-				return context::ERROR;
+				return __FUNCTION__ . context::ERROR;
 			}
 		}
 
@@ -209,7 +216,7 @@ class mainController
 		// Impossible de trouver l'utilisateur avec l'identifiant indiqué
 		if($context->user === false) {
 			$context->errorMessage = "Erreur: Aucun utilisateur avec ce pseudo !";
-			return context::ERROR;
+			return __FUNCTION__ . context::ERROR;
 		}
 
 		// Liste des tweets
@@ -224,7 +231,7 @@ class mainController
 		// Affiche les tweets
 		self::getTweetsPostedBy($context,$context->user->id);
 
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 
 	//---------------------------------------------------------------------------
@@ -233,15 +240,15 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function modifyProfile($request,$context)
 	{
-		if(self::disconnectedError($context))
-			return context::NONE;
+		if(self::unconnectedError($context))
+			return login($request,$context);;
 
 		$context->user = utilisateurTable::getUserByLogin($context->getSessionAttribute('identifiant'));
 
 		if($context->user === false)
-			return context::ERROR;
+			return __FUNCTION__ . context::ERROR;
 
 		$context->user = $context->user[0];
-		return context::SUCCESS;
+		return __FUNCTION__ . context::SUCCESS;
 	}
 }

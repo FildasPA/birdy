@@ -1,15 +1,12 @@
 
 //=============================================================================
-// * Recharge la sous-vue principale et le menu de navigation
+// * Recharge la sous-vue principale
 // ----------------------------------------------------------------------------
 // Récupère l'action (ainsi que les paramètres) se trouvant dans l'attribut
 // 'href', puis recharge la sous-vue principale dans '#container'.
-// Quant à la sous-vue du menu de navigation, elle est rechargée à l'aide de
-// son action définie par défaut.
 //=============================================================================
 function updateViews() {
 	updateView(this.getAttribute("href"),"#container");
-	updateView("navMenu","#nav-menu");
 	return false;
 }
 

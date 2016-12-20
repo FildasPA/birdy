@@ -20,7 +20,7 @@ if($view === false) {
 	die;
 }
 else if($view != context::NONE) {
-	$template_view = $nameApp."/view/".$action.$view.".php";
+	$template_view = $nameApp."/view/".$view.".php";
 	include($nameApp."/layout/".$context->getLayout().".php");
 }
 
