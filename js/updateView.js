@@ -38,8 +38,8 @@ $(document).ready(function(){
 // - pourquoi enlever les gestionnaires d'év. déjà présents? ils s'ajouteraient
 // de manière récursive.
 //=============================================================================
-function updateView(address,content) {
-	address = "birdyAjax.php?action=" + address;
+function updateView(action,content) {
+	var address = "birdyAjax.php?action=" + action;
 	var xhttp;
 	xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {

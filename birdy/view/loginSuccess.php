@@ -1,4 +1,4 @@
-<form id="form-login" name="login" method="POST" action="birdyAjax.php?action=login" enctype="multipart/form-data">
+<form id="form-login" name="login" method="POST" action="birdy.php?action=login" enctype="multipart/form-data">
 	<h3>Se connecter</h3>
 	<div id="wrap">
 		<div id="login-form-element">
@@ -14,9 +14,10 @@
 			<label>Rester connecté</label>
 		</div>
 		<input type="hidden" name="form-name" value="login">
-		<div class="error-message"><?php echo $context->errorMessage; ?></div>
 		<div id="submit-element">
 			<input id="submit-button" class="button" type="submit" name="valider" value="Connexion">
 		</div>
 	</div>
 </form>
+
+<script type="text/javascript" src="js/login.js"></script>

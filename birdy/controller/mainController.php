@@ -26,9 +26,10 @@ class mainController
 	private static function disconnectedError($context)
 	{
 		if(!self::isUserLoged($context)) {
-			$context->setSessionAttribute('error-message',
-			  'Erreur: vous devez être connecté pour effectuer cette action!<br>');
-			$context->redirect("birdyAjax.php?action=login");
+			$context->setSessionAttribute("error-message",
+			  ["error","Erreur: vous devez être connecté pour effectuer cette action!<br>"]);
+			// return self::login;
+			$context->redirect("birdy.php?action=login");
 			return true;
 		}
 
@@ -102,7 +103,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	// * Display users
 	//---------------------------------------------------------------------------
-	public static function displayUsers($request, $context) {
+	public static function viewUsers($request, $context) {
 		$context->users = utilisateurTable::getUsers();
 
 		if(count($context->users) <= 0)
@@ -117,9 +118,9 @@ class mainController
 	public static function login($request,$context)
 	{
 		// Informations à afficher sur la page
-		if($context->getSessionAttribute('error-message'))
-			$context->errorMessage = $context->getSessionAttribute('error-message');
-		else $context->errorMessage = '';
+		if($context->getSessionAttribute('alert-message'))
+			$context->alertMessage = $context->getSessionAttribute('alert-message');
+		else $context->alertMessage = '';
 
 		// Informations à insérer dans le formulaire
 		if(isset($request['login'])) $context->login = $request['login'];
@@ -134,14 +135,15 @@ class mainController
 			$user = utilisateurTable::getUserByLoginAndPass($request['login'],$request['password'])[0];
 			if(empty($user) || $user === false)
 				// Définit un message d'erreur à afficher sur la page suivante ou la page actuelle
-				$context->errorMessage = "Erreur: login et/ou mot de passe erroné(s) !";
+				$context->alertMessage = "Erreur: login et/ou mot de passe erroné(s) !";
 			else {
 				// Connexion réussie: enregistre l'utilisateur en session &
 				// réinitialise le message d'erreur
 				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
 				$context->setSessionAttribute('error-message','');
-				$context->redirect("birdyAjax.php?action=viewProfile&login=".$request['login']);
+				// echo "<script type=\"text/javascript\">updateView('index');</script>\n";
+				$context->redirect("birdy.php");
 			}
 		}
 		// Si le formulaire n'a pas été envoyé, réinitialise le message d'erreur
@@ -156,7 +158,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function logout($request,$context) {
 		$context->unsetSession();
-		$context->redirect("birdyAjax.php?action=index");
+		$context->redirect("birdy.php");
 		return context::NONE;
 	}
 

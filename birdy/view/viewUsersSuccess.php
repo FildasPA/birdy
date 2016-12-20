@@ -7,19 +7,17 @@
 				<th>Nom</th>
 				<th>Prénom</th>
 			</tr>
-
 		<?php
-
 		foreach($context->users as $user) {
-			echo "<tr class='user' onclick=\"window.location.href='birdyAjax.php?action=viewProfile&login=" . $user->identifiant . "'\" title=\"Voir le profil de ".$user->identifiant."\">";
+			echo "<tr class=\"user\" onclick=\"updateView('viewProfile&login=".$user->identifiant."','#container')\" title=\"Voir le profil de ".$user->identifiant."\">";
 			echo "<td>".$user->identifiant."</td>";
 			echo "<td>".$user->nom."</td>";
 			echo "<td>".$user->prenom."</td>";
 			echo "</tr>";
+			echo "
+";
 		}
-
 		?>
-
 		</table>
 	</div>
 </div>

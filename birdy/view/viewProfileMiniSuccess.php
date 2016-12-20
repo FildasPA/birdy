@@ -1,1 +1,0 @@
-<p>view mini</p>
