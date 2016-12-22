@@ -23,7 +23,7 @@ $(document).ready(function(){
 //=============================================================================
 // * Recharge une vue dans un bloc
 // ----------------------------------------------------------------------------
-// Appelle l'adresse passée en paramètre en AJAX, puis affiche son résultat
+// Appelle l'action passée en paramètre en AJAX, puis affiche son résultat
 // dans le bloc passé en second paramètre.
 // Une fois la vue rechargée, replace tous les gestionnaires d'évènements sur
 // les liens.

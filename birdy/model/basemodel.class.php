@@ -13,9 +13,10 @@ abstract class basemodel
 	// * Constructeur
 	//---------------------------------------------------------------------------
 	function __construct($tab = null) {
-		foreach($tab as $att => $value)
-			if($att != 'id' && $value)
-				$this->$att = $value;
+		if(!empty($tab))
+			foreach($tab as $att => $value)
+				if($att != 'id' && $value)
+					$this->$att = $value;
 	}
 
 	//---------------------------------------------------------------------------

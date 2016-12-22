@@ -16,7 +16,7 @@ $context->init($nameApp);
 $view = $context->executeAction($action,$_REQUEST);
 
 if($view === false) {
-	echo "Erreur: l'action " . $action . " n'existe peut-être pas";
+	echo "<p style=\"color:red;\">Erreur: l'action <b>" . $action . "</b> n'existe peut-être pas.</p>";
 	die;
 }
 else if($view != context::NONE) {

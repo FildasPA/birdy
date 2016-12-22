@@ -8,7 +8,7 @@
 abstract class baseTable
 {
 	//---------------------------------------------------------------------------
-	// * Execute SQL request & create appropriate object
+	// * Exécute la requête SQL & créer l'objet approprié
 	//---------------------------------------------------------------------------
 	public static function getObject($sql,$objectType)
 	{

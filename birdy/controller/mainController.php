@@ -3,7 +3,7 @@
 //=============================================================================
 // ▼ Main Controller
 // ----------------------------------------------------------------------------
-// Actions.
+// Actions de l'application.
 //=============================================================================
 class mainController
 {
@@ -36,7 +36,19 @@ class mainController
 	}
 
 	//------------------------------------------------------------------------------
+	// * Update navMenu view
+	// Met à jour le menu de navigation en Javascript.
+	// Permet à certaines actions de le mettre à jour de manière spécifique (par
+	// exemple lors de la connexion, déconnexion, etc.)
+	//------------------------------------------------------------------------------
+	private static function updateNavMenu()
+	{
+		echo '<script>updateView("navMenu","#nav-menu");</script>';
+	}
+
+	//------------------------------------------------------------------------------
 	// * Get tweet data
+	// Récupère les données (objets utilisateur, post, ...) associés au tweet.
 	//------------------------------------------------------------------------------
 	private static function getTweetData($tweet) {
 		$tweet->parent     = $tweet->getParent();
@@ -48,7 +60,10 @@ class mainController
 	}
 
 	//------------------------------------------------------------------------------
-	// * View tweets posted by a user
+	// * Get tweets posted by a user
+	// Récupère les tweets postés par l'utilisateur et en rassemble toutes les
+	// informations (post, utilisateur) (voir la fonction getTweetData).
+	// Puis ajoute la liste de ces tweets à la variable contexte.
 	//------------------------------------------------------------------------------
 	private static function getTweetsPostedBy($context,$userId)
 	{
@@ -67,15 +82,6 @@ class mainController
 		$context->tweets = $tweets;
 	}
 
-	//------------------------------------------------------------------------------
-	// * Update navMenu view
-	//------------------------------------------------------------------------------
-	private static function updateNavMenu()
-	{
-		echo '<script>updateView("navMenu","#nav-menu");</script>';
-	}
-
-
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	// Non action -- FIN
 	// -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -93,7 +99,6 @@ class mainController
 
 		if(self::isUserLoged($context)) {
 			$context->isUserLoged = true;
-			// $context->identifiant = $context->getSessionAttribute('identifiant');
 		}
 
 		return __FUNCTION__ . context::SUCCESS;
@@ -101,6 +106,7 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * Index
+	// TODO : afficher une liste de tweets aléatoires.
 	//---------------------------------------------------------------------------
 	public static function index($request,$context)
 	{
@@ -108,7 +114,7 @@ class mainController
 	}
 
 	//---------------------------------------------------------------------------
-	// * Display users
+	// * View users
 	//---------------------------------------------------------------------------
 	public static function viewUsers($request, $context) {
 		$context->users = utilisateurTable::getUsers();
@@ -162,6 +168,8 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * Logout
+	// Supprime la session, met à jour le menu de navigation et redirige sur
+	// l'index.
 	//---------------------------------------------------------------------------
 	public static function logout($request,$context) {
 		$context->unsetSession();
@@ -194,6 +202,7 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * View profile
+	// Récupère les informations de l'utilisateurs ainsi que ses tweets.
 	//---------------------------------------------------------------------------
 	public static function viewProfile($request,$context)
 	{
@@ -210,7 +219,7 @@ class mainController
 			}
 		}
 
-		// Requête
+		// Recupère les données de l'utilisateur
 		$context->user = utilisateurTable::getUserByLogin($requestLogin);
 
 		// Impossible de trouver l'utilisateur avec l'identifiant indiqué
@@ -228,7 +237,7 @@ class mainController
 		// Si c'est le compte de l'utilisateur, affiche un lien vers l'action modifier profil
 		$context->isOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
 
-		// Affiche les tweets
+		// Récupère les tweets de l'utilisateur
 		self::getTweetsPostedBy($context,$context->user->id);
 
 		return __FUNCTION__ . context::SUCCESS;

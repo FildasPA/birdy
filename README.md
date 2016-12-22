@@ -7,6 +7,7 @@
 - [ ] connecter automatiquement l'utilisateur nouvellement inscrit? (contrôleur)
 - [ ] index: affichage de tweets aléatoires
 - [ ] voter pour un tweet
+- [ ] affichage du message d'alerte (alert-box). 3 niveaux d'alertes : bon (vert), avertissement (jaune/orange), erreur (rouge)
 
 ## Structure
 
