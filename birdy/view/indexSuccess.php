@@ -11,7 +11,7 @@
 </div>
 <!-- Liste des tweets -->
 <?php
-	if($context->tweets !== false) {
+	if(isset($context->tweets) && $context->tweets !== false) {
 		foreach($context->tweets as $tweet) {
 			include("viewTweetSuccess.php");
 		}

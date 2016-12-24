@@ -26,8 +26,7 @@ class mainController
 	private static function unconnectedError($context)
 	{
 		if(!self::isUserLoged($context)) {
-			$context->setSessionAttribute("error-message",
-			  ["error","Erreur: vous devez être connecté pour effectuer cette action!<br>"]);
+			$context->setErrorMessage("Erreur: vous devez être connecté pour effectuer cette action!");
 			// $context->redirect("birdy.php?action=login");
 			return true;
 		}
@@ -43,7 +42,15 @@ class mainController
 	//------------------------------------------------------------------------------
 	private static function updateNavMenu()
 	{
-		echo '<script>updateView("navMenu","#nav-menu");</script>';
+		echo '<script>updateView("_navMenu","#nav-menu");</script>';
+	}
+	//------------------------------------------------------------------------------
+	// * Update alertBox view
+	// Met à jour les messages d'alerte en Javascript.
+	//------------------------------------------------------------------------------
+	private static function updateAlertBox()
+	{
+		echo '<script>updateView("_alertBox","#alert-container");</script>';
 	}
 
 	//------------------------------------------------------------------------------
@@ -92,7 +99,7 @@ class mainController
 	// * Nav Menu
 	// Si l'utilisateur est authentifié, affiche son identifiant.
 	//---------------------------------------------------------------------------
-	public static function navMenu($request,$context)
+	public static function _navMenu($request,$context)
 	{
 		$context->identifiant = '';
 		$context->isUserLoged = false;
@@ -105,11 +112,34 @@ class mainController
 	}
 
 	//---------------------------------------------------------------------------
+	// * Alert box
+	//---------------------------------------------------------------------------
+	public static function _alertBox($request,$context)
+	{
+		// echo "<pre><h3>Session (controller, alertBox, 1)</h3>"; var_dump($_SESSION); echo "</pre>";
+		// $_SESSION['alert-message'] = "";
+		// echo "<pre><h3>Session (controller, alertBox, 2)</h3>"; var_dump($_SESSION); echo "</pre>";
+		$context->alertMessage = $context->getAlertMessage();
+
+		// echo "<pre><h3>alertMessage (controller, alertBox)</h3>"; var_dump($context->alertMessage); echo "</pre>";
+
+
+		return __FUNCTION__ . context::SUCCESS;
+	}
+
+	//---------------------------------------------------------------------------
 	// * Index
 	// TODO : afficher une liste de tweets aléatoires.
 	//---------------------------------------------------------------------------
 	public static function index($request,$context)
 	{
+		$context->setSessionAttribute("Message2","Message2");
+		$context->setSuccessMessage("Liste des utilisateurs");
+		// echo "<pre><h3>Session (index, controller, 1)</h3>"; var_dump($_SESSION); echo "</pre>";
+
+
+		// echo "<pre><h3>Session (index, controller, 2)</h3>"; var_dump($_SESSION); echo "</pre>";
+
 		return __FUNCTION__ . context::SUCCESS;
 	}
 
@@ -117,6 +147,9 @@ class mainController
 	// * View users
 	//---------------------------------------------------------------------------
 	public static function viewUsers($request, $context) {
+
+		self::updateAlertBox();
+
 		$context->users = utilisateurTable::getUsers();
 
 		if(count($context->users) <= 0)
@@ -127,14 +160,11 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * Login - Formulaire de connexion
+	// Si l'utilisateur existe, met à jour le menu de navigation et redirige
+	// sur l'index.
 	//---------------------------------------------------------------------------
 	public static function login($request,$context)
 	{
-		// Informations à afficher sur la page
-		if($context->getSessionAttribute('alert-message'))
-			$context->alertMessage = $context->getSessionAttribute('alert-message');
-		else $context->alertMessage = '';
-
 		// Informations à insérer dans le formulaire
 		if(isset($request['login'])) $context->login = $request['login'];
 		else $context->login = "";
@@ -147,22 +177,17 @@ class mainController
 		if($formSent) {
 			$user = utilisateurTable::getUserByLoginAndPass($request['login'],$request['password'])[0];
 			if(empty($user) || $user === false)
-				// Définit un message d'erreur à afficher sur la page suivante ou la page actuelle
-				$context->alertMessage = "Erreur: login et/ou mot de passe erroné(s) !";
+				// L'utilisateur n'existe pas : définit un message d'erreur
+				$context->setErrorMessage("Erreur: login et/ou mot de passe erroné(s) !");
 			else {
-				// Connexion réussie: enregistre l'utilisateur en session &
-				// réinitialise le message d'erreur
+				// Connexion réussie : enregistre l'utilisateur en session
 				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
-				$context->setSessionAttribute('error-message','');
 				self::updateNavMenu();
 				return self::index($request,$context);
 			}
 		}
-		// Si le formulaire n'a pas été envoyé, réinitialise le message d'erreur
-		else {
-			$context->setSessionAttribute('error-message','');
-		}
+
 		return __FUNCTION__ . context::SUCCESS;
 	}
 
@@ -187,7 +212,7 @@ class mainController
 			if($context->user->register($request,$_FILES)) {
 				return self::index($request,$context);
 			} else {
-				echo "Echec de l'inscription<br>";
+				$context->setErrorMessage("Echec de l'inscription.");
 				$context->login     = $request['login'];
 				$context->name      = $request['name'];
 				$context->firstname = $request['firstname'];
@@ -214,7 +239,7 @@ class mainController
 				$requestLogin = $context->getSessionAttribute('identifiant');
 			}
 			else {
-				$context->errorMessage = "Erreur: Veuillez indiquer un login !";
+				$context->setErrorMessage("Erreur: aucun login indiqué !");
 				return __FUNCTION__ . context::ERROR;
 			}
 		}
@@ -224,14 +249,12 @@ class mainController
 
 		// Impossible de trouver l'utilisateur avec l'identifiant indiqué
 		if($context->user === false) {
-			$context->errorMessage = "Erreur: Aucun utilisateur avec ce pseudo !";
+			$context->setErrorMessage("Erreur: Aucun utilisateur avec ce pseudo !");
 			return __FUNCTION__ . context::ERROR;
 		}
 
 		// Liste des tweets
-
 		$context->isUserLoged = self::isUserLoged($context);
-		// $context->alertMessage = "Le tweet a bien été envoyé.";
 		$context->haveUserVoted = true;
 		$context->user = $context->user[0];
 		// Si c'est le compte de l'utilisateur, affiche un lien vers l'action modifier profil
@@ -245,7 +268,7 @@ class mainController
 
 	//---------------------------------------------------------------------------
 	// * Modify profile
-	// Nécessite d'être connecté
+	// Nécessite d'être connecté.
 	//---------------------------------------------------------------------------
 	public static function modifyProfile($request,$context)
 	{

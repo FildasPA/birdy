@@ -37,6 +37,7 @@ class context
 	public function init($name)
 	{
 		$this->name = $name;
+		// $this->setSessionAttribute("alert-message","");
 	}
 	//---------------------------------------------------------------------------
 	// * Get layout
@@ -113,5 +114,46 @@ class context
 	public function __set($prop,$value)
 	{
 		$this->data[$prop] = $value;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get alert message
+	// Supprime le message de la session avant de le renvoyer.
+	//---------------------------------------------------------------------------
+	public function getAlertMessage() {
+		$alertMessage = $this->getSessionAttribute("alert-message");
+		echo "<pre><h3>alertMessage (context,1)</h3>"; var_dump($alertMessage); echo "</pre>";
+		// $alertMessage = $alertMessage);
+		// $this->setSessionAttribute("alert-message","");
+		unset($_SESSION["alert-message"]);
+		echo "<pre><h3>alertMessage (context,2)</h3>"; var_dump($alertMessage); echo "</pre>";
+		return $alertMessage;
+	}
+
+	//------------------------------------------------------------------------------
+	// * Set success message
+	//------------------------------------------------------------------------------
+	public function setSuccessMessage($message) {
+		$alertMessage = array("type"    => "success",
+		                      "message" => $message);
+		$this->setSessionAttribute("alert-message",$alertMessage);
+	}
+
+	//------------------------------------------------------------------------------
+	// * Set warning message
+	//------------------------------------------------------------------------------
+	public function setWarningMessage($message) {
+		$alertMessage = array("type"    => "warning",
+		                      "message" => $message);
+		$this->setSessionAttribute("alert-message",$alertMessage);
+	}
+
+	//------------------------------------------------------------------------------
+	// * Set error message
+	//------------------------------------------------------------------------------
+	public function setErrorMessage($message) {
+		$alertMessage = array("type"    => "error",
+		                      "message" => $message);
+		$this->setSessionAttribute("alert-message",$alertMessage);
 	}
 }

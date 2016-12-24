@@ -6,7 +6,7 @@
 // Exécute l'action navMenu & inclut la vue.
 //=============================================================================
 
-$actionNav = "navMenu";
+$actionNav = "_navMenu";
 
 $viewNav = $context->executeAction($actionNav,$_REQUEST);
 

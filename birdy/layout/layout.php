@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<?php include("navMenu.php"); ?>
-		<?php include("alertBox.php"); ?>
+		<div id="alert-container"></div>
 		<div id="container">
 			<?php include($template_view); ?>
 		</div>

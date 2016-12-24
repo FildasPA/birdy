@@ -3,9 +3,10 @@
 // * Recharge la sous-vue principale
 // ----------------------------------------------------------------------------
 // Récupère l'action (ainsi que les paramètres) se trouvant dans l'attribut
-// 'href', puis recharge la sous-vue principale dans '#container'.
+// 'href' de l'élément courant, puis recharge la sous-vue principale dans
+// l'élément #container'.
 //=============================================================================
-function updateViews() {
+function updateMainView() {
 	updateView(this.getAttribute("href"),"#container");
 	return false;
 }
@@ -13,11 +14,12 @@ function updateViews() {
 //=============================================================================
 // * Recharge la vue principale quand l'utilisateur clique sur un lien interne
 // ----------------------------------------------------------------------------
-// Place un gestionnaire d'évènement 'click' appelant la fonction 'updateViews'
-// sur chaque lien (<a>) ayant pour classe 'ajax-nav'.
+// Place un gestionnaire d'évènement sur chaque lien interne.
+// Lorsque l'utilisateur clique, appelle la fonction 'updateMainView'.
+// (Les liens internes sont identifiés à l'aide de la classe 'ajax-nav'.)
 //=============================================================================
 $(document).ready(function(){
-	$('a.ajax-nav').click(updateViews);
+	$('a.ajax-nav').click(updateMainView);
 });
 
 //=============================================================================
@@ -43,7 +45,7 @@ function updateView(action,content) {
 		if (this.readyState == 4 && this.status == 200) {
 			$(content).load(address);
 			$(document).off('click','a.ajax-nav');
-			$(document).on('click','a.ajax-nav',updateViews);
+			$(document).on('click','a.ajax-nav',updateMainView);
 		}
 	};
 	xhttp.open("GET",address,true); // requête GET asynchrone
