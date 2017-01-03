@@ -8,6 +8,7 @@
 - [ ] index: affichage de tweets aléatoires
 - [ ] voter pour un tweet
 - [ ] affichage du message d'alerte (alert-box). 3 niveaux d'alertes : bon (vert), avertissement (jaune/orange), erreur (rouge)
+- [ ] enregistrer la bonne adresse de l'avatar (et des autres fichiers envoyés par l'utilisateur)
 
 ## Structure
 

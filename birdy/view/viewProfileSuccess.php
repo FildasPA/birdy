@@ -15,7 +15,7 @@
 			<img id="user-avatar-image" src="<?php echo $context->user->avatar; ?>">
 		</div>
 		<div class="info-element">
-			<?php if($context->isOwner) { ?>
+			<?php if($context->isProfileOwner) { ?>
 				<a class="ajax-nav" href="modifyProfile">Modifier profil</a>
 			<?php	}	?>
 		</div>

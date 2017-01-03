@@ -27,7 +27,6 @@ class mainController
 	{
 		if(!self::isUserLoged($context)) {
 			$context->setErrorMessage("Erreur: vous devez être connecté pour effectuer cette action!");
-			// $context->redirect("birdy.php?action=login");
 			return true;
 		}
 
@@ -181,6 +180,7 @@ class mainController
 				$context->setErrorMessage("Erreur: login et/ou mot de passe erroné(s) !");
 			else {
 				// Connexion réussie : enregistre l'utilisateur en session
+				// Met à jour le menu de navigation et redirige vers l'index
 				foreach($user->getData() as $key => $value)
 					$context->setSessionAttribute($key,$value);
 				self::updateNavMenu();
@@ -231,13 +231,13 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function viewProfile($request,$context)
 	{
-		// Login de l'utilisateur (défaut), ou erreur pas de login
+		// Si aucun login n'est indiqué, prend celui de l'utilisateur
+		// S'il n'est pas connecté, renvoie une erreur
 		if(!empty($request['login']))
 			$requestLogin = $request['login'];
 		else {
-			if(self::isUserLoged($context)) {
+			if(self::isUserLoged($context))
 				$requestLogin = $context->getSessionAttribute('identifiant');
-			}
 			else {
 				$context->setErrorMessage("Erreur: aucun login indiqué !");
 				return __FUNCTION__ . context::ERROR;
@@ -247,18 +247,16 @@ class mainController
 		// Recupère les données de l'utilisateur
 		$context->user = utilisateurTable::getUserByLogin($requestLogin);
 
-		// Impossible de trouver l'utilisateur avec l'identifiant indiqué
+		// Si aucun utilisateur n'est identifié, renvoie une erreur
 		if($context->user === false) {
 			$context->setErrorMessage("Erreur: Aucun utilisateur avec ce pseudo !");
 			return __FUNCTION__ . context::ERROR;
 		}
 
-		// Liste des tweets
-		$context->isUserLoged = self::isUserLoged($context);
-		$context->haveUserVoted = true;
 		$context->user = $context->user[0];
-		// Si c'est le compte de l'utilisateur, affiche un lien vers l'action modifier profil
-		$context->isOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
+
+		// Indique s'il s'agit du profil de l'utilisateur courant
+		$context->isProfileOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
 
 		// Récupère les tweets de l'utilisateur
 		self::getTweetsPostedBy($context,$context->user->id);
@@ -287,7 +285,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	// * Send tweet
 	// Nécessite d'être connecté.
-	// Envoi un tweet (associé à un poste).
+	// Ajoute un poste et l'associe à un tweet.
 	//---------------------------------------------------------------------------
 	public static function sendTweet($request, $context)
 	{
