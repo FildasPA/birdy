@@ -33,14 +33,18 @@ class tweetTable extends baseTable
 		return baseTable::getObject($sql,self::$objectType);
 	}
 
-
-	public static function send($id, $idPost) {
-
+	//---------------------------------------------------------------------------
+	// * Send tweet
+	// Ajoute un tweet dans la table.
+	//---------------------------------------------------------------------------
+	public static function send($senderId, $parentId, $postId)
+	{
 		$tweet = new tweet();
 
-		$tweet->emetteur = $tweet->parent = $id;
-		$tweet->post = $idPost;
-		$tweet->nbVotes = 0;
+		$tweet->emetteur = $senderId;
+		$tweet->parent   = $parentId;
+		$tweet->post     = $postId;
+		$tweet->nbVotes  = 0;
 
 		$tweet->save();
 	}

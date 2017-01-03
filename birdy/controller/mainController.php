@@ -285,35 +285,28 @@ class mainController
 	}
 
 	//---------------------------------------------------------------------------
-	// * sendTweet
-	// Nécessite d'être connecté, poste un tweet.
+	// * Send tweet
+	// Nécessite d'être connecté.
+	// Envoi un tweet (associé à un poste).
 	//---------------------------------------------------------------------------
-
-	public static function sendTweet($request, $context) {
-
+	public static function sendTweet($request, $context)
+	{
 		if(self::unconnectedError($context))
 			return login($request, $context);
 
-
 		$checkForm = ($_SERVER["REQUEST_METHOD"] == "POST" &&
-		!empty($request['tweetText']));
- 
+		              !empty($request['text']));
 
 		if($checkForm) {
+			$text  = $request['text'];
+			$media = isset($request['media']) ? $request['media'] : NULL;
 
-			// Appel de la fonction d'ecriture dans la table post et recupération de l'id du post
-			$idPost = postTable::send($request['tweetText'], $request['avatar']);
-			var_dump(intval($idPost));
-
-
-			// Appel de la fonction d'ecriture dans la table tweet avec l'id de l'utilisateur et du post récupéré
+			$idPost = postTable::send($text, $media);
 			tweetTable::send($context->getSessionAttribute('id'), $idPost);
+
+			return self::viewProfile($request, $context);
 		}
 
-
-		
 		return __FUNCTION__ . context::SUCCESS;
 	}
-
-
 }

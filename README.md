@@ -2,7 +2,7 @@
 
 ## TODO
 - [ ] bindparam (sécuriser les requêtes)
-- [ ] vue "Poster tweet" (vue + contrôleur + modèle)
+- [x] Poster tweet (vue + contrôleur + modèle)
 - [ ] modifier statut
 - [ ] connecter automatiquement l'utilisateur nouvellement inscrit? (contrôleur)
 - [ ] index: affichage de tweets aléatoires

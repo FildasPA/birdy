@@ -1,7 +1,7 @@
 <?php
 
 //=============================================================================
-// ▼ Table Post
+// ▼ Table post
 // ----------------------------------------------------------------------------
 //
 //=============================================================================
@@ -22,20 +22,20 @@ class postTable extends baseTable
 		return baseTable::getObject($sql,self::$objectType);
 	}
 
-
-	public static function send($text, $media) {
-
+	//---------------------------------------------------------------------------
+	// * Send post
+	// Insère le poste et retourne son id dans la table (ce qui permet de le
+	// lier à un tweet).
+	//---------------------------------------------------------------------------
+	public static function send($text, $media)
+	{
 		$post = new post();
 
 		$post->texte = $text;
 		$post->image = $media;
-
-		var_dump($post); echo "<br>";
+		$post->date  = new DateTime();
+		$post->date  = $post->date->format('Y-m-d H:i:s');
 
 		return $post->save();
 	}
-
 }
-
-
-?>
