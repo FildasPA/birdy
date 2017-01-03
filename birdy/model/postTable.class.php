@@ -21,6 +21,20 @@ class postTable extends baseTable
 
 		return baseTable::getObject($sql,self::$objectType);
 	}
+
+
+	public static function send($text, $media) {
+
+		$post = new post();
+
+		$post->texte = $text;
+		$post->image = $media;
+
+		var_dump($post); echo "<br>";
+
+		return $post->save();
+	}
+
 }
 
 

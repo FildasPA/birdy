@@ -273,7 +273,7 @@ class mainController
 	public static function modifyProfile($request,$context)
 	{
 		if(self::unconnectedError($context))
-			return login($request,$context);;
+			return login($request,$context);
 
 		$context->user = utilisateurTable::getUserByLogin($context->getSessionAttribute('identifiant'));
 
@@ -283,4 +283,37 @@ class mainController
 		$context->user = $context->user[0];
 		return __FUNCTION__ . context::SUCCESS;
 	}
+
+	//---------------------------------------------------------------------------
+	// * sendTweet
+	// Nécessite d'être connecté, poste un tweet.
+	//---------------------------------------------------------------------------
+
+	public static function sendTweet($request, $context) {
+
+		if(self::unconnectedError($context))
+			return login($request, $context);
+
+
+		$checkForm = ($_SERVER["REQUEST_METHOD"] == "POST" &&
+		!empty($request['tweetText']));
+ 
+
+		if($checkForm) {
+
+			// Appel de la fonction d'ecriture dans la table post et recupération de l'id du post
+			$idPost = postTable::send($request['tweetText'], $request['avatar']);
+			var_dump(intval($idPost));
+
+
+			// Appel de la fonction d'ecriture dans la table tweet avec l'id de l'utilisateur et du post récupéré
+			tweetTable::send($context->getSessionAttribute('id'), $idPost);
+		}
+
+
+		
+		return __FUNCTION__ . context::SUCCESS;
+	}
+
+
 }

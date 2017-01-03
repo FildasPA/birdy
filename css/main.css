@@ -412,3 +412,12 @@ form .error-message {
 	font-size: 0.8em;
 	color: #888;
 }
+
+/*********************/
+/* sendTweet form */
+/*********************/
+
+#text-form-element textarea {
+
+	resize: none;
+}
