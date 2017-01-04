@@ -12,9 +12,6 @@ $('form').submit(function(e)
 	$.post({
 		url:     address,
 		data:    formData,
-		success: function(page) {
-			$(content).html(page);
-			updateMainViewOnClick(content);
-		}
+		success: function(page){$(content).html(page);}
 	});
 });
