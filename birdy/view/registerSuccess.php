@@ -1,4 +1,4 @@
-<form id="form-inscription" name="inscription" method="POST" action="birdyAjax.php?action=register" enctype="multipart/form-data">
+<form id="form-inscription" name="inscription" method="POST" action="register" enctype="multipart/form-data">
 
 <h3>Inscription</h3>
 	<div id="wrap">
@@ -26,10 +26,11 @@
 		<div id="error-avatar" class="error-message"></div>
 	</div>
 	<div id="submit-element">
-		<input id="submit-button" class="button" name="valider" value="Inscription" onclick="sendForm()" onkeypress="sendForm()">
+		<input id="submit-button" class="button" type="submit" name="valider" value="Inscription">
 	</div>
 	</div>
 </form>
 
-<script type="text/javascript" src="js/checkInscriptionForm.js"></script>
+<!-- <script type="text/javascript" src="js/checkInscriptionForm.js"></script> -->
+<script type="text/javascript" src="js/submitForm.js"></script>
 
