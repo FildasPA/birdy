@@ -1,4 +1,4 @@
-<form id="form-modify-profile" name="modify-profile" method="POST" action="modify_profile.php" enctype="multipart/form-data">
+<form id="form-modify-profile" name="modify-profile" method="POST" action="modifyProfile" enctype="multipart/form-data">
 	<div id="user-profile">
 		<h3 style="text-align:left;">Profil de <?php echo $context->user->identifiant; ?></h3>
 		<div id="user-info-block">
@@ -45,3 +45,5 @@
 		</div>
 	</div>
 </form>
+
+<script type="text/javascript" src="js/submitForm.js"></script>

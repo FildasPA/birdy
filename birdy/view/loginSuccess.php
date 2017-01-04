@@ -1,4 +1,4 @@
-<form id="form-login" name="login" method="POST" action="birdy.php?action=login" enctype="multipart/form-data">
+<form id="form-login" name="login" method="POST" action="login" enctype="multipart/form-data">
 	<h3>Se connecter</h3>
 	<div id="wrap">
 		<div id="login-form-element">
@@ -20,4 +20,4 @@
 	</div>
 </form>
 
-<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/submitForm.js"></script>

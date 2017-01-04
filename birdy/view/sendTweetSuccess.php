@@ -1,6 +1,5 @@
-<form id="form-send-tweet" name="send-tweet" method="POST" action="birdyAjax.php?action=sendTweet" enctype="multipart/form-data">
-
-<h3>Poster un tweet</h3>
+<form id="form-send-tweet" name="send-tweet" method="POST" action="sendTweet" enctype="multipart/form-data">
+	<h3>Poster un tweet</h3>
 	<div id="wrap">
 	<div id="text-form-element">
 		<label>Texte du tweet</label>
@@ -18,3 +17,5 @@
 	</div>
 	</div>
 </form>
+
+<script type="text/javascript" src="js/submitForm.js"></script>
