@@ -9,7 +9,9 @@
 		<script type="text/javascript" src="js/updateView.js"></script>
 	</head>
 	<body>
-		<?php include("navMenu.php"); ?>
+		<div id="nav-menu">
+			<?php include("navMenu.php"); ?>
+		</div>
 		<div id="alert-container"></div>
 		<div id="container">
 			<?php include($template_view); ?>
