@@ -8,7 +8,7 @@
 //=============================================================================
 function updateMainView() {
 	updateView(this.getAttribute("href"),"#container");
-	return false;
+	return false; // Annule la redirection du lien
 }
 
 //=============================================================================
@@ -39,15 +39,9 @@ $(document).ready(function(){
 //=============================================================================
 function updateView(action,content) {
 	var address = "birdyAjax.php?action=" + action;
-	var xhttp;
-	xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			$(content).load(address);
-			$(document).off('click','a.ajax-nav');
-			$(document).on('click','a.ajax-nav',updateMainView);
-		}
-	};
-	xhttp.open("GET",address,true); // requête GET asynchrone
-	xhttp.send();
+	$.get(address,'false',function(data) {
+		$(content).load(address);
+		$(document).off('click','a.ajax-nav');
+		$(document).on('click','a.ajax-nav',updateMainView);
+	});
 }
