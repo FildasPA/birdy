@@ -298,9 +298,10 @@ class mainController
 		if($checkForm) {
 			$text  = $request['text'];
 			$media = isset($request['media']) ? $request['media'] : NULL;
+			$idUser = $context->getSessionAttribute('id');
 
 			$idPost = postTable::send($text, $media);
-			tweetTable::send($context->getSessionAttribute('id'), $idPost);
+			tweetTable::send($idUser, $idUser, intval($idPost));
 
 			return self::viewProfile($request, $context);
 		}
