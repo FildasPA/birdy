@@ -8,7 +8,7 @@
 class voteTable extends baseTable
 {
 	public static $objectType = "vote";
-	public static $tableName  = "vote";
+	public static $tableName  = "jabaianb.vote";
 
 	//---------------------------------------------------------------------------
 	// * Get post by user id and tweet id
@@ -22,6 +22,3 @@ class voteTable extends baseTable
 		return baseTable::getObject($sql,self::$objectType);
 	}
 }
-
-
-?>

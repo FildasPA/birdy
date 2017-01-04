@@ -9,6 +9,7 @@
 - [ ] voter pour un tweet
 - [ ] affichage du message d'alerte (alert-box). 3 niveaux d'alertes : bon (vert), avertissement (jaune/orange), erreur (rouge)
 - [ ] enregistrer la bonne adresse de l'avatar (et des autres fichiers envoyés par l'utilisateur)
+- [ ] corriger checkInscriptionForm.js et créer les scripts de vérification pour les autres formulaires
 
 ## Structure
 

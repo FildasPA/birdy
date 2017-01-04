@@ -207,21 +207,27 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function register($request,$context)
 	{
-		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$context->user = new utilisateur();
-			if($context->user->register($request,$_FILES)) {
-				return self::index($request,$context);
-			} else {
-				$context->setErrorMessage("Echec de l'inscription.");
-				$context->login     = $request['login'];
-				$context->name      = $request['name'];
-				$context->firstname = $request['firstname'];
-			}
-		} else {
-			$context->login     = '';
-			$context->name      = '';
-			$context->firstname = '';
-		}
+		echo "<pre><h3>Server</h3>"; var_dump($_SERVER); echo "</pre>";
+		// echo "<img src=\"images/avatars/Naruto.jpg\" style=\"max-width: 150px;max-height: 150px;\"></img>";
+		// echo "<pre><h3>Server name</h3>"; var_dump($_SERVER["SERVER_NAME"]); echo "</pre>";
+		// echo "<pre><h3>Request</h3>"; var_dump($request); echo "</pre>";
+		echo "<pre><h3>Post</h3>"; var_dump($_POST); echo "</pre>";
+		echo "<pre><h3>Files</h3>"; var_dump($_FILES); echo "</pre>";
+
+		// if($_SERVER['REQUEST_METHOD'] == "POST") {
+		// 	if(utilisateurTable::register($request,$_FILES)) {
+		// 		return self::index($request,$context);
+		// 	} else {
+		// 		$context->setErrorMessage("Echec de l'inscription.");
+		// 		$context->login     = $request['login'];
+		// 		$context->name      = $request['name'];
+		// 		$context->firstname = $request['firstname'];
+		// 	}
+		// } else {
+		// 	$context->login     = '';
+		// 	$context->name      = '';
+		// 	$context->firstname = '';
+		// }
 		return __FUNCTION__ . context::SUCCESS;
 	}
 

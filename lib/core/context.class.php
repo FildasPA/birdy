@@ -122,11 +122,11 @@ class context
 	//---------------------------------------------------------------------------
 	public function getAlertMessage() {
 		$alertMessage = $this->getSessionAttribute("alert-message");
-		echo "<pre><h3>alertMessage (context,1)</h3>"; var_dump($alertMessage); echo "</pre>";
+		// echo "<pre><h3>alertMessage (context,1)</h3>"; var_dump($alertMessage); echo "</pre>";
 		// $alertMessage = $alertMessage);
 		// $this->setSessionAttribute("alert-message","");
 		unset($_SESSION["alert-message"]);
-		echo "<pre><h3>alertMessage (context,2)</h3>"; var_dump($alertMessage); echo "</pre>";
+		// echo "<pre><h3>alertMessage (context,2)</h3>"; var_dump($alertMessage); echo "</pre>";
 		return $alertMessage;
 	}
 

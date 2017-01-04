@@ -8,8 +8,7 @@
 class vote extends basemodel
 {
 	//------------------------------------------------------------------------------
-	// * Cancel vote
-	// Annule un vote en mettant l'id utilisateur et l'id du message à 0.
+	// * Annule un vote en mettant l'id de l'utilisateur et l'id du message à 0
 	//------------------------------------------------------------------------------
 	public function cancel()
 	{
@@ -17,5 +16,3 @@ class vote extends basemodel
 		$this->save();
 	}
 }
-
-?>

@@ -38,6 +38,22 @@ class tweet extends basemodel
 	{
 		return $this->nbvotes;
 	}
-}
 
-?>
+	//------------------------------------------------------------------------------
+	// * Augmenter le nombre de votes
+	//------------------------------------------------------------------------------
+	public function increaseVotes()
+	{
+		$this->nbVotes++;
+		$this->save();
+	}
+
+	//------------------------------------------------------------------------------
+	// * Diminuer le nombre de votes
+	//------------------------------------------------------------------------------
+	public function decreaseVotes()
+	{
+		$this->nbVotes--;
+		$this->save();
+	}
+}

@@ -7,46 +7,4 @@
 //=============================================================================
 class utilisateur extends basemodel
 {
-	//---------------------------------------------------------------------------
-	// * Copie l'avatar sur le serveur
-	//---------------------------------------------------------------------------
-	private function copy_avatar($url,$dest_file)
-	{
-		$dest_dir  = dirname(dirname(dirname(__FILE__))) . "/images/avatars/";
-		$dest_file = $dest_dir . $dest_file;
-		if(copy($url,$dest_file)) {
-			return true;
-		}	else {
-			echo "<p style='color:red;'>L'image n'a pas pu être ajoutée...</p>";
-			return false;
-		}
-	}
-
-	//---------------------------------------------------------------------------
-  // * Register
-  //---------------------------------------------------------------------------
-  public function register($request,$files)
-  {
-  	var_dump($this);
-		$this->data = array('nom'         => $request['name'],
-		                    'prenom'      => $request['firstname'],
-		                    'identifiant' => $request['login'],
-		                    'pass'        => sha1($request['password']));
-
-		// URL de l'image (serveur & upload)
-		$avatar_url     = $files['avatar']['tmp_name'];
-		$avatar_name    = $files['avatar']['name'];
-		$image_type     = substr($avatar_name,strrpos($avatar_name,"."));
-
-  	// Informations générales
-		$this->data['avatar'] = $this->data['identifiant'] . $image_type;
-
-		var_dump($this);
-
-		return (utilisateurTable::getUserByLogin($this->data['identifiant']) === false &&
-		        $this->save() != NULL &&
-		        $this->copy_avatar($avatar_url,$this->data['avatar']));
-	}
 }
-
-?>

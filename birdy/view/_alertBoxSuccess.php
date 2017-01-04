@@ -1,6 +1,6 @@
 <?php
-echo "<pre><h3>Session (view,alertBox)</h3>"; var_dump($_SESSION); echo "</pre>";
-echo "<pre><h3>Alert message (view)</h3>"; var_dump($context->alertMessage); echo "</pre>";
+// echo "<pre><h3>Session (view,alertBox)</h3>"; var_dump($_SESSION); echo "</pre>";
+// echo "<pre><h3>Alert message (view)</h3>"; var_dump($context->alertMessage); echo "</pre>";
  ?>
 
 <!-- <div class="" id="alert-box"> -->

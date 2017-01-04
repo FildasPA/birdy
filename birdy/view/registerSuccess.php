@@ -4,18 +4,18 @@
 	<div id="wrap">
 	<div id="login-form-element">
 		<label>Pseudo</label>
-		<input id="login" name="login" type="text/html" placeholder="Pseudo" onblur="checkLogin()" value="<?php echo $context->login; ?>">
+		<input id="login" name="login" type="text/html" placeholder="Pseudo" onblur="checkLogin()" value="mdr">
 		<div id="error-login" class="error-message"></div>
 	</div>
 	<div id="password-form-element">
 		<label>Mot de passe</label>
-		<input id="password" name="password" type="password" placeholder="Mot de passe" onblur="checkPassword()">
+		<input id="password" name="password" type="password" placeholder="Mot de passe" onblur="checkPassword()" value="123">
 		<div id="error-password" class="error-message"></div>
 	</div>
 	<div id="name-form-element">
 		<label>Identité</label>
-		<input id="firstname" name="firstname" type="text/html" placeholder="Prénom" onblur="checkFirstname()" value="<?php echo $context->firstname; ?>">
-		<input id="name" name="name" type="text/html" placeholder="Nom" onblur="checkName()" value="<?php echo $context->name; ?>">
+		<input id="firstname" name="firstname" type="text/html" placeholder="Prénom" onblur="checkFirstname()" value="lol">
+		<input id="name" name="name" type="text/html" placeholder="Nom" onblur="checkName()" value="xd">
 		<div id="error-firstname" class="error-message"></div>
 		<div id="error-name" class="error-message"></div>
 	</div>
