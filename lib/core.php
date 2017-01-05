@@ -10,5 +10,3 @@ function autoloadClassModel($class) {
 	require_once $nameApp . '/model/' . $class . '.class.php';
 }
 spl_autoload_register('autoloadClassModel');
-
-?>
