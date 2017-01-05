@@ -58,21 +58,6 @@ class utilisateurTable extends baseTable
 	}
 
 	//---------------------------------------------------------------------------
-	// * Copie l'avatar sur le serveur
-	//---------------------------------------------------------------------------
-	private static function copy_avatar($url,$dest_file)
-	{
-		$dest_dir  = dirname(dirname(dirname(__FILE__))) . "/images/avatars/";
-		$dest_file = $dest_dir . $dest_file;
-		if(copy($url,$dest_file)) {
-			return true;
-		}	else {
-			echo "<p style='color:red;'>L'image n'a pas pu être ajoutée...</p>";
-			return false;
-		}
-	}
-
-	//---------------------------------------------------------------------------
   // * Register
   // Vérifie qu'aucun utilisateur existant ne possède l'identifiant souhaité,
   // puis enregistre l'utilisateur dans la table ainsi que son avatar (dans le
@@ -87,18 +72,35 @@ class utilisateurTable extends baseTable
   	$user->identifiant = $request['login'];
   	$user->pass        = sha1($request['password']);
 
-		// URL de l'image (serveur & upload)
-		$avatar_url     = $files['avatar']['tmp_name'];
-		$avatar_name    = $files['avatar']['name'];
-		$image_type     = substr($avatar_name,strrpos($avatar_name,"."));
+		if(isset($files) && isset($files['avatar']))
+			$user->avatar = self::uploadAvatar($files['avatar'],$user->identifiant);
 
-		$user->avatar = $user->identifiant . $image_type;
+		if(utilisateurTable::getUserByLogin($user->identifiant) === false &&
+		   $user->save())
+			return $user;
 
-		echo "<pre><h3>Files</h3>"; var_dump($files); echo "</pre>";
-		echo "<pre><h3>User</h3>"; var_dump($user); echo "</pre>";
+		return false;
+	}
 
-		// return (utilisateurTable::getUserByLogin($user->identifiant) === false &&
-		        // $user->save() != NULL &&
-		        // copy_avatar($avatar_url,$user->avatar));
+	//------------------------------------------------------------------------------
+	// * Upload avatar
+	//------------------------------------------------------------------------------
+	public static function uploadAvatar($file,$userLogin) {
+		$avatar_tmp  = $file['tmp_name'];
+		$avatar_name = $file['name'];
+		$image_type  = substr($avatar_name,strrpos($avatar_name,"."));
+		$avatar_url  = $_SERVER["DOCUMENT_ROOT"] . "/Projets/birdy/images/avatars/";
+		$avatar_url .= $userLogin . $image_type;
+
+		// Pour le serveur pedago (peu importe la session utilisateur) :
+		// $avatar  = $_SERVER["REQUEST_SCHEME"] . $_SERVER["SERVER_NAME"] . $_SERVER["CONTEXT_PREFIX"];
+		// Localhost :
+		$avatar  = "http://" . $_SERVER["HTTP_HOST"] . "/Projets/birdy";
+
+		$avatar .= "/images/avatars/" . $userLogin . $image_type;
+
+		move_uploaded_file($avatar_tmp,$avatar_url);
+
+		return $avatar;
 	}
 }
