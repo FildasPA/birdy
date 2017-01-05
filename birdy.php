@@ -7,6 +7,7 @@ if(key_exists("action",$_REQUEST))
 	$action = $_REQUEST['action'];
 
 require_once 'lib/core.php';
+require_once $nameApp.'/controller/protectedMethods.php';
 require_once $nameApp.'/controller/mainController.php';
 session_start();
 

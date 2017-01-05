@@ -7,6 +7,7 @@ if(key_exists("action",$_REQUEST))
 	$action = $_REQUEST['action'];
 
 require_once 'lib/core.php';
+require_once $nameApp.'/controller/protectedMethods.php';
 require_once $nameApp.'/controller/mainController.php';
 session_start();
 
@@ -16,7 +17,7 @@ $context->init($nameApp);
 $view = $context->executeAction($action,$_REQUEST);
 
 if($view === false) {
-	echo "Erreur: l'action " . $action . " n'existe peut-être pas";
+	echo "<p style=\"color:red;\">Erreur: l'action <b>" . $action . "</b> n'existe peut-être pas.</p>";
 	die;
 }
 else if($view != context::NONE) {

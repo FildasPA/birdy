@@ -7,93 +7,6 @@
 //=============================================================================
 class mainController
 {
-	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	// Non actions -- DEBUT
-	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-	//---------------------------------------------------------------------------
-	// * Is user loged
-	//---------------------------------------------------------------------------
-	private static function isUserLoged($context)
-	{
-		return (!empty($context->getSessionAttribute('nom')));
-	}
-
-	//---------------------------------------------------------------------------
-	// * Unconnected error
-	// Si l'utilisateur n'est pas connecté, redirige sur la page de connexion.
-	//---------------------------------------------------------------------------
-	private static function unconnectedError($context)
-	{
-		if(!self::isUserLoged($context)) {
-			$context->setErrorMessage("Erreur: vous devez être connecté pour effectuer cette action!");
-			return true;
-		}
-
-		return false;
-	}
-
-	//------------------------------------------------------------------------------
-	// * Update navMenu view
-	// Met à jour le menu de navigation en Javascript.
-	// Permet à certaines actions de le mettre à jour de manière spécifique (par
-	// exemple lors de la connexion, déconnexion, etc.)
-	//------------------------------------------------------------------------------
-	private static function updateNavMenu()
-	{
-		echo '<script>updateView("_navMenu","#nav-menu");</script>';
-	}
-	//------------------------------------------------------------------------------
-	// * Update alertBox view
-	// Met à jour les messages d'alerte en Javascript.
-	//------------------------------------------------------------------------------
-	private static function updateAlertBox()
-	{
-		echo '<script>updateView("_alertBox","#alert-container");</script>';
-	}
-
-	//------------------------------------------------------------------------------
-	// * Get tweet data
-	// Récupère les données (objets utilisateur, post, ...) associés au tweet.
-	//------------------------------------------------------------------------------
-	private static function getTweetData($tweet) {
-		$tweet->parent     = $tweet->getParent();
-		$tweet->emetteur   = $tweet->getSender();
-		$tweet->post       = $tweet->getPost();
-		$tweet->post->date = new DateTime($tweet->post->date);
-		$tweet->post->date = $tweet->post->date->format('d/m/Y');
-		return $tweet;
-	}
-
-	//------------------------------------------------------------------------------
-	// * Get tweets posted by a user
-	// Récupère les tweets postés par l'utilisateur et en rassemble toutes les
-	// informations (post, utilisateur) (voir la fonction getTweetData).
-	// Puis ajoute la liste de ces tweets à la variable contexte.
-	//------------------------------------------------------------------------------
-	private static function getTweetsPostedBy($context,$userId)
-	{
-		$listTweets = tweetTable::getTweetsPostedBy($context->user->id);
-
-		if($listTweets === false) {
-			$context->tweets = false;
-			return;
-		}
-
-		$tweets = array();
-
-		foreach($listTweets as $tweet)
-			array_push($tweets,self::getTweetData($tweet));
-
-		$context->tweets = $tweets;
-	}
-
-	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	// Non action -- FIN
-	// -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-	// Actions -- DEBUT
-	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
 	//---------------------------------------------------------------------------
 	// * Nav Menu
 	// Si l'utilisateur est authentifié, affiche son identifiant.
@@ -103,7 +16,7 @@ class mainController
 		$context->identifiant = '';
 		$context->isUserLoged = false;
 
-		if(self::isUserLoged($context)) {
+		if(protectedMethods::isUserLoged($context)) {
 			$context->isUserLoged = true;
 		}
 
@@ -146,7 +59,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function viewUsers($request, $context) {
 
-		self::updateAlertBox();
+		protectedMethods::updateAlertBox();
 
 		$context->users = utilisateurTable::getUsers();
 
@@ -163,10 +76,6 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function login($request,$context)
 	{
-		// Informations à insérer dans le formulaire
-		if(isset($request['login'])) $context->login = $request['login'];
-		else $context->login = "";
-
 		// Vérifie si le formulaire a été envoyé
 		$formSent = ($_SERVER['REQUEST_METHOD'] == "POST" &&
 		             !empty($request['login']) && !empty($request['password']));
@@ -178,14 +87,14 @@ class mainController
 				// L'utilisateur n'existe pas : définit un message d'erreur
 				$context->setErrorMessage("Erreur: login et/ou mot de passe erroné(s) !");
 			else {
-				// Connexion réussie : enregistre l'utilisateur en session
-				// Met à jour le menu de navigation et redirige vers l'index
-				foreach($user->getData() as $key => $value)
-					$context->setSessionAttribute($key,$value);
-				self::updateNavMenu();
-				return self::index($request,$context);
+				// Connexion réussie
+				return protectedMethods::logUser($request,$context,$user);
 			}
 		}
+
+		// Informations à insérer dans le formulaire
+		if(isset($request['login'])) $context->login = $request['login'];
+		else $context->login = "";
 
 		return __FUNCTION__ . context::SUCCESS;
 	}
@@ -197,7 +106,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function logout($request,$context) {
 		$context->unsetSession();
-		self::updateNavMenu();
+		protectedMethods::updateNavMenu();
 		return self::index($request,$context);
 	}
 
@@ -205,19 +114,15 @@ class mainController
 	// * Register
 	// Vérifie si le formulaire a été envoyé.
 	// Si c'est le cas, essaie d'enregistrer l'utilisateur.
-	// Si l'opération réussit, enregistre l'utilisateur en session et le
-	// redirige vers l'index.
+	// Si l'opération réussit, le connecte automatiquement.
 	//---------------------------------------------------------------------------
 	public static function register($request,$context)
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$user = utilisateurTable::register($request,$_FILES);
-			if($user !== false) {
-				foreach($user->getData() as $key => $value)
-					$context->setSessionAttribute($key,$value);
-				self::updateNavMenu();
-				return self::index($request,$context);
-			} else {
+			$user = utilisateurTable::register($request,$_FILES['avatar']);
+			if($user !== false)
+				return protectedMethods::logUser($request,$context,$user);
+			else {
 				$context->setErrorMessage("Echec de l'inscription.");
 				$context->login     = $request['login'];
 				$context->name      = $request['name'];
@@ -242,7 +147,7 @@ class mainController
 		if(!empty($request['login']))
 			$requestLogin = $request['login'];
 		else {
-			if(self::isUserLoged($context))
+			if(protectedMethods::isUserLoged($context))
 				$requestLogin = $context->getSessionAttribute('identifiant');
 			else {
 				$context->setErrorMessage("Erreur: aucun login indiqué !");
@@ -261,11 +166,15 @@ class mainController
 
 		$context->user = $context->user[0];
 
+		if(!$context->user->avatar) {
+			$context->user->avatar = "images/default.jpg";
+		}
+
 		// Indique s'il s'agit du profil de l'utilisateur courant
 		$context->isProfileOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
 
 		// Récupère les tweets de l'utilisateur
-		self::getTweetsPostedBy($context,$context->user->id);
+		protectedMethods::getTweetsPostedBy($context,$context->user->id);
 
 		return __FUNCTION__ . context::SUCCESS;
 	}
@@ -276,7 +185,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function modifyProfile($request,$context)
 	{
-		if(self::unconnectedError($context))
+		if(protectedMethods::unconnectedError($context))
 			return login($request,$context);
 
 		$context->user = utilisateurTable::getUserByLogin($context->getSessionAttribute('identifiant'));
@@ -295,7 +204,7 @@ class mainController
 	//---------------------------------------------------------------------------
 	public static function sendTweet($request, $context)
 	{
-		if(self::unconnectedError($context))
+		if(protectedMethods::unconnectedError($context))
 			return login($request, $context);
 
 		$checkForm = ($_SERVER["REQUEST_METHOD"] == "POST" &&
