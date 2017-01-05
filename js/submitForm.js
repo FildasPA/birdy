@@ -1,29 +1,20 @@
 //-----------------------------------------------------------------------------
 // * Envoie le formulaire en AJAX et recharge la vue principale
 //-----------------------------------------------------------------------------
-$('form').submit(function(e)
+function submitForm(form)
 {
-	e.preventDefault();
-
 	var content  = '#container';
-	var address  = "birdyAjax.php?action=" + $(this).attr('action');
+	var address  = "birdyAjax.php?action=" + form.attr('action');
 
+	// Add form data & files
 	var formData = new FormData();
-	// alert($('#avatar')[0].files[0]);
-	console.log($('#avatar')[0].files[0]);
-	formData.append('avatar',$('#avatar')[0].files[0]);
-	console.log(formData);
-	// alert(formData.getAll('avatar').getAsText());
-	// alert(charge.readAsText(formData.getAll('avatar')));
-	// alert(this);
-	// formData.append('info',$(this).serialize());
-	var other_data = $(this).serializeArray();
-	// alert(other_data);
-	$.each(other_data,function(key,input){
+	$.each(form.serializeArray(),function(key,input){
 		formData.append(input.name,input.value);
 	});
-
-	// // alert("formData",formData);
+	if($('#avatar').length) {
+		console.log("avatar!");
+		formData.append('avatar',$('#avatar')[0].files[0]);
+	}
 
 	$.post({
 		url:     address,
@@ -32,4 +23,16 @@ $('form').submit(function(e)
 		contentType: false,
 		success: function(page){$(content).html(page);}
 	});
+}
+
+//-----------------------------------------------------------------------------
+// * Envoie le formulaire en AJAX et recharge la vue principale
+//-----------------------------------------------------------------------------
+$('form').submit(function(e)
+{
+	e.preventDefault();
+	submitForm($(this));
 });
+
+
+
