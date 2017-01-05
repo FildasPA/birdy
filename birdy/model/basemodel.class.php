@@ -15,8 +15,7 @@ abstract class basemodel
 	function __construct($tab = null) {
 		if(!empty($tab))
 			foreach($tab as $att => $value)
-				if($att != 'id' && $value)
-					$this->$att = $value;
+				$this->$att = $value;
 	}
 
 	//---------------------------------------------------------------------------
@@ -61,7 +60,7 @@ abstract class basemodel
 		$connection = new dbconnection();
 
 		// UPDATE
-		if(!empty($this->id)) {
+		if($this->id) {
 			$sql  = "UPDATE jabaianb." . get_class($this) ." SET ";
 
 			$set = array();
@@ -84,8 +83,10 @@ abstract class basemodel
 		}
 
 		$connection->doExec($sql);
-		$id = $connection->getLastInsertId(get_class($this));
 
-		return $id === false ? NULL : $id;
+		if(!$this->id)
+			$this->id = $connection->getLastInsertId(get_class($this));
+
+		return $this->id === false ? NULL : $this->id;
 	}
 }
