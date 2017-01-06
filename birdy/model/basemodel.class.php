@@ -83,9 +83,9 @@ abstract class basemodel
 		}
 
 		$connection->doExec($sql);
-
+		
 		if(!$this->id)
-			$this->id = $connection->getLastInsertId(get_class($this));
+			$this->id = $connection->getLastInsertId("jabaianb.".get_class($this));
 
 		return $this->id === false ? NULL : $this->id;
 	}

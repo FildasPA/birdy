@@ -26,7 +26,7 @@ class utilisateur extends basemodel
 		}	else { // Serveur pedago
 			$this->avatar  = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"];
 			$this->avatar .= $_SERVER["CONTEXT_PREFIX"];
-			$fileDestination = $_SERVER["CONTEXT_DOCUMENT_ROOT"];
+			$fileDestination = $_SERVER["CONTEXT_DOCUMENT_ROOT"] . "/";
 		}
 
 		$this->avatar    .= $avatarsFolder . $this->identifiant . $imageType;
