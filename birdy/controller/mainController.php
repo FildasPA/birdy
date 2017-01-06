@@ -32,10 +32,7 @@ class mainController
 		// $_SESSION['alert-message'] = "";
 		// echo "<pre><h3>Session (controller, alertBox, 2)</h3>"; var_dump($_SESSION); echo "</pre>";
 		$context->alertMessage = $context->getAlertMessage();
-
 		// echo "<pre><h3>alertMessage (controller, alertBox)</h3>"; var_dump($context->alertMessage); echo "</pre>";
-
-
 		return __FUNCTION__ . context::SUCCESS;
 	}
 
@@ -57,15 +54,11 @@ class mainController
 	//---------------------------------------------------------------------------
 	// * View users
 	//---------------------------------------------------------------------------
-	public static function viewUsers($request, $context) {
-
-		protectedMethods::updateAlertBox();
-
+	public static function viewUsers($request, $context)
+	{
 		$context->users = utilisateurTable::getUsers();
-
 		if(count($context->users) <= 0)
 			return __FUNCTION__ . context::ERROR;
-
 		return __FUNCTION__ . context::SUCCESS;
 	}
 
@@ -92,7 +85,7 @@ class mainController
 			}
 		}
 
-		// Informations à insérer dans le formulaire
+		// Informations à ré-insérer dans le formulaire
 		if(isset($request['login'])) $context->login = $request['login'];
 		else $context->login = "";
 
@@ -119,7 +112,7 @@ class mainController
 	public static function register($request,$context)
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$user = utilisateurTable::register($request,$_FILES['avatar']);
+			$user = utilisateurTable::register($request,$_FILES);
 			if($user !== false)
 				return protectedMethods::logUser($request,$context,$user);
 			else {
@@ -166,9 +159,7 @@ class mainController
 
 		$context->user = $context->user[0];
 
-		if(!$context->user->avatar) {
-			$context->user->avatar = "images/default.jpg";
-		}
+		protectedMethods::addModificationTimeToUserAvatarUrl($context->user);
 
 		// Indique s'il s'agit du profil de l'utilisateur courant
 		$context->isProfileOwner = ($requestLogin == $context->getSessionAttribute('identifiant'));
@@ -195,24 +186,25 @@ class mainController
 
 		$context->user = $context->user[0];
 
-		$checkform = ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($request['old-password']) 
-															|| !empty($request['firstname']) 
+		$checkform = ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($request['old-password'])
+															|| !empty($request['firstname'])
 															|| !empty($request['name'])));
 
 		if($checkform) {
-
 			$error = protectedMethods::checkModifyProfileInfo($context, $request);
 			if(!$error) {
 				$context->user->prenom = $request['firstname'];
 				$context->user->nom = $request['name'];
 				$context->user->statut= $request['statut'];
-			
+
 				if(isset($_FILES['avatar']))
-					$context->user->uploadAvatar($_FILES['avatar']);
-				
+					$context->user->uploadAvatar($_FILES);
+
 				$context->user->save();
 			}
 		}
+
+		protectedMethods::addModificationTimeToUserAvatarUrl($context->user);
 
 		return __FUNCTION__ . context::SUCCESS;
 	}

@@ -10,32 +10,35 @@ class utilisateur extends basemodel
 	//---------------------------------------------------------------------------
 	// * Upload avatar
 	// Enregistre l'image dans le dossier avatar et met à jour le champ avatar.
+	// Supprime l'ancien fichier s'il existe et est accessible en écriture.
 	// Le fichier prend pour nom identifiant.imageType
-	// Prend en charge l'opération sur le serveur pedago ou un serveur local.
+	// Prend en charge l'opération pour un serveur pedago ou un serveur local.
 	//---------------------------------------------------------------------------
-	public function uploadAvatar($file)
+	public function uploadAvatar($files)
 	{
-		$avatarsFolder = "images/avatars/";
-		$localhostProjectFolder = "/Projets/birdy/";
+		$file = $files['avatar'];
+		if(!$file) return;
 
 		$imageType = substr($file['name'],strrpos($file['name'],"."));
+		// TODO: vérifier le type de l'image
 
-		if($_SERVER["SERVER_NAME"] == "localhost") {
-			$this->avatar = "http://" . $_SERVER["HTTP_HOST"] . $localhostProjectFolder;
-			$fileDestination = $_SERVER["DOCUMENT_ROOT"]. $localhostProjectFolder;
-		}	else { // Serveur pedago
-			$this->avatar  = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"];
-			$this->avatar .= $_SERVER["CONTEXT_PREFIX"] . "/";
-			$fileDestination = $_SERVER["CONTEXT_DOCUMENT_ROOT"] . "/";
-		}
+		$path = "/images/avatars/" . $this->identifiant;
+		$fileDestination = protectedMethods::getServerRoot() . $path;
 
-		$this->avatar    .= $avatarsFolder . $this->identifiant . $imageType;
-		$fileDestination .= $avatarsFolder . $this->identifiant . $imageType;
+		// Supprime l'ancien fichier s'il existe
+		$oldFile  = $fileDestination;
+		$oldFile .= substr($this->avatar,strrpos($this->avatar,'.'));
+		if(file_exists($oldFile) && is_writable($oldFile))
+			unlink($oldFile);
+
+		$this->avatar = protectedMethods::getServerUrl() . $path;
+		$this->avatar    .= $imageType;
+		$this->save();
+
+		$fileDestination .= $imageType;
 
 		// echo "Avatar (url)<br>"; var_dump($fileDestination); echo "<br>";
-		// echo "Avatar (bdd)<br>"; var_dump($this->avatar);       echo "<br>";
-
-		$this->save();
+		// echo "Avatar (bdd)<br>"; var_dump($this->avatar); echo "<br>";
 
 		return move_uploaded_file($file['tmp_name'],$fileDestination);
 	}
