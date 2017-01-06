@@ -18,9 +18,12 @@ class utilisateurTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE identifiant='" . $login . "' AND pass='" . sha1($pass) . "'";
+		        WHERE identifiant=:identifiant AND pass=:pass";
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = [[':identifiant',$login,PDO::PARAM_STR],
+		               [':pass'       ,sha1($pass),PDO::PARAM_STR]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -30,9 +33,11 @@ class utilisateurTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE identifiant='" . $login . "'";
+		        WHERE identifiant=:identifiant";
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = [[':identifiant',$login,PDO::PARAM_STR]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -42,9 +47,11 @@ class utilisateurTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE id='" . $id . "'";
+		        WHERE id=:id";
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = [[':id',$id,PDO::PARAM_INT]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -55,7 +62,9 @@ class utilisateurTable extends baseTable
 		$sql = "SELECT *
 		        FROM " . self::$tableName;
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = NULL;
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -63,8 +72,9 @@ class utilisateurTable extends baseTable
 	// Vérifie qu'aucun utilisateur existant ne possède l'identifiant souhaité,
 	// puis enregistre l'utilisateur dans la table et enregistre son avatar (si
 	// une image a été envoyée).
+	// Renvoie un objet utilisateur si l'opération réussit, false sinon.
 	//---------------------------------------------------------------------------
-	public static function register($request,$avatarFile)
+	public static function register($request,$files)
 	{
 		$user = new utilisateur();
 
@@ -73,10 +83,9 @@ class utilisateurTable extends baseTable
 		$user->identifiant = $request['login'];
 		$user->pass        = sha1($request['password']);
 
-		if(utilisateurTable::getUserByLogin($user->identifiant) === false
-		 &&
+		if(utilisateurTable::getUserByLogin($user->identifiant) === false &&
 		   $user->save() !== NULL) {
-			if(isset($avatarFile) && !empty($avatarFile))
+			if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL)
 				$user->uploadAvatar($avatarFile);
 			return $user;
 		}

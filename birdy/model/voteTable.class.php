@@ -17,8 +17,11 @@ class voteTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE utilisateur='" . $userId . "' AND message='" . $tweetId . "'";
+		        WHERE utilisateur=':userId' AND message=':tweetId'";
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = [[":userId" ,$id,PDO::PARAM_INT],
+		               [":tweetId",$id,PDO::PARAM_INT]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 }

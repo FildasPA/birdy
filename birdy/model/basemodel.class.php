@@ -60,30 +60,29 @@ abstract class basemodel
 		$connection = new dbconnection();
 
 		// UPDATE
-		if($this->id) {
-			$sql  = "UPDATE jabaianb." . get_class($this) ." SET ";
-
+		if($this->id !== NULL) {
 			$set = array();
-			foreach($this->data as $att => $value)
-				if($att != 'id' && $value)
-					$set[] = "$att = '" . $value . "'";
+			foreach($this->data as $key => $value)
+				$set[] = "$key = :" . $key;
 
+			$sql  = "UPDATE jabaianb." . get_class($this) ." SET ";
 			$sql .= implode(",",$set);
-			$sql .= " WHERE id=" . $this->id;
+			$sql .= " WHERE id=:id";
 		}
-
 		// INSERT
 		else {
-			$keys   = implode(",",array_keys($this->data));
-			$values = implode("','",array_values($this->data));
+			$keys       = implode(",",array_keys($this->data));
+			$parameters = implode(",:",array_keys($this->data));
 
 			$sql  = "INSERT INTO jabaianb." . get_class($this) . " ";
 			$sql .= "(" . $keys . ") ";
-			$sql .= "VALUES ('" . $values ."')";
+			$sql .= "VALUES (:" . $parameters . ")";
 		}
 
-		$connection->doExec($sql);
-		
+		$prepared = $connection->prepare($sql);
+
+		$prepared->execute($this->data);
+
 		if(!$this->id)
 			$this->id = $connection->getLastInsertId("jabaianb.".get_class($this));
 

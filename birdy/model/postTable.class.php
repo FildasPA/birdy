@@ -17,9 +17,11 @@ class postTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE id='" . $id . "'";
+		        WHERE id=:id";
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = [[':id',$id,PDO::PARAM_INT]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------

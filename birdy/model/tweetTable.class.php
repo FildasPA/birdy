@@ -18,7 +18,9 @@ class tweetTable extends baseTable
 		$sql = "SELECT *
 		        FROM " . self::$tableName;
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = NULL;
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
@@ -28,9 +30,11 @@ class tweetTable extends baseTable
 	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        WHERE emetteur='" . $id . "'";
+		        WHERE emetteur=:id";
 
-		return baseTable::getObject($sql,self::$objectType);
+		$parameters = [[':id',$id,PDO::PARAM_INT]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------

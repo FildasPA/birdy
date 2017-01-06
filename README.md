@@ -1,7 +1,7 @@
 # Birdy
 
 ## TODO
-- [ ] bindparam (sécuriser les requêtes)
+- [x] bindparam (sécuriser les requêtes)
 - [x] Poster tweet (vue + contrôleur + modèle)
 - [ ] modifier statut
 - [x] connecter automatiquement l'utilisateur nouvellement inscrit? (contrôleur)
