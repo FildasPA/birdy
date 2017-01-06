@@ -100,10 +100,6 @@ class protectedMethods {
 			$context->error_msg['login'] = "Ce champ doit être rempli";
 			$error = true;
 		}
-		if(empty($request['statut'])) {
-			$context->error_msg['statut'] = "Ce champ doit être rempli";
-			$error = true;
-		}
 		if(empty($request['name'])) {
 			$context->error_msg['name'] = "Ce champ doit être rempli";
 			$error = true;

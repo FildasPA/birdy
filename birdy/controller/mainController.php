@@ -197,8 +197,7 @@ class mainController
 
 		$checkform = ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($request['old-password']) 
 															|| !empty($request['firstname']) 
-															|| !empty($request['name'])
-															|| !empty($request['avatar'])));
+															|| !empty($request['name'])));
 
 		if($checkform) {
 
@@ -208,7 +207,9 @@ class mainController
 				$context->user->nom = $request['name'];
 				$context->user->statut= $request['statut'];
 			
-				//$context->user->uploadAvatar($request['avatar']);
+				if(isset($_FILES['avatar']))
+					$context->user->uploadAvatar($_FILES['avatar']);
+				
 				$context->user->save();
 			}
 		}

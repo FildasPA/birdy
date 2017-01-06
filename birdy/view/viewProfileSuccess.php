@@ -1,17 +1,15 @@
 <!-- Informations utilisateur -->
 <div id="user-profile">
-	<h3>Profil de <?php echo $context->user->identifiant; ?> : <?php echo $context->user->statut; ?></h3>
+	<input id="login" name="login" type="text/html" placeholder="Tweeter quelque chose !">
+	<h3>@<?php echo $context->user->identifiant; ?> : <?php echo $context->user->statut; ?></h3>
 	<div id="user-info-block">
 		<div class="info-element">
-			<div class="info-label">Prénom:</div>
 			<div id="user-firstname"><?php echo $context->user->prenom; ?></div>
 		</div>
 		<div class="info-element">
-			<div class="info-label">Nom:</div>
 			<div id="user-name"><?php echo $context->user->nom; ?></div>
 		</div>
 		<div class="info-element">
-			<div class="info-label">Avatar:</div>
 			<img id="user-avatar-image" src="<?php echo $context->user->avatar; ?>">
 		</div>
 		<div class="info-element">
