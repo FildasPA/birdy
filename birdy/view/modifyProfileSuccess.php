@@ -1,6 +1,6 @@
 <form id="form-modify-profile" name="modify-profile" method="POST" action="modifyProfile" enctype="multipart/form-data">
 	<div id="user-profile">
-		<h3 style="text-align:left;">Profil de <?php echo $context->user->identifiant; ?></h3>
+		<h3>Profil de <?php echo $context->user->identifiant; ?> : <?php echo $context->user->statut; ?></h3>
 		<div id="user-info-block">
 			<div class="info-element">
 				<div class="info-label">Login:</div>
@@ -9,6 +9,12 @@
 					<div id="error-login" class="error-message"><?php echo $context->error_msg['identifiant']; ?></div>
 				</div>
 			</div>
+			<div class="info-element">
+				<div class="info-label">Modifier le statut:</div>
+				<div id="user-statut">
+					<input id="statut" name="statut" type="text/html" maxlength="40" placeholder="Nouveau statut">
+					<div id="error-statut" class="error-message"><?php echo $error_msg['statut']; ?></div>
+				</div>
 			<div class="info-element">
 				<div class="info-label">Modifier le mot de passe:</div>
 				<div id="user-login">

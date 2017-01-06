@@ -206,6 +206,7 @@ class mainController
 			if(!$error) {
 				$context->user->prenom = $request['firstname'];
 				$context->user->nom = $request['name'];
+				$context->user->statut= $request['statut'];
 			
 				//$context->user->uploadAvatar($request['avatar']);
 				$context->user->save();

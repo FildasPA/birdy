@@ -1,6 +1,6 @@
 <!-- Informations utilisateur -->
 <div id="user-profile">
-	<h3>Profil de <?php echo $context->user->identifiant; ?></h3>
+	<h3>Profil de <?php echo $context->user->identifiant; ?> : <?php echo $context->user->statut; ?></h3>
 	<div id="user-info-block">
 		<div class="info-element">
 			<div class="info-label">Prénom:</div>
