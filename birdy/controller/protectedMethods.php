@@ -66,8 +66,10 @@ class protectedMethods {
 		$tweet->parent     = $tweet->getParent();
 		$tweet->emetteur   = $tweet->getSender();
 		$tweet->post       = $tweet->getPost();
-		$tweet->post->date = new DateTime($tweet->post->date);
-		$tweet->post->date = $tweet->post->date->format('d/m/Y');
+		if($tweet->post) {
+			$tweet->post->date = new DateTime($tweet->post->date);
+			$tweet->post->date = $tweet->post->date->format('d/m/Y');
+		}
 		return $tweet;
 	}
 
@@ -94,7 +96,66 @@ class protectedMethods {
 		$context->tweets = $tweets;
 	}
 
-	public static function checkModifyProfileInfo($context, $request) {
+	//------------------------------------------------------------------------------
+	// * Get server url
+	//------------------------------------------------------------------------------
+	public static function getServerUrl()
+	{
+		// Localhost
+		if($_SERVER["SERVER_NAME"] == "localhost")
+			return "http://" . $_SERVER["HTTP_HOST"] . "/Projets/birdy";
+		// Serveur pedago
+		else
+			return $_SERVER["REQUEST_SCHEME"] . "://" .
+			       $_SERVER["SERVER_NAME"] . $_SERVER["CONTEXT_PREFIX"];
+	}
+
+	//------------------------------------------------------------------------------
+	// * Get server root
+	//------------------------------------------------------------------------------
+	public static function getServerRoot()
+	{
+		// Localhost
+		if($_SERVER["SERVER_NAME"] == "localhost")
+			return $_SERVER["DOCUMENT_ROOT"] . "/Projets/birdy";
+		// Serveur pedago
+		else
+			return $_SERVER["CONTEXT_DOCUMENT_ROOT"];
+	}
+
+	//------------------------------------------------------------------------------
+	// * Get file modification time
+	//------------------------------------------------------------------------------
+	public static function getFileModificationTime($fileUrl)
+	{
+		$file  = self::getServerRoot();
+		$file .= substr($fileUrl,strlen(self::getServerUrl()));
+		return filemtime($file);
+	}
+
+	//------------------------------------------------------------------------------
+	// * Add modification time to user avatar url
+	// Ajoute la date de dernière modification de l'avatar de l'utilisateur
+	// après son url. Permet de rafraîchir l'image côté client après que le fichier
+	// ait été modifié (après une modification de l'avatar notamment). En effet,
+	// le nom du fichier ne change pas forcément (identifiant.imagetype), donc
+	// l'image n'est pas systématiquement re-téléchargée en AJAX.
+	//------------------------------------------------------------------------------
+	public static function addModificationTimeToUserAvatarUrl($user) {
+		if(!$user->avatar)
+			$user->avatar = "images/default.jpg";
+		else
+			$user->avatar .= '?=' . self::getFileModificationTime($user->avatar);
+	}
+
+	//------------------------------------------------------------------------------
+	// * Check modify profile info
+	// Vérifie si les informations du formulaires sont correctement remplies.
+	// Renvoie vrai si une erreur a été détectée. (peut-être faudrait-il inverser
+	// ou modifier le nom de la fonction)
+	//------------------------------------------------------------------------------
+	public static function checkModifyProfileInfo($context, $request)
+	{
 		$error = false;
 		if(empty($request['login'])) {
 			$context->error_msg['login'] = "Ce champ doit être rempli";
@@ -131,5 +192,4 @@ class protectedMethods {
 
 		return $error;
 	}
-
 }
