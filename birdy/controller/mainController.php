@@ -194,6 +194,24 @@ class mainController
 			return __FUNCTION__ . context::ERROR;
 
 		$context->user = $context->user[0];
+
+		$checkform = ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($request['old-password']) 
+															|| !empty($request['firstname']) 
+															|| !empty($request['name'])
+															|| !empty($request['avatar'])));
+
+		if($checkform) {
+
+			$error = protectedMethods::checkModifyProfileInfo($context, $request);
+			if(!$error) {
+				$context->user->prenom = $request['firstname'];
+				$context->user->nom = $request['name'];
+			
+				//$context->user->uploadAvatar($request['avatar']);
+				$context->user->save();
+			}
+		}
+
 		return __FUNCTION__ . context::SUCCESS;
 	}
 

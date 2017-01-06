@@ -93,4 +93,43 @@ class protectedMethods {
 
 		$context->tweets = $tweets;
 	}
+
+	public static function checkModifyProfileInfo($context, $request) {
+		$error = false;
+		if(empty($request['login'])) {
+			$context->error_msg['login'] = "Ce champ doit être rempli";
+			$error = true;
+		}
+		if(empty($request['name'])) {
+			$context->error_msg['name'] = "Ce champ doit être rempli";
+			$error = true;
+		}
+		if(empty($request['firstname'])) {
+			$context->error_msg['firstname'] = "Ce champ doit être rempli";
+			$error = true;
+		}
+		if(empty($request['old-password']) && !empty($request['password'])) {
+			$context->error_msg['old-password'] = "Pour changer de mot de passe, veuillez indiquer votre mot de passe actuel";
+			$error = true;
+		}
+		if(strlen($request['login']) > 15) {
+			$context->error_msg['login'] = "Le login ne peut dépasser 15 caractères";
+			$error = true;
+		}
+		if(strlen($request['name']) > 15) {
+			$context->error_msg['name'] = "Le nom ne peut dépasser 15 caractères";
+			$error = true;
+		}
+		if(strlen($request['firstname']) > 15) {
+			$context->error_msg['firstname'] = "Le prénom ne peut dépasser 15 caractères";
+			$error = true;
+		}
+		if(isset($request['password']) && strlen($request['password']) > 32) {
+			$context->error_msg['old-password'] = "Le mot de passe ne peut dépasser 32 caractères";
+			$error = true;
+		}
+
+		return $error;
+	}
+
 }
