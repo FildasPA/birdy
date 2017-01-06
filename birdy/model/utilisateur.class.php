@@ -25,7 +25,7 @@ class utilisateur extends basemodel
 			$fileDestination = $_SERVER["DOCUMENT_ROOT"]. $localhostProjectFolder;
 		}	else { // Serveur pedago
 			$this->avatar  = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"];
-			$this->avatar .= $_SERVER["CONTEXT_PREFIX"];
+			$this->avatar .= $_SERVER["CONTEXT_PREFIX"] . "/";
 			$fileDestination = $_SERVER["CONTEXT_DOCUMENT_ROOT"] . "/";
 		}
 
@@ -33,7 +33,7 @@ class utilisateur extends basemodel
 		$fileDestination .= $avatarsFolder . $this->identifiant . $imageType;
 
 		// echo "Avatar (url)<br>"; var_dump($fileDestination); echo "<br>";
-		// echo "Avatar (bdd)<br>"; var_dump($imageLink);       echo "<br>";
+		// echo "Avatar (bdd)<br>"; var_dump($this->avatar);       echo "<br>";
 
 		$this->save();
 

@@ -73,7 +73,8 @@ class utilisateurTable extends baseTable
 		$user->identifiant = $request['login'];
 		$user->pass        = sha1($request['password']);
 
-		if(utilisateurTable::getUserByLogin($user->identifiant) === false &&
+		if(utilisateurTable::getUserByLogin($user->identifiant) === false
+		 &&
 		   $user->save() !== NULL) {
 			if(isset($avatarFile) && !empty($avatarFile))
 				$user->uploadAvatar($avatarFile);
