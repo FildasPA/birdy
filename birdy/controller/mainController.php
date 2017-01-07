@@ -173,6 +173,8 @@ class mainController
 	//---------------------------------------------------------------------------
 	// * Modify profile
 	// Nécessite d'être connecté.
+	// Si les informations envoyées sont valides, met à jour l'utilisateur dans
+	// la base et dans $context.
 	//---------------------------------------------------------------------------
 	public static function modifyProfile($request,$context)
 	{
@@ -186,22 +188,23 @@ class mainController
 
 		$context->user = $context->user[0];
 
-		$checkform = ($_SERVER["REQUEST_METHOD"] == "POST" && (!empty($request['old-password'])
-															|| !empty($request['firstname'])
-															|| !empty($request['name'])));
+		$checkForm = ($_SERVER["REQUEST_METHOD"] == "POST" &&
+		              !protectedMethods::checkModifyProfileInfos($context,$request));
 
-		if($checkform) {
-			$error = protectedMethods::checkModifyProfileInfo($context, $request);
-			if(!$error) {
-				$context->user->prenom = $request['firstname'];
-				$context->user->nom = $request['name'];
-				$context->user->statut= $request['statut'];
+		if($checkForm) {
+			$user = clone($context->user);
 
-				if(isset($_FILES['avatar']))
-					$context->user->uploadAvatar($_FILES);
+			// TODO : Mettre les informations invalides dans $context?
+			$user->prenom = $request['firstname'];
+			$user->nom    = $request['name'];
+			$user->statut = $request['statut'];
 
-				$context->user->save();
-			}
+			if(isset($_FILES['avatar']))
+				$saveSuccess = $user->uploadAvatarAndSave($_FILES);
+			else
+				$saveSuccess = $user->save();
+
+			if($saveSuccess) $context->user = $user;
 		}
 
 		protectedMethods::addModificationTimeToUserAvatarUrl($context->user);

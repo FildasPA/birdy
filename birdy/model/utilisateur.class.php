@@ -13,8 +13,9 @@ class utilisateur extends basemodel
 	// Supprime l'ancien fichier s'il existe et est accessible en écriture.
 	// Le fichier prend pour nom identifiant.imageType
 	// Prend en charge l'opération pour un serveur pedago ou un serveur local.
+	// TODO : A déplacer dans utilisateurTable ?
 	//---------------------------------------------------------------------------
-	public function uploadAvatar($files)
+	public function uploadAvatarAndSave($files)
 	{
 		$file = $files['avatar'];
 		if(!$file) return;
@@ -33,13 +34,12 @@ class utilisateur extends basemodel
 
 		$this->avatar = protectedMethods::getServerUrl() . $path;
 		$this->avatar    .= $imageType;
-		$this->save();
-
 		$fileDestination .= $imageType;
 
 		// echo "Avatar (url)<br>"; var_dump($fileDestination); echo "<br>";
 		// echo "Avatar (bdd)<br>"; var_dump($this->avatar); echo "<br>";
 
-		return move_uploaded_file($file['tmp_name'],$fileDestination);
+		return move_uploaded_file($file['tmp_name'],$fileDestination) &&
+		       $this->save();
 	}
 }

@@ -154,39 +154,39 @@ class protectedMethods {
 	// Renvoie vrai si une erreur a été détectée. (peut-être faudrait-il inverser
 	// ou modifier le nom de la fonction)
 	//------------------------------------------------------------------------------
-	public static function checkModifyProfileInfo($context, $request)
+	public static function checkModifyProfileInfos($context, $request)
 	{
 		$error = false;
 		if(empty($request['login'])) {
-			$context->error_msg['login'] = "Ce champ doit être rempli";
+			$context->errorMsg['login'] = "Ce champ doit être rempli";
 			$error = true;
 		}
 		if(empty($request['name'])) {
-			$context->error_msg['name'] = "Ce champ doit être rempli";
+			$context->errorMsg['name'] = "Ce champ doit être rempli";
 			$error = true;
 		}
 		if(empty($request['firstname'])) {
-			$context->error_msg['firstname'] = "Ce champ doit être rempli";
+			$context->errorMsg['firstname'] = "Ce champ doit être rempli";
 			$error = true;
 		}
 		if(empty($request['old-password']) && !empty($request['password'])) {
-			$context->error_msg['old-password'] = "Pour changer de mot de passe, veuillez indiquer votre mot de passe actuel";
+			$context->errorMsg['old-password'] = "Pour changer de mot de passe, veuillez indiquer votre mot de passe actuel";
 			$error = true;
 		}
 		if(strlen($request['login']) > 15) {
-			$context->error_msg['login'] = "Le login ne peut dépasser 15 caractères";
+			$context->errorMsg['login'] = "Le login ne peut dépasser 15 caractères";
 			$error = true;
 		}
 		if(strlen($request['name']) > 15) {
-			$context->error_msg['name'] = "Le nom ne peut dépasser 15 caractères";
+			$context->errorMsg['name'] = "Le nom ne peut dépasser 15 caractères";
 			$error = true;
 		}
 		if(strlen($request['firstname']) > 15) {
-			$context->error_msg['firstname'] = "Le prénom ne peut dépasser 15 caractères";
+			$context->errorMsg['firstname'] = "Le prénom ne peut dépasser 15 caractères";
 			$error = true;
 		}
 		if(isset($request['password']) && strlen($request['password']) > 32) {
-			$context->error_msg['old-password'] = "Le mot de passe ne peut dépasser 32 caractères";
+			$context->errorMsg['old-password'] = "Le mot de passe ne peut dépasser 32 caractères";
 			$error = true;
 		}
 
