@@ -1,6 +1,6 @@
 <?php
 
-include_once 'dbconnection.infos.php';
+include_once 'dbconnection.log.php';
 
 class dbconnection
 {

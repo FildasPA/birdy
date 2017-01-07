@@ -7,8 +7,7 @@
 //=============================================================================
 class tweetTable extends baseTable
 {
-	public static $objectType = "tweet";
-	public static $tableName  = "jabaianb.tweet";
+	public static $objectType, $tableName;
 
 	//---------------------------------------------------------------------------
 	// * Get Tweets
@@ -39,7 +38,7 @@ class tweetTable extends baseTable
 
 	//---------------------------------------------------------------------------
 	// * Send tweet
-	// Ajoute un tweet dans la table.
+	// Ajoute un tweet.
 	//---------------------------------------------------------------------------
 	public static function send($senderId, $parentId, $postId)
 	{
@@ -53,3 +52,5 @@ class tweetTable extends baseTable
 		$tweet->save();
 	}
 }
+
+tweetTable::ini();

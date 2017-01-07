@@ -7,8 +7,7 @@
 //=============================================================================
 class postTable extends baseTable
 {
-	public static $objectType = "post";
-	public static $tableName  = "jabaianb.post";
+	public static $objectType, $tableName;
 
 	//---------------------------------------------------------------------------
 	// * Get post by id
@@ -27,7 +26,7 @@ class postTable extends baseTable
 	//---------------------------------------------------------------------------
 	// * Send post
 	// Insère le poste et retourne son id dans la table (ce qui permet de le
-	// lier à un tweet).
+	// lier à un tweet par la suite).
 	//---------------------------------------------------------------------------
 	public static function send($text, $media)
 	{
@@ -41,3 +40,5 @@ class postTable extends baseTable
 		return $post->save();
 	}
 }
+
+postTable::ini();

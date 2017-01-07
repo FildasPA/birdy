@@ -1,5 +1,7 @@
 <?php
 
+include_once($nameApp.'/model/_tables.infos.php');
+
 //=============================================================================
 // ▼ Base model
 // ----------------------------------------------------------------------------
@@ -65,7 +67,7 @@ abstract class basemodel
 			foreach($this->data as $key => $value)
 				$set[] = "$key = :" . $key;
 
-			$sql  = "UPDATE jabaianb." . get_class($this) ." SET ";
+			$sql  = "UPDATE " . SCHEMA . get_class($this) ." SET ";
 			$sql .= implode(",",$set);
 			$sql .= " WHERE id=:id";
 		}
@@ -74,7 +76,7 @@ abstract class basemodel
 			$keys       = implode(",",array_keys($this->data));
 			$parameters = implode(",:",array_keys($this->data));
 
-			$sql  = "INSERT INTO jabaianb." . get_class($this) . " ";
+			$sql  = "INSERT INTO " . SCHEMA . get_class($this) . " ";
 			$sql .= "(" . $keys . ") ";
 			$sql .= "VALUES (:" . $parameters . ")";
 		}
@@ -84,7 +86,7 @@ abstract class basemodel
 		$prepared->execute($this->data);
 
 		if(!$this->id)
-			$this->id = $connection->getLastInsertId("jabaianb.".get_class($this));
+			$this->id = $connection->getLastInsertId(SCHEMA.get_class($this));
 
 		return $this->id === false ? NULL : $this->id;
 	}

@@ -8,8 +8,7 @@
 //=============================================================================
 class utilisateurTable extends baseTable
 {
-	public static $objectType = "utilisateur";
-	public static $tableName  = "jabaianb.utilisateur";
+	public static $objectType, $tableName;
 
 	//---------------------------------------------------------------------------
 	// * Get user by login & pass
@@ -83,13 +82,14 @@ class utilisateurTable extends baseTable
 		$user->identifiant = $request['login'];
 		$user->pass        = sha1($request['password']);
 
-		if(utilisateurTable::getUserByLogin($user->identifiant) === false &&
-		   $user->save() !== NULL) {
-			if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL)
-				$user->uploadAvatar($avatarFile);
-			return $user;
-		}
+		if(utilisateurTable::getUserByLogin($user->identifiant) == true)
+			return false;
 
-		return false;
+		if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL)
+			return $user->uploadAvatarAndSave($files);
+		else
+			return $user->save();
 	}
 }
+
+utilisateurTable::ini();

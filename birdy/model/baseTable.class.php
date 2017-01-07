@@ -1,9 +1,11 @@
 <?php
 
+include_once($nameApp.'/model/_tables.infos.php');
+
 //=============================================================================
 // ▼ Base Table
 // ----------------------------------------------------------------------------
-// La classe de base des classes "table"
+// La classe de base des classes 'table'.
 //=============================================================================
 abstract class baseTable
 {
@@ -20,5 +22,17 @@ abstract class baseTable
 			return false;
 
 		return $res;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Initialize
+	// Définit le type d'objet et le nom de la table à utiliser dans la classe
+	// dérivée.
+	//---------------------------------------------------------------------------
+	public static function ini()
+	{
+		static::$objectType = substr(get_called_class(),0,
+		                             strrpos(get_called_class(),'Table'));
+		static::$tableName  = SCHEMA . static::$objectType;
 	}
 }
