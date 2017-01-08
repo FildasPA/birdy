@@ -12,8 +12,7 @@
 
 assume='--assume-unchanged'
 CONFIG_FILES=(
-              'lib/core/dbconnection.log.php'
-              'birdy/model/_tables.infos.php'
+              'lib/core/db.infos.php'
 )
 #------------------------------------------------------------------------------
 # * Print help
