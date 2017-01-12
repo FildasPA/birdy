@@ -196,17 +196,23 @@ class mainController
 			$user = clone($context->user);
 
 			// TODO : Mettre les informations invalides dans $context?
-			$user->identifiant    = $request['login'];
-			$user->nom    = $request['name'];
-			$user->prenom = $request['firstname'];
-			$user->statut = $request['statut'];
+			$user->identifiant = $request['login'];
+			$user->nom         = $request['name'];
+			$user->prenom      = $request['firstname'];
+			$user->statut      = $request['statut'];
 
-			// if(isset($_FILES['avatar']))
-			// 	$saveSuccess = $user->uploadAvatarAndSave($_FILES);
-			// else
+			if(isset($_FILES['avatar']))
+				$saveSuccess = $user->uploadAvatarAndSave($_FILES);
+			else
 				$saveSuccess = $user->save();
 
-			if($saveSuccess !== false) $context->user = $user;
+			if($saveSuccess) {
+				$context->user = $user;
+				protectedMethods::logUser($request,$context,$user);
+				protectedMethods::updateNavMenu();
+				unset($request['login']);
+				return self::viewProfile($request,$context);
+			}
 		}
 
 		protectedMethods::addModificationTimeToUserAvatarUrl($context->user);
@@ -240,4 +246,42 @@ class mainController
 
 		return __FUNCTION__ . context::SUCCESS;
 	}
+
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addMostRecentTweets($request, $context)
+	{
+		$lastTweetId = $request['last-tweet-id'];
+
+		$tweets = tweetTable::getLastTweets($lastTweetId);
+
+		if(!$tweets) return __FUNCTION__ . context::NONE;
+
+		return __FUNCTION__ . context::SUCCESS;
+
+	}
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addOlderTweets($request, $context)
+	{
+
+	}
+
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addMostRecentTweetsPostedBy($request, $context)
+	{
+
+	}
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addOlderTweetsPostedBy($request, $context)
+	{
+
+	}
+
 }

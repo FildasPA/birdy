@@ -95,4 +95,3 @@ class utilisateurTable extends baseTable
 }
 
 utilisateurTable::ini();
-echo "<pre><h3>Utilisateur table</h3>"; var_dump(utilisateurTable::$tableName); echo "</pre>";
