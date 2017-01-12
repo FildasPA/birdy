@@ -39,7 +39,11 @@ class tweetTable extends baseTable
 	//------------------------------------------------------------------------------
 	// * Get tweets ordered by id
 	//------------------------------------------------------------------------------
+<<<<<<< HEAD
 	function getTweetsOrderedById() {
+=======
+	function getTweetsOrderedById($limit,$offset) {
+>>>>>>> wip
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
 		        ";
