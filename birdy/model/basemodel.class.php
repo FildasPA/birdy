@@ -81,13 +81,12 @@ abstract class basemodel
 
 		$parameters = array();
 		foreach($this->data as $key => $value)
-			$parameter[] = array($key.":", $value);
+				$parameters[':'.$key] = $value;
 
-		echo "<pre><h3>SQL</h3>"; var_dump($sql); echo "</pre>";
-		echo "<pre><h3>Parameters</h3>"; var_dump($parameters); echo "</pre>";
+		// echo "<pre><h3>SQL</h3>"; var_dump($sql); echo "</pre>";
+		// echo "<pre><h3>Parameters</h3>"; var_dump($parameters); echo "</pre>";
 
 		$prepared = $connection->prepare($sql);
-
 		$prepared->execute($parameters);
 
 		if(!$this->id)
