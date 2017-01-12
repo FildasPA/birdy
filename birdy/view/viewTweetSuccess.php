@@ -1,4 +1,3 @@
-
 <div class="tweet">
 	<?php
 		// Affiche qui a retweeté
@@ -21,7 +20,7 @@
 		<?php
 			if($tweet->post->texte != '') {  // Post
 		?>
-		<div class="post-text"><?php echo $tweet->post->texte; ?></div>
+		<div class="post-text"><?php echo protectedMethods::testInput($tweet->post->texte); ?></div>
 		<?php
 			}
 		?>

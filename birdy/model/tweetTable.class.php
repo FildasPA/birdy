@@ -36,6 +36,15 @@ class tweetTable extends baseTable
 		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
+	//------------------------------------------------------------------------------
+	// * Get tweets ordered by id
+	//------------------------------------------------------------------------------
+	function getTweetsOrderedById() {
+		$sql = "SELECT *
+		        FROM " . self::$tableName . "
+		        ";
+	}
+
 	//---------------------------------------------------------------------------
 	// * Send tweet
 	// Ajoute un tweet.
