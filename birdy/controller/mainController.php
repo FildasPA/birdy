@@ -112,6 +112,11 @@ class mainController
 	public static function register($request,$context)
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$request['login']     = testInput($request['login']);
+			$request['name']      = testInput($request['name']);
+			$request['firstname'] = testInput($request['firstname']);
+			$request['password']  = testInput($request['password']);
+
 			$user = utilisateurTable::register($request,$_FILES);
 			echo "<pre><h3>User</h3>"; var_dump($user); echo "</pre>";
 			if($user !== false)
@@ -234,7 +239,7 @@ class mainController
 		              !empty($request['text']));
 
 		if($checkForm) {
-			$text  = $request['text'];
+			$text  = protectedMethods::testInput($request['text']);
 			$media = isset($request['media']) ? $request['media'] : NULL;
 			$idUser = $context->getSessionAttribute('id');
 

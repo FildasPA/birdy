@@ -149,6 +149,17 @@ class protectedMethods {
 	}
 
 	//------------------------------------------------------------------------------
+	// Test input (pris sur w3schools)
+	//------------------------------------------------------------------------------
+	public static function testInput($data)
+	{
+	  $data = trim($data);             // Supprime les espaces de début et de fin
+	  $data = stripslashes($data);     // Supprime les antislashs (\)
+	  $data = htmlspecialchars($data); // Convertit les charactères spéciaux en HTML
+	  return $data;
+	}
+
+	//------------------------------------------------------------------------------
 	// * Check modify profile info
 	// Vérifie si les informations du formulaires sont correctement remplies.
 	// Renvoie vrai si une erreur a été détectée. (peut-être faudrait-il inverser
@@ -164,6 +175,7 @@ class protectedMethods {
 		                           'old-password' => '',
 		                           'statut' => '',
 		                           'avatar' => '');
+
 		if(empty($request['login'])) {
 			$context->errorMsg['login'] = "Ce champ doit être rempli";
 			$error = true;
