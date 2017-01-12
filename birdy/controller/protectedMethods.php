@@ -157,6 +157,13 @@ class protectedMethods {
 	public static function checkModifyProfileInfos($context, $request)
 	{
 		$error = false;
+		$context->errorMsg = array('login' => '',
+		                           'name' => '',
+		                           'firstname' => '',
+		                           'password' => '',
+		                           'old-password' => '',
+		                           'statut' => '',
+		                           'avatar' => '');
 		if(empty($request['login'])) {
 			$context->errorMsg['login'] = "Ce champ doit être rempli";
 			$error = true;

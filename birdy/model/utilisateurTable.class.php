@@ -86,10 +86,13 @@ class utilisateurTable extends baseTable
 			return false;
 
 		if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL)
-			return $user->uploadAvatarAndSave($files);
+			if(!$user->uploadAvatarAndSave($files)) return false;
 		else
-			return $user->save();
+			if(!$user->save()) return false;
+
+		return $user;
 	}
 }
 
 utilisateurTable::ini();
+echo "<pre><h3>Utilisateur table</h3>"; var_dump(utilisateurTable::$tableName); echo "</pre>";

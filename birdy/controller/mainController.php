@@ -113,6 +113,7 @@ class mainController
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$user = utilisateurTable::register($request,$_FILES);
+			echo "<pre><h3>User</h3>"; var_dump($user); echo "</pre>";
 			if($user !== false)
 				return protectedMethods::logUser($request,$context,$user);
 			else {
@@ -195,16 +196,17 @@ class mainController
 			$user = clone($context->user);
 
 			// TODO : Mettre les informations invalides dans $context?
-			$user->prenom = $request['firstname'];
+			$user->identifiant    = $request['login'];
 			$user->nom    = $request['name'];
+			$user->prenom = $request['firstname'];
 			$user->statut = $request['statut'];
 
-			if(isset($_FILES['avatar']))
-				$saveSuccess = $user->uploadAvatarAndSave($_FILES);
-			else
+			// if(isset($_FILES['avatar']))
+			// 	$saveSuccess = $user->uploadAvatarAndSave($_FILES);
+			// else
 				$saveSuccess = $user->save();
 
-			if($saveSuccess) $context->user = $user;
+			if($saveSuccess !== false) $context->user = $user;
 		}
 
 		protectedMethods::addModificationTimeToUserAvatarUrl($context->user);

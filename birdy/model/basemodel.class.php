@@ -79,9 +79,16 @@ abstract class basemodel
 			$sql .= "VALUES (:" . $parameters . ")";
 		}
 
+		$parameters = array();
+		foreach($this->data as $key => $value)
+			$parameter[] = array($key.":", $value);
+
+		echo "<pre><h3>SQL</h3>"; var_dump($sql); echo "</pre>";
+		echo "<pre><h3>Parameters</h3>"; var_dump($parameters); echo "</pre>";
+
 		$prepared = $connection->prepare($sql);
 
-		$prepared->execute($this->data);
+		$prepared->execute($parameters);
 
 		if(!$this->id)
 			$this->id = $connection->getLastInsertId(SCHEMA.get_class($this));

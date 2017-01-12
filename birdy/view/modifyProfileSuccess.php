@@ -6,7 +6,7 @@
 				<div class="info-label">Login:</div>
 				<div id="user-login">
 					<input id="login" name="login" type="text/html" value="<?php echo $context->user->identifiant; ?>">
-					<div id="error-login" class="error-message"><?php echo $context->errorMsg['identifiant']; ?></div>
+					<div id="error-login" class="error-message"><?php echo $context->errorMsg['login']; ?></div>
 				</div>
 			</div>
 			<div class="info-element">
@@ -21,7 +21,7 @@
 					<input id="password" name="old-password" type="password" placeholder="Ancien mot de passe" onblur="checkPassword()">
 					<div id="error-password" class="error-message"><?php echo $context->errorMsg['old-password']; ?></div>
 					<input id="password" name="new-password" type="password" placeholder="Nouveau mot de passe" onblur="checkPassword()">
-					<div id="error-password" class="error-message"><?php echo $context->errorMsg['new-password']; ?></div>
+					<div id="error-password" class="error-message"><?php echo $context->errorMsg['password']; ?></div>
 				</div>
 			</div>
 			<div class="info-element">
