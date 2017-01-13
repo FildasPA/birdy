@@ -86,13 +86,11 @@ class utilisateurTable extends baseTable
 			return false;
 
 		if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL) {
-			
+
 			if(!$user->uploadAvatarAndSave($files)) return false;
 		}
 		else {
-			if(!$user->save())
-				return false;
-			
+			if(!$user->save()) return false;
 		}
 
 		return $user;

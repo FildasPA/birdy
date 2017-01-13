@@ -44,6 +44,18 @@ class mainController
 	{
 		$context->setSessionAttribute("Message2","Message2");
 		$context->setSuccessMessage("Liste des utilisateurs");
+
+		if(protectedMethods::isUserLoged($context)) {
+			$listTweets = tweetTable::getTweetsOrderedByIdNotId(10,0,$context->getSessionAttribute('id'));
+		}
+		else {
+			$listTweets = tweetTable::getTweetsOrderedById(10,0);
+		}
+
+		protectedMethods::getTweetsData($context,$listTweets);
+
+		// echo "<pre><h3>Tweets</h3>"; var_dump($context->tweets); echo "</pre>";
+
 		// echo "<pre><h3>Session (index, controller, 1)</h3>"; var_dump($_SESSION); echo "</pre>";
 		// echo "<pre><h3>Server</h3>"; var_dump($_SERVER); echo "</pre>";
 		// echo "<pre><h3>Session (index, controller, 2)</h3>"; var_dump($_SESSION); echo "</pre>";
@@ -257,14 +269,23 @@ class mainController
 	//------------------------------------------------------------------------------
 	public static function addMostRecentTweets($request, $context)
 	{
-		$lastTweetId = $request['last-tweet-id'];
+		// echo "<pre><h3>Tweets</h3>"; var_dump($tweets); echo "</pre>";
+		$lastTweetId = $request['lastTweetId'];
 
-		$tweets = tweetTable::getLastTweets($lastTweetId);
+		if(protectedMethods::isUserLoged($context)) {
+			$tweets = tweetTable::getTweetsOrderedByIdNotId(10,$lastTweetId,$context->getSessionAttribute('id'));
+		}
+		else {
+			$tweets = tweetTable::getTweetsOrderedById(10,$lastTweetId);
+		}
+
+
+		// echo "<pre><h3>Tweets</h3>"; var_dump($tweets); echo "</pre>";
 
 		if(!$tweets) return __FUNCTION__ . context::NONE;
 
-		return __FUNCTION__ . context::SUCCESS;
-
+		$context->tweets = $tweets;
+		return self::viewTweetsSuccess($request,$context);
 	}
 	//------------------------------------------------------------------------------
 	// * Add tweet

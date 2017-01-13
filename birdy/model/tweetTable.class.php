@@ -39,14 +39,35 @@ class tweetTable extends baseTable
 	//------------------------------------------------------------------------------
 	// * Get tweets ordered by id
 	//------------------------------------------------------------------------------
-<<<<<<< HEAD
-	function getTweetsOrderedById() {
-=======
-	function getTweetsOrderedById($limit,$offset) {
->>>>>>> wip
+	function getTweetsOrderedByIdNotId($limit,$offset,$notId)
+	{
 		$sql = "SELECT *
 		        FROM " . self::$tableName . "
-		        ";
+		        WHERE emetteur != :notId
+		        ORDER BY id DESC
+		        LIMIT :limit OFFSET :offset";
+
+		$parameters = [[':notId',$notId,PDO::PARAM_INT],
+		               [':limit',$limit,PDO::PARAM_INT],
+		               [':offset',$offset,PDO::PARAM_INT]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
+	}
+
+	//------------------------------------------------------------------------------
+	// * Get tweets ordered by id
+	//------------------------------------------------------------------------------
+	function getTweetsOrderedById($limit,$offset)
+	{
+		$sql = "SELECT *
+		        FROM " . self::$tableName . "
+		        ORDER BY id DESC
+		        LIMIT :limit OFFSET :offset";
+
+		$parameters = [[':limit',$limit,PDO::PARAM_INT],
+		               [':offset',$offset,PDO::PARAM_INT]];
+
+		return baseTable::getObject($sql,$parameters,self::$objectType);
 	}
 
 	//---------------------------------------------------------------------------
