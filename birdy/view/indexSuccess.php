@@ -10,10 +10,4 @@
 	</div>
 </div>
 <!-- Liste des tweets -->
-<?php
-	if(isset($context->tweets) && $context->tweets !== false) {
-		foreach($context->tweets as $tweet) {
-			include("viewTweetSuccess.php");
-		}
-	}
-?>
+<?php include("viewTweetsSuccess.php"); ?>

@@ -293,9 +293,18 @@ form .error-message {
 /* Send Tweet form */
 /*******************/
 
-#text-form-element textarea {
-	resize: none;
+#form-send-tweet {
+	width: 600px !important;
+	margin: 0 auto !important;
+	background-color: #fff;
+	border: 1px solid #c0c0c0;
 }
+
+#form-send-tweet #wrap { padding: 2em; }
+
+#form-send-tweet #wrap div { margin-bottom: 0 !important; }
+
+#text-form-element textarea { resize: none; }
 
 /****************/
 /* User profile */
@@ -337,11 +346,7 @@ form .error-message {
 }
 
 
-#user-name {
-
-	left: 550px;
-
-}
+/*#user-name { left: 550px; }*/
 
 #user-firstname
 

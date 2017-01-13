@@ -44,6 +44,18 @@ class mainController
 	{
 		$context->setSessionAttribute("Message2","Message2");
 		$context->setSuccessMessage("Liste des utilisateurs");
+
+		if(protectedMethods::isUserLoged($context)) {
+			$listTweets = tweetTable::getTweetsOrderedByIdNotId(10,0,$context->getSessionAttribute('id'));
+		}
+		else {
+			$listTweets = tweetTable::getTweetsOrderedById(10,0);
+		}
+
+		protectedMethods::getTweetsData($context,$listTweets);
+
+		// echo "<pre><h3>Tweets</h3>"; var_dump($context->tweets); echo "</pre>";
+
 		// echo "<pre><h3>Session (index, controller, 1)</h3>"; var_dump($_SESSION); echo "</pre>";
 		// echo "<pre><h3>Server</h3>"; var_dump($_SERVER); echo "</pre>";
 		// echo "<pre><h3>Session (index, controller, 2)</h3>"; var_dump($_SESSION); echo "</pre>";
@@ -112,8 +124,13 @@ class mainController
 	public static function register($request,$context)
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$request['login']     = protectedMethods::testInput($request['login']);
+			$request['name']      = protectedMethods::testInput($request['name']);
+			$request['firstname'] = protectedMethods::testInput($request['firstname']);
+			$request['password']  = protectedMethods::testInput($request['password']);
+
 			$user = utilisateurTable::register($request,$_FILES);
-			echo "<pre><h3>User</h3>"; var_dump($user); echo "</pre>";
+			var_dump($user);
 			if($user !== false)
 				return protectedMethods::logUser($request,$context,$user);
 			else {
@@ -196,17 +213,23 @@ class mainController
 			$user = clone($context->user);
 
 			// TODO : Mettre les informations invalides dans $context?
-			$user->identifiant    = $request['login'];
-			$user->nom    = $request['name'];
-			$user->prenom = $request['firstname'];
-			$user->statut = $request['statut'];
+			$user->identifiant = $request['login'];
+			$user->nom         = $request['name'];
+			$user->prenom      = $request['firstname'];
+			$user->statut      = $request['statut'];
 
-			// if(isset($_FILES['avatar']))
-			// 	$saveSuccess = $user->uploadAvatarAndSave($_FILES);
-			// else
+			if(isset($_FILES['avatar']))
+				$saveSuccess = $user->uploadAvatarAndSave($_FILES);
+			else
 				$saveSuccess = $user->save();
 
-			if($saveSuccess !== false) $context->user = $user;
+			if($saveSuccess) {
+				$context->user = $user;
+				protectedMethods::logUser($request,$context,$user);
+				protectedMethods::updateNavMenu();
+				unset($request['login']);
+				return self::viewProfile($request,$context);
+			}
 		}
 
 		protectedMethods::addModificationTimeToUserAvatarUrl($context->user);
@@ -228,7 +251,7 @@ class mainController
 		              !empty($request['text']));
 
 		if($checkForm) {
-			$text  = $request['text'];
+			$text  = protectedMethods::testInput($request['text']);
 			$media = isset($request['media']) ? $request['media'] : NULL;
 			$idUser = $context->getSessionAttribute('id');
 
@@ -240,4 +263,62 @@ class mainController
 
 		return __FUNCTION__ . context::SUCCESS;
 	}
+
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addMostRecentTweets($request, $context)
+	{
+		// echo "<pre><h3>Tweets</h3>"; var_dump($tweets); echo "</pre>";
+		$lastTweetId = $request['lastTweetId'];
+
+		if(protectedMethods::isUserLoged($context)) {
+			$tweets = tweetTable::getTweetsOrderedByIdNotId(10,$lastTweetId,$context->getSessionAttribute('id'));
+		}
+		else {
+			$tweets = tweetTable::getTweetsOrderedById(10,$lastTweetId);
+		}
+
+
+		// echo "<pre><h3>Tweets</h3>"; var_dump($tweets); echo "</pre>";
+
+		if(!$tweets) return __FUNCTION__ . context::NONE;
+
+		$context->tweets = $tweets;
+		return self::viewTweetsSuccess($request,$context);
+	}
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addOlderTweets($request, $context)
+	{
+
+	}
+
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addMostRecentTweetsPostedBy($request, $context)
+	{
+
+	}
+	//------------------------------------------------------------------------------
+	// * Add tweet
+	//------------------------------------------------------------------------------
+	public static function addOlderTweetsPostedBy($request, $context)
+	{
+
+	}
+
+
+	public static function reTweet($request, $context) {
+
+
+		if($request['parentId'] != $context->getSessionAttribute('id'))
+			tweetTable::send($context->getSessionAttribute('id'), $request['parentId'], $request['postId']);
+
+		return self::viewProfile($request,$context);
+	}
+
+
 }

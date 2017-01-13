@@ -3,13 +3,14 @@
 ## TODO
 - [x] bindparam (sécuriser les requêtes)
 - [x] Poster tweet (vue + contrôleur + modèle)
-- [ ] modifier statut
+- [x] modifier statut
 - [x] connecter automatiquement l'utilisateur nouvellement inscrit? (contrôleur)
 - [ ] index: affichage de tweets aléatoires
 - [ ] voter pour un tweet
 - [ ] affichage du message d'alerte (alert-box). 3 niveaux d'alertes : bon (vert), avertissement (jaune/orange), erreur (rouge)
 - [x] enregistrer la bonne adresse de l'avatar (et des autres fichiers envoyés par l'utilisateur)
 - [ ] corriger checkInscriptionForm.js et créer les scripts de vérification pour les autres formulaires
+- [ ] retweet
 
 ## Structure
 

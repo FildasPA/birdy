@@ -18,7 +18,7 @@ class utilisateur extends basemodel
 	public function uploadAvatarAndSave($files)
 	{
 		$file = $files['avatar'];
-		if(!$file) return;
+		if(!$file) return false;
 
 		$imageType = substr($file['name'],strrpos($file['name'],"."));
 		// TODO: vérifier le type de l'image
