@@ -112,13 +112,13 @@ class mainController
 	public static function register($request,$context)
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$request['login']     = testInput($request['login']);
-			$request['name']      = testInput($request['name']);
-			$request['firstname'] = testInput($request['firstname']);
-			$request['password']  = testInput($request['password']);
+			$request['login']     = protectedMethods::testInput($request['login']);
+			$request['name']      = protectedMethods::testInput($request['name']);
+			$request['firstname'] = protectedMethods::testInput($request['firstname']);
+			$request['password']  = protectedMethods::testInput($request['password']);
 
 			$user = utilisateurTable::register($request,$_FILES);
-			echo "<pre><h3>User</h3>"; var_dump($user); echo "</pre>";
+			var_dump($user);
 			if($user !== false)
 				return protectedMethods::logUser($request,$context,$user);
 			else {
@@ -288,5 +288,16 @@ class mainController
 	{
 
 	}
+
+
+	public static function reTweet($request, $context) {
+
+
+		if($request['parentId'] != $context->getSessionAttribute('id'))
+			tweetTable::send($context->getSessionAttribute('id'), $request['parentId'], $request['postId']);
+
+		return self::viewProfile($request,$context);
+	}
+
 
 }

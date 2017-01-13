@@ -48,5 +48,8 @@
 				}
 			?>
 		</div>
+		<div class="retweet">
+			<a class="ajax-nav" href="reTweet&postId=<?php echo $tweet->post->id . "&parentId=" . $tweet->parent->id;?>">Re-Tweeter!</a>
+		</div>
 	</div>
 </div>
