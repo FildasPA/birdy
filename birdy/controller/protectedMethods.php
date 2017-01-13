@@ -74,6 +74,24 @@ class protectedMethods {
 	}
 
 	//------------------------------------------------------------------------------
+	// * Get tweets data
+	//------------------------------------------------------------------------------
+	public static function getTweetsData($context,$listTweets)
+	{
+		if($listTweets === false) {
+			$context->tweets = false;
+			return;
+		}
+
+		$tweets = array();
+
+		foreach($listTweets as $tweet)
+			array_push($tweets,self::getTweetData($tweet));
+
+		$context->tweets = $tweets;
+	}
+
+	//------------------------------------------------------------------------------
 	// * Get tweets posted by a user
 	// Récupère les tweets postés par l'utilisateur et en rassemble toutes les
 	// informations (post, utilisateur) (voir la fonction getTweetData).

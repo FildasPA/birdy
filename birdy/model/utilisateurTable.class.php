@@ -85,10 +85,12 @@ class utilisateurTable extends baseTable
 		if(utilisateurTable::getUserByLogin($user->identifiant) == true)
 			return false;
 
-		if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL)
+		if(isset($files) && isset($files['avatar']) && $files['avatar'] !== NULL) {
 			if(!$user->uploadAvatarAndSave($files)) return false;
-		else
+		}
+		else {
 			if(!$user->save()) return false;
+		}
 
 		return $user;
 	}
